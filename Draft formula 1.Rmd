@@ -1,0 +1,2077 @@
+---
+title: "Draft Formula 1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+#Creating a data frame for the results by raceId, driverId, constructorId, points scored, status and the driver code.
+#Still need to assign code to driverId...
+pacman::p_load(tidyverse)
+
+race_byname2 <- left_join(
+    results,
+    drivers,
+    by = "driverId"
+) |> arrange(resultId)
+df_race_byname2 <- data.frame(race_byname2)
+tibble::tibble(df_race_byname2)
+df_race_byname2[, c(1,2,3,4,10,18,21,23)]
+
+```
+
+```{r}
+race_byname2 <- left_join(
+    race_byname2,
+    constructors,
+    by = "constructorId"
+) |> arrange(resultId)
+df_race_byname2 <- data.frame(race_byname2)
+tibble::tibble(df_race_byname2)
+df_race_byname2[, c(1,2,3,7,10,18,21,23,28)]
+```
+
+```{r}
+race_byname2 <- left_join(
+    race_byname2,
+    status,
+    by = "statusId"
+) |> arrange(resultId)
+df_race_byname2 <- data.frame(race_byname2)
+tibble::tibble(df_race_byname2)
+df_race_byname2[, c(1,2,3,7,10,18,21,23,28,31)]
+```
+
+
+```{r}
+#Filter race_byname2 by years needed (2012 - 2022) to shorten the data base.
+#Need to find raceId for he necessay years.
+#The raceId's include 860 to 1096. 
+df_race_byname2 |> filter(raceId > 859)
+```
+
+
+```{r}
+#Shows results per year, for each track, for each driver and constructor, the points earned for the race, the status of the driver, the drivers code, the round that the circuit was raced in, the circuit ID and the circuit name. 
+pacman::p_load(tidyverse)
+
+race_byrace <- left_join(
+    race_byname2,
+    races,
+    by = "raceId"
+) |> arrange(resultId)
+df_race_byrace <- data.frame(race_byrace)
+tibble::tibble(df_race_byrace)
+df_race_byrace[, c(1,2,3,4,10,18,21,23,28,31,32,33,34,35)]
+df_race_byrace2012 <- df_race_byrace |> filter(year == 2012)
+df_race_byrace2013 <- df_race_byrace |> filter(year == 2013)
+df_race_byrace2014 <- df_race_byrace |> filter(year == 2014)
+df_race_byrace2015 <- df_race_byrace |> filter(year == 2015)
+df_race_byrace2016 <- df_race_byrace |> filter(year == 2016)
+df_race_byrace2017 <- df_race_byrace |> filter(year == 2017)
+df_race_byrace2018 <- df_race_byrace |> filter(year == 2018)
+df_race_byrace2019 <- df_race_byrace |> filter(year == 2019)
+df_race_byrace2020 <- df_race_byrace |> filter(year == 2020)
+df_race_byrace2021 <- df_race_byrace |> filter(year == 2021)
+
+```
+
+```{r}
+#Filter for winners of each race of each year at each track. 
+race_winners_by_track <- race_byrace |> filter(position == 1, year > 2011) |> arrange(year)
+df_race_winners_by_track <- data.frame(race_winners_by_track)
+tibble::tibble(df_race_winners_by_track)
+df_race_winners_by_track[, c(1,2,3,7,21,23,32,33,34,35)]
+```
+
+```{r}
+#Who was the championship driver for each year.
+champion_drivers <- F1_Driver_Standings11 |> filter(Year >= 2012) |> filter(Pos == 1) 
+
+#Which constructor won the championship
+champion_constructors <- F1_Constructor_Standings11 |> filter(Year >= 2012) |> filter(Pos == 1)
+
+#Join the two to make one data set
+championship <-  full_join( 
+    champion_drivers, 
+    champion_constructors,
+    by = "Year") |> arrange("Pos")
+df_championship <- data.frame(championship)
+names(df_championship)[2] <- "Drivers Championship"
+names(df_championship)[8] <- "Constructors Championship"
+names(df_championship)[5] <- "Driver Points"
+names(df_championship)[9] <- "Constructor Points"
+tibble::tibble(df_championship)
+df_championship[, c(2,5,6,8,9)]
+
+#Put this after "FOR YEAR" so that it will read "In {date}, {driver} win the drivers championship with {points1} and {constructor} won the constructors championship with {points2}.
+#points <- max points for the season. 
+pacman::p_load(glue)
+date <- df_championship[, 6]
+driver <- df_championship[, 2]
+constructor <- df_championship[, 8]
+points1 <- df_championship[,5]
+points2 <- df_championship[,9]
+glue::glue("
+           In {date}, {driver} won the drivers championship with {points1} points and {constructor} won the constructors championship with {points2} points.
+           ")
+```
+
+```{r}
+# FOR 2012:
+#Create functions for the winner of each season. 
+
+tibble::tibble(races)
+raceorder_2012 <- races[1:5] |> filter(year == 2012)
+race_winner_2012 <- left_join(
+    raceorder_2012,
+    race_winners_by_track,
+    by = "round"
+) |> filter(year.x == 2012, year.y == 2012)
+
+#The champion of 2012 (VETTEL) earned the max sum of points compared to other drivers.
+points_2012 <- race_byrace |> filter(year == 2012)
+
+#Total points for the driver that won the season.
+library(dplyr)
+points_per_driver_2012 <- aggregate(points_2012$points, 
+          by = list(points_2012$surname),
+          FUN = sum)
+df_points_per_driver_2012 <- data.frame(points_per_driver_2012)
+names(df_points_per_driver_2012)[1] <- "Driver"
+names(df_points_per_driver_2012)[2] <- "Points"
+df_points_per_driver_2012 |> slice(which.max(df_points_per_driver_2012$Points))
+driverpoints2012 <- max(df_points_per_driver_2012$Points)
+
+#Which races did the championship driver score points in
+scorer_2012_points_per_race <- df_race_byrace2012 |> filter(points > 0) |> 
+    filter(surname == "Vettel") |> filter(points < 25)
+df_scorer_2012_points_per_race <- data.frame(scorer_2012_points_per_race)
+names(df_scorer_2012_points_per_race)[10] <- "Points"
+names(df_scorer_2012_points_per_race)[33] <- "Round"
+names(df_scorer_2012_points_per_race)[35] <- "Circuit"
+tibble::tibble(df_scorer_2012_points_per_race)
+df_scorer_2012_points_per_race[, c(10,33,35)]
+#After 5 rounds, how many races has the championship driver scored points on
+tibble::tibble(df_scorer_2012_points_per_race) 
+point_rounds_2012_for_5 <- df_scorer_2012_points_per_race[, c(10,33,35)] |> filter(Round<=5)
+#How many points were scored for 5 rounds
+pointsscored2012for5 <- sum(point_rounds_2012_for_5$Points)
+#How many points were scored after round 5
+tibble::tibble(df_scorer_2012_points_per_race) 
+point_rounds_2012_after_5 <- df_scorer_2012_points_per_race[, c(10,33,35)] |> filter(Round>5)
+pointsscored2012after5 <- sum(point_rounds_2012_after_5$Points)
+#After 10 rounds, how many races has the championship driver scored points on
+tibble::tibble(df_scorer_2012_points_per_race) 
+point_rounds_2012_for_10 <- df_scorer_2012_points_per_race[, c(10,33,35)] |> filter(Round<=10)
+#How many points were scored for 10 rounds
+pointsscored2012for10 <- sum(point_rounds_2012_for_10$Points)
+#How many points were scored after round 10
+tibble::tibble(df_scorer_2012_points_per_race) 
+point_rounds_2012_after_10 <- df_scorer_2012_points_per_race[, c(10,33,35)] |> filter(Round>10)
+pointsscored2012after10 <- sum(point_rounds_2012_after_10$Points)
+
+#Which races did the championship driver win
+winner_2012_points_per_race <- df_race_byrace2012 |> filter(position == 1) |> 
+    filter(surname == "Vettel")
+df_winner_2012_points_per_race <- data.frame(winner_2012_points_per_race)
+names(df_winner_2012_points_per_race)[10] <- "Points"
+names(df_winner_2012_points_per_race)[33] <- "Round"
+names(df_winner_2012_points_per_race)[35] <- "Circuit"
+tibble::tibble(df_winner_2012_points_per_race)
+df_winner_2012_points_per_race[, c(10,33,35)]
+#After 5 rounds, how many races has the championship driver won
+tibble::tibble(df_winner_2012_points_per_race)
+win_rounds_2012_for_5 <- df_winner_2012_points_per_race[, c(10,33,35)] |> filter(Round<=5)
+#How many points from winning have been scored by the 5th round
+pointswin2012for5 <- sum(win_rounds_2012_for_5$Points)
+#How many points were scored after round 10
+tibble::tibble(df_winner_2012_points_per_race)
+point_win_2012_after_5 <- df_winner_2012_points_per_race[, c(10,33,35)] |> filter(Round>5)
+pointswin2012after5 <- sum(point_win_2012_after_5$Points)
+#After 10 rounds, how many races has the championship driver won
+tibble::tibble(df_winner_2012_points_per_race)
+win_rounds_2012_for_10 <- df_winner_2012_points_per_race[, c(10,33,35)] |> filter(Round<=10)
+#How many points from winning have been scored by the 10th round
+pointswin2012for10 <- sum(win_rounds_2012_for_10$Points)
+#How many points were scored after round 10
+tibble::tibble(df_winner_2012_points_per_race)
+point_win_2012_after_10 <- df_winner_2012_points_per_race[, c(10,33,35)] |> filter(Round>10)
+pointswin2012after10 <- sum(point_win_2012_after_10$Points)
+
+#Total points achieved for 5
+totalpoints2012for5 <- pointsscored2012for5 + pointswin2012for5
+totalpoints2012after5 <- pointsscored2012after5 + pointswin2012after5
+#Total points achieved for 10
+totalpoints2012for10 <- pointsscored2012for10 + pointswin2012for10
+totalpoints2012after10 <- pointsscored2012after10 + pointswin2012after10
+
+#Total points for the champion driver
+totalpoints2012_champion <- df_race_byrace2012 |> filter(points > 0) |> 
+    filter(surname == "Vettel")
+df_totalpoints2012_champion <- data.frame(totalpoints2012_champion)
+names(df_totalpoints2012_champion)[10] <- "Points"
+names(df_totalpoints2012_champion)[33] <- "Round"
+names(df_totalpoints2012_champion)[35] <- "Circuit"
+tibble::tibble(df_totalpoints2012_champion)
+df_totalpoints2012_champion[, c(10,33,35)]
+
+#Total points for the champion driver for first 10 rounds
+totalpoints2012_champion_first10 <- df_totalpoints2012_champion |> filter(Round<=10)
+df_totalpoints2012_champion_first10 <- data.frame(totalpoints2012_champion_first10)
+tibble::tibble(df_totalpoints2012_champion_first10)
+df_totalpoints2012_champion_first10[, c(10,33,35)]
+
+#Total points for the champion driver after 10 rounds
+totalpoints2012_champion_after10 <- df_totalpoints2012_champion |> filter(Round>10)
+df_totalpoints2012_champion_after10 <- data.frame(totalpoints2012_champion_after10)
+tibble::tibble(totalpoints2012_champion_after10)
+totalpoints2012_champion_after10[, c(10,33,35)]
+
+#Accumulation of points over the rounds
+accum_of_points2012_champion <- df_race_byrace2012 |> 
+    filter(surname == "Vettel")
+accum_of_points2012_champion$cumulative_points = cumsum(accum_of_points2012_champion$points)
+
+#Accumulation of points for the first 10 rounds
+accum_of_points2012_champion_first10 <- df_race_byrace2012 |> 
+    filter(surname == "Vettel") |> 
+    filter(round<=10)
+accum_of_points2012_champion_first10$cumulative_points = cumsum(accum_of_points2012_champion_first10$points)
+
+#Accumulation of points after round 10
+accum_of_points2012_champion_after10 <- df_race_byrace2012 |> 
+    filter(surname == "Vettel") |> 
+    filter(round>10)
+accum_of_points2012_champion_after10$cumulative_points = cumsum(accum_of_points2012_champion_after10$points)
+
+#Plot of total points acquired
+plot_2012_points <- df_totalpoints2012_champion[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Total points for the 2012 champion") 
+print(plot_2012_points)
+#Plot of point scoring
+plot_2012_scoring <- df_scorer_2012_points_per_race[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Scoring rounds for the 2012 champion") 
+print(plot_2012_scoring)
+#Plot of winning
+plot_2012_winning <- df_winner_2012_points_per_race[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Wins for the 2012 champion") 
+print(plot_2012_winning)
+#Plot of accumulation of points
+plot_2012_accumulation <- accum_of_points2012_champion |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points for the 2012 champion")
+print(plot_2012_accumulation)
+#Plot of points of first 10 races
+plot_2012_first10 <- df_totalpoints2012_champion_first10[, c(10,33,35)] |> 
+    ggplot() +
+    geom_line(aes(x = Round, y = Points), alpha = 0.8, size = 1) +
+    labs(title = "Points for the first 10 races by the 2012 champion")
+print(plot_2012_first10)
+#Accumulation of points for the first 10 races
+plot_2012_accumulation_first10 <- accum_of_points2012_champion_first10 |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points for the first 10 races by the 2012 champion")
+print(plot_2012_accumulation_first10)
+#Plot of points after race 10 for the 2012 champion
+plot_2012_after10 <- df_totalpoints2012_champion_after10[, c(10,33,35)] |> 
+    ggplot() +
+    geom_line(aes(x = Round, y = Points), alpha = 0.8, size = 1) +
+    labs(title = "Points after race 10 by the 2012 champion")
+print(plot_2012_after10)
+#Accumulation of points after race 10 for the 2012 champion
+plot_2012_accumulation_after10 <- accum_of_points2012_champion_after10 |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points after race 10 by the 2012 champion")
+print(plot_2012_accumulation_after10)
+```
+
+
+```{r}
+# FOR 2013:
+#Create functions for the winner of each season. 
+
+tibble::tibble(races)
+raceorder_2013 <- races[1:5] |> filter(year == 2013)
+race_winner_2013 <- left_join(
+    raceorder_2013,
+    race_winners_by_track,
+    by = "round"
+) |> filter(year.x == 2013, year.y == 2013)
+
+#The champion of 2013 (VETTEL) earned the max sum of points compared to other drivers.
+points_2013 <- race_byrace |> filter(year == 2013)
+
+#Total points for the driver that won the season.
+library(dplyr)
+points_per_driver_2013 <- aggregate(points_2013$points, 
+          by = list(points_2013$surname),
+          FUN = sum)
+df_points_per_driver_2013 <- data.frame(points_per_driver_2013)
+names(df_points_per_driver_2013)[1] <- "Driver"
+names(df_points_per_driver_2013)[2] <- "Points"
+df_points_per_driver_2013 |> slice(which.max(df_points_per_driver_2013$Points))
+driverpoints2013 <- max(df_points_per_driver_2013$Points)
+
+#Which races did the championship driver score points in
+scorer_2013_points_per_race <- df_race_byrace2013 |> filter(points > 0) |> 
+    filter(surname == "Vettel")|> filter(points < 25)
+df_scorer_2013_points_per_race <- data.frame(scorer_2013_points_per_race)
+names(df_scorer_2013_points_per_race)[10] <- "Points"
+names(df_scorer_2013_points_per_race)[33] <- "Round"
+names(df_scorer_2013_points_per_race)[35] <- "Circuit"
+tibble::tibble(df_scorer_2013_points_per_race)
+df_scorer_2013_points_per_race[, c(10,33,35)]
+#After 5 rounds, how many races has the championship driver scored points on
+tibble::tibble(df_scorer_2013_points_per_race)
+point_rounds_2013_for_5 <- df_scorer_2013_points_per_race[, c(10,33,35)] |> filter(Round<=5)
+#How many points were scored for 5 rounds
+pointsscored2013for5 <- sum(point_rounds_2013_for_5$Points)
+#How many points were scored after round 5
+tibble::tibble(df_scorer_2013_points_per_race)
+point_rounds_2013_after_5 <- df_scorer_2013_points_per_race[, c(10,33,35)] |> filter(Round>5)
+pointsscored2013after5 <- sum(point_rounds_2013_after_5$Points)
+#After 10 rounds, how many races has the championship driver scored points on
+tibble::tibble(df_scorer_2013_points_per_race)
+point_rounds_2013_for_10 <- df_scorer_2013_points_per_race[, c(10,33,35)] |> filter(Round<=10)
+#How many points were scored for 10 rounds
+pointsscored2013for10 <- sum(point_rounds_2013_for_10$Points)
+#How many points were scored after round 10
+tibble::tibble(df_scorer_2013_points_per_race)
+point_rounds_2013_after_10 <- df_scorer_2013_points_per_race[, c(10,33,35)] |> filter(Round>10)
+pointsscored2013after10 <- sum(point_rounds_2013_after_10$Points)
+
+#Which races did the championship driver win
+winner_2013_points_per_race <- df_race_byrace2013 |> filter(position == 1) |> 
+    filter(surname == "Vettel")
+df_winner_2013_points_per_race <- data.frame(winner_2013_points_per_race)
+names(df_winner_2013_points_per_race)[10] <- "Points"
+names(df_winner_2013_points_per_race)[33] <- "Round"
+names(df_winner_2013_points_per_race)[35] <- "Circuit"
+tibble::tibble(df_winner_2013_points_per_race)
+df_winner_2013_points_per_race[, c(10,33,35)]
+#After 5 rounds, how many races has the championship driver won
+tibble::tibble(df_winner_2013_points_per_race)
+win_rounds_2013_for_5 <- df_winner_2013_points_per_race[, c(10,33,35)] |> filter(Round<=5)
+#How many points from winning have been scored by the 5th round
+pointswin2013for5 <- sum(win_rounds_2013_for_5$Points)
+#How many points were scored after round 5
+tibble::tibble(df_winner_2013_points_per_race)
+point_win_2013_after_5 <- df_winner_2013_points_per_race[, c(10,33,35)] |> filter(Round>5)
+pointswin2013after5 <- sum(point_win_2013_after_5$Points)
+#After 10 rounds, how many races has the championship driver won
+tibble::tibble(df_winner_2013_points_per_race)
+win_rounds_2013_for_10 <- df_winner_2013_points_per_race[, c(10,33,35)] |> filter(Round<=10)
+#How many points from winning have been scored by the 10th round
+pointswin2013for10 <- sum(win_rounds_2013_for_10$Points)
+#How many points were scored after round 10
+tibble::tibble(df_winner_2013_points_per_race)
+point_win_2013_after_10 <- df_winner_2013_points_per_race[, c(10,33,35)] |> filter(Round>10)
+pointswin2013after10 <- sum(point_win_2013_after_10$Points)
+
+#Total points achieved for 5
+totalpoints2013for5 <- pointsscored2013for5 + pointswin2013for5
+totalpoints2013after5 <- pointsscored2013after5 + pointswin2013after5
+#Total points achieved for 10
+totalpoints2013for10 <- pointsscored2013for10 + pointswin2013for10
+totalpoints2013after10 <- pointsscored2013after10 + pointswin2013after10
+
+#Total points for the champion driver
+totalpoints2013_champion <- df_race_byrace2013 |> filter(points > 0) |> 
+    filter(surname == "Vettel")
+df_totalpoints2013_champion <- data.frame(totalpoints2013_champion)
+names(df_totalpoints2013_champion)[10] <- "Points"
+names(df_totalpoints2013_champion)[33] <- "Round"
+names(df_totalpoints2013_champion)[35] <- "Circuit"
+tibble::tibble(df_totalpoints2013_champion)
+df_totalpoints2013_champion[, c(10,33,35)]
+
+#Total points for the champion driver for first 10 rounds
+totalpoints2013_champion_first10 <- df_totalpoints2013_champion |> filter(Round<=10)
+df_totalpoints2013_champion_first10 <- data.frame(totalpoints2013_champion_first10)
+tibble::tibble(df_totalpoints2013_champion_first10)
+df_totalpoints2013_champion_first10[, c(10,33,35)]
+
+#Total points for the champion driver after 10 rounds
+totalpoints2013_champion_after10 <- df_totalpoints2013_champion |> filter(Round>10)
+df_totalpoints2013_champion_after10 <- data.frame(totalpoints2013_champion_after10)
+tibble::tibble(totalpoints2013_champion_after10)
+totalpoints2013_champion_after10[, c(10,33,35)]
+
+#Accumulation of points over the rounds
+accum_of_points2013_champion <- df_race_byrace2013 |> 
+    filter(surname == "Vettel")
+accum_of_points2013_champion$cumulative_points = cumsum(accum_of_points2013_champion$points)
+
+#Accumulation of points for the first 10 rounds
+accum_of_points2013_champion_first10 <- df_race_byrace2013 |> 
+    filter(surname == "Vettel") |> 
+    filter(round<=10)
+accum_of_points2013_champion_first10$cumulative_points = cumsum(accum_of_points2013_champion_first10$points)
+
+#Accumulation of points after round 10
+accum_of_points2013_champion_after10 <- df_race_byrace2013 |> 
+    filter(surname == "Vettel") |> 
+    filter(round>10)
+accum_of_points2013_champion_after10$cumulative_points = cumsum(accum_of_points2013_champion_after10$points)
+
+#Plot of total points acquired
+plot_2013_points <- df_totalpoints2013_champion[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Total points for the 2013 champion") 
+print(plot_2013_points)
+#Plot of point scoring
+plot_2013_scoring <- df_scorer_2013_points_per_race[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Scoring rounds for the 2013 champion") 
+print(plot_2013_scoring)
+#Plot of winning
+plot_2013_winning <- df_winner_2013_points_per_race[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Wins for the 2013 champion") 
+print(plot_2013_winning)
+#Plot of accumulation of points
+plot_2013_accumulation <- accum_of_points2013_champion |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points for the 2013 champion")
+print(plot_2013_accumulation)
+#Plot of points of first 10 races
+plot_2013_first10 <- df_totalpoints2013_champion_first10[, c(10,33,35)] |> 
+    ggplot() +
+    geom_line(aes(x = Round, y = Points), alpha = 0.8, size = 1) +
+    labs(title = "Points for the first 10 races for the 2013 champion")
+print(plot_2013_first10)
+#Accumulation of points for the first 10 races
+plot_2013_accumulation_first10 <- accum_of_points2013_champion_first10 |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points for the first 10 races by the 2013 champion")
+print(plot_2013_accumulation_first10)
+#Plot of points after race 10 for the 2013 champion
+plot_2013_after10 <- df_totalpoints2013_champion_after10[, c(10,33,35)] |> 
+    ggplot() +
+    geom_line(aes(x = Round, y = Points), alpha = 0.8, size = 1) +
+    labs(title = "Points after race 10 by the 2013 champion")
+print(plot_2013_after10)
+#Accumulation of points after race 10 for the 2013 champion
+plot_2013_accumulation_after10 <- accum_of_points2013_champion_after10 |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points after race 10 by the 2013 champion")
+print(plot_2013_accumulation_after10)
+```
+
+```{r}
+# FOR 2014:
+#Create functions for the winner of each season. 
+
+tibble::tibble(races)
+raceorder_2014 <- races[1:5] |> filter(year == 2014)
+race_winner_2014 <- left_join(
+    raceorder_2014,
+    race_winners_by_track,
+    by = "round"
+) |> filter(year.x == 2014, year.y == 2014)
+
+#The champion of 2014 (HAMILTON) earned the max sum of points compared to other drivers.
+points_2014 <- race_byrace |> filter(year == 2014)
+
+#Total points for the driver that won the season.
+library(dplyr)
+points_per_driver_2014 <- aggregate(points_2014$points, 
+          by = list(points_2014$surname),
+          FUN = sum)
+df_points_per_driver_2014 <- data.frame(points_per_driver_2014)
+names(df_points_per_driver_2014)[1] <- "Driver"
+names(df_points_per_driver_2014)[2] <- "Points"
+df_points_per_driver_2014 |> slice(which.max(df_points_per_driver_2014$Points))
+driverpoints2014 <- max(df_points_per_driver_2014$Points)
+
+#Which races did the championship driver score points in
+scorer_2014_points_per_race <- df_race_byrace2014 |> filter(points > 0) |> 
+    filter(surname == "Hamilton")|> filter(points < 25)
+df_scorer_2014_points_per_race <- data.frame(scorer_2014_points_per_race)
+names(df_scorer_2014_points_per_race)[10] <- "Points"
+names(df_scorer_2014_points_per_race)[33] <- "Round"
+names(df_scorer_2014_points_per_race)[35] <- "Circuit"
+tibble::tibble(df_scorer_2014_points_per_race)
+df_scorer_2014_points_per_race[, c(10,33,35)]
+#After 5 rounds, how many races has the championship driver scored points on
+tibble::tibble(df_scorer_2014_points_per_race)
+point_rounds_2014_for_5 <- df_scorer_2014_points_per_race[, c(10,33,35)] |> filter(Round<=5)
+#How many points have been scored by the 5th round
+pointsscored2014for5 <- sum(point_rounds_2014_for_5$Points)
+#How many points were scored after round 5
+tibble::tibble(df_scorer_2014_points_per_race)
+point_rounds_2014_after_5 <- df_scorer_2014_points_per_race[, c(10,33,35)] |> filter(Round>5)
+pointsscored2014after5 <- sum(point_rounds_2014_after_5$Points)
+#After 10 rounds, how many races has the championship driver scored points on
+tibble::tibble(df_scorer_2014_points_per_race)
+point_rounds_2014_for_10 <- df_scorer_2014_points_per_race[, c(10,33,35)] |> filter(Round<=10)
+#How many points have been scored by the 10th round
+pointsscored2014for10 <- sum(point_rounds_2014_for_10$Points)
+#How many points were scored after round 10
+tibble::tibble(df_scorer_2014_points_per_race)
+point_rounds_2014_after_10 <- df_scorer_2014_points_per_race[, c(10,33,35)] |> filter(Round>10)
+pointsscored2014after10 <- sum(point_rounds_2014_after_10$Points)
+
+#Which races did the championship driver win
+winner_2014_points_per_race <- df_race_byrace2014 |> filter(position == 1) |> 
+    filter(surname == "Hamilton")
+df_winner_2014_points_per_race <- data.frame(winner_2014_points_per_race)
+names(df_winner_2014_points_per_race)[10] <- "Points"
+names(df_winner_2014_points_per_race)[33] <- "Round"
+names(df_winner_2014_points_per_race)[35] <- "Circuit"
+tibble::tibble(df_winner_2014_points_per_race)
+df_winner_2014_points_per_race[, c(10,33,35)]
+#After 5 rounds, how many races has the championship driver won
+tibble::tibble(df_winner_2014_points_per_race)
+win_rounds_2014_for_5 <- df_winner_2014_points_per_race[, c(10,33,35)] |> filter(Round<=5)
+#How many points from winning have been scored by the 5th round
+pointswin2014for5 <- sum(win_rounds_2014_for_5$Points)
+#How many points were scored after round 5
+tibble::tibble(df_winner_2014_points_per_race)
+point_win_2014_after_5 <- df_winner_2014_points_per_race[, c(10,33,35)] |> filter(Round>5)
+pointswin2014after5 <- sum(point_win_2014_after_5$Points)
+#After 10 rounds, how many races has the championship driver won
+tibble::tibble(df_winner_2014_points_per_race)
+win_rounds_2014_for_10 <- df_winner_2014_points_per_race[, c(10,33,35)] |> filter(Round<=10)
+#How many points from winning have been scored by the 10th round
+pointswin2014for10 <- sum(win_rounds_2014_for_10$Points)
+#How many points were scored after round 10
+tibble::tibble(df_winner_2014_points_per_race)
+point_win_2014_after_10 <- df_winner_2014_points_per_race[, c(10,33,35)] |> filter(Round>10)
+pointswin2014after10 <- sum(point_win_2014_after_10$Points)
+
+#Total points achieved for 5
+totalpoints2014for5 <- pointsscored2014for5 + pointswin2014for5
+totalpoints2014after5 <- pointsscored2014after5 + pointswin2014after5
+#Total points achieved for 10
+totalpoints2014for10 <- pointsscored2014for10 + pointswin2014for10
+totalpoints2014after10 <- pointsscored2014after10 + pointswin2014after10
+
+#Total points for the champion driver
+totalpoints2014_champion <- df_race_byrace2014 |> filter(points > 0) |> 
+    filter(surname == "Hamilton")
+df_totalpoints2014_champion <- data.frame(totalpoints2014_champion)
+names(df_totalpoints2014_champion)[10] <- "Points"
+names(df_totalpoints2014_champion)[33] <- "Round"
+names(df_totalpoints2014_champion)[35] <- "Circuit"
+tibble::tibble(df_totalpoints2014_champion)
+df_totalpoints2014_champion[, c(10,33,35)]
+
+#Total points for the champion driver for first 10 rounds
+totalpoints2014_champion_first10 <- df_totalpoints2014_champion |> filter(Round<=10)
+df_totalpoints2014_champion_first10 <- data.frame(totalpoints2014_champion_first10)
+tibble::tibble(df_totalpoints2014_champion_first10)
+df_totalpoints2014_champion_first10[, c(10,33,35)]
+
+#Total points for the champion driver after 10 rounds
+totalpoints2014_champion_after10 <- df_totalpoints2014_champion |> filter(Round>10)
+df_totalpoints2014_champion_after10 <- data.frame(totalpoints2014_champion_after10)
+tibble::tibble(totalpoints2014_champion_after10)
+totalpoints2014_champion_after10[, c(10,33,35)]
+
+#Accumulation of points over the rounds
+accum_of_points2014_champion <- df_race_byrace2014 |> 
+    filter(surname == "Hamilton")
+accum_of_points2014_champion$cumulative_points = cumsum(accum_of_points2014_champion$points)
+
+#Accumulation of points for the first 10 rounds
+accum_of_points2014_champion_first10 <- df_race_byrace2014 |> 
+    filter(surname == "Hamilton") |> 
+    filter(round<=10)
+accum_of_points2014_champion_first10$cumulative_points = cumsum(accum_of_points2014_champion_first10$points)
+
+#Accumulation of points after round 10
+accum_of_points2014_champion_after10 <- df_race_byrace2014 |> 
+    filter(surname == "Hamilton") |> 
+    filter(round>10)
+accum_of_points2014_champion_after10$cumulative_points = cumsum(accum_of_points2014_champion_after10$points)
+
+#Plot of total points acquired
+plot_2014_points <- df_totalpoints2014_champion[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Total points for the 2014 champion") 
+print(plot_2014_points)
+#Plot of point scoring
+plot_2014_scoring <- df_scorer_2014_points_per_race[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Scoring rounds for the 2014 champion") 
+print(plot_2014_scoring)
+#Plot of winning
+plot_2014_winning <- df_winner_2014_points_per_race[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Wins for the 2014 champion") 
+print(plot_2014_winning)
+#Plot of accumulation of points
+plot_2014_accumulation <- accum_of_points2014_champion |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points for the 2014 champion")
+print(plot_2014_accumulation)
+#Plot of points of first 10 races
+plot_2014_first10 <- df_totalpoints2014_champion_first10[, c(10,33,35)] |> 
+    ggplot() +
+    geom_line(aes(x = Round, y = Points), alpha = 0.8, size = 1) +
+    labs(title = "Points for the first 10 races for the 2014 champion")
+print(plot_2014_first10)
+#Accumulation of points for the first 10 races
+plot_2014_accumulation_first10 <- accum_of_points2014_champion_first10 |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points for the first 10 races by the 2014 champion")
+print(plot_2014_accumulation_first10)
+#Plot of points after race 10 for the 2014 champion
+plot_2014_after10 <- df_totalpoints2014_champion_after10[, c(10,33,35)] |> 
+    ggplot() +
+    geom_line(aes(x = Round, y = Points), alpha = 0.8, size = 1) +
+    labs(title = "Points after race 10 by the 2014 champion")
+print(plot_2014_after10)
+#Accumulation of points after race 10 for the 2014 champion
+plot_2014_accumulation_after10 <- accum_of_points2014_champion_after10 |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points after race 10 by the 2014 champion")
+print(plot_2014_accumulation_after10)
+```
+
+```{r}
+# FOR 2015:
+#Create functions for the winner of each season. 
+
+tibble::tibble(races)
+raceorder_2015 <- races[1:5] |> filter(year == 2015)
+race_winner_2015 <- left_join(
+    raceorder_2015,
+    race_winners_by_track,
+    by = "round"
+) |> filter(year.x == 2015, year.y == 2015)
+
+#The champion of 2015 (HAMILTON) earned the max sum of points compared to other drivers.
+points_2015 <- race_byrace |> filter(year == 2015)
+
+#Total points for the driver that won the season.
+library(dplyr)
+points_per_driver_2015 <- aggregate(points_2015$points, 
+          by = list(points_2015$surname),
+          FUN = sum)
+df_points_per_driver_2015 <- data.frame(points_per_driver_2015)
+names(df_points_per_driver_2015)[1] <- "Driver"
+names(df_points_per_driver_2015)[2] <- "Points"
+df_points_per_driver_2015 |> slice(which.max(df_points_per_driver_2015$Points))
+driverpoints2015 <- max(df_points_per_driver_2015$Points)
+
+#Which races did the championship driver score points in
+scorer_2015_points_per_race <- df_race_byrace2015 |> filter(points > 0) |> 
+    filter(surname == "Hamilton")|> filter(points < 25)
+df_scorer_2015_points_per_race <- data.frame(scorer_2015_points_per_race)
+names(df_scorer_2015_points_per_race)[10] <- "Points"
+names(df_scorer_2015_points_per_race)[33] <- "Round"
+names(df_scorer_2015_points_per_race)[35] <- "Circuit"
+tibble::tibble(df_scorer_2015_points_per_race)
+df_scorer_2015_points_per_race[, c(10,33,35)]
+#After 5 rounds, how many races has the championship driver scored points on
+tibble::tibble(df_scorer_2015_points_per_race)
+point_rounds_2015_for_5 <- df_scorer_2015_points_per_race[, c(10,33,35)] |> filter(Round<=5)
+#How many points have been scored by the 5th round
+pointsscored2015for5 <- sum(point_rounds_2015_for_5$Points)
+#How many points were scored after round 5
+tibble::tibble(df_scorer_2015_points_per_race)
+point_rounds_2015_after_5 <- df_scorer_2015_points_per_race[, c(10,33,35)] |> filter(Round>5)
+pointsscored2015after5 <- sum(point_rounds_2015_after_5$Points)
+#After 10 rounds, how many races has the championship driver scored points on
+tibble::tibble(df_scorer_2015_points_per_race)
+point_rounds_2015_for_10 <- df_scorer_2015_points_per_race[, c(10,33,35)] |> filter(Round<=10)
+#How many points have been scored by the 10th round
+pointsscored2015for10 <- sum(point_rounds_2015_for_10$Points)
+#How many points were scored after round 10
+tibble::tibble(df_scorer_2015_points_per_race)
+point_rounds_2015_after_10 <- df_scorer_2015_points_per_race[, c(10,33,35)] |> filter(Round>10)
+pointsscored2015after10 <- sum(point_rounds_2015_after_10$Points)
+
+#Which races did the championship driver win
+winner_2015_points_per_race <- df_race_byrace2015 |> filter(position == 1) |> 
+    filter(surname == "Hamilton")
+df_winner_2015_points_per_race <- data.frame(winner_2015_points_per_race)
+names(df_winner_2015_points_per_race)[10] <- "Points"
+names(df_winner_2015_points_per_race)[33] <- "Round"
+names(df_winner_2015_points_per_race)[35] <- "Circuit"
+tibble::tibble(df_winner_2015_points_per_race)
+df_winner_2015_points_per_race[, c(10,33,35)]
+#After 5 rounds, how many races has the championship driver won
+tibble::tibble(df_winner_2015_points_per_race)
+win_rounds_2015_for_5 <- df_winner_2015_points_per_race[, c(10,33,35)] |> filter(Round<=5)
+#How many points from winning have been scored by the 5th round
+pointswin2015for5 <- sum(win_rounds_2015_for_5$Points)
+#How many points were scored after round 5
+tibble::tibble(df_winner_2015_points_per_race)
+point_win_2015_after_5 <- df_winner_2015_points_per_race[, c(10,33,35)] |> filter(Round>5)
+pointswin2015after5 <- sum(point_win_2015_after_5$Points)
+#After 10 rounds, how many races has the championship driver won
+tibble::tibble(df_winner_2015_points_per_race)
+win_rounds_2015_for_10 <- df_winner_2015_points_per_race[, c(10,33,35)] |> filter(Round<=10)
+#How many points from winning have been scored by the 10th round
+pointswin2015for10 <- sum(win_rounds_2015_for_10$Points)
+#How many points were scored after round 10
+tibble::tibble(df_winner_2015_points_per_race)
+point_win_2015_after_10 <- df_winner_2015_points_per_race[, c(10,33,35)] |> filter(Round>10)
+pointswin2015after10 <- sum(point_win_2015_after_10$Points)
+
+#Total points achieved for 5
+totalpoints2015for5 <- pointsscored2015for5 + pointswin2015for5
+totalpoints2015after5 <- pointsscored2015after5 + pointswin2015after5
+#Total points achieved for 10
+totalpoints2015for10 <- pointsscored2015for10 + pointswin2015for10
+totalpoints2015after10 <- pointsscored2015after10 + pointswin2015after10
+
+#Total points for the champion driver
+totalpoints2015_champion <- df_race_byrace2015 |> filter(points > 0) |> 
+    filter(surname == "Hamilton")
+df_totalpoints2015_champion <- data.frame(totalpoints2015_champion)
+names(df_totalpoints2015_champion)[10] <- "Points"
+names(df_totalpoints2015_champion)[33] <- "Round"
+names(df_totalpoints2015_champion)[35] <- "Circuit"
+tibble::tibble(df_totalpoints2015_champion)
+df_totalpoints2015_champion[, c(10,33,35)]
+
+#Total points for the champion driver for first 10 rounds
+totalpoints2015_champion_first10 <- df_totalpoints2015_champion |> filter(Round<=10)
+df_totalpoints2015_champion_first10 <- data.frame(totalpoints2015_champion_first10)
+tibble::tibble(df_totalpoints2015_champion_first10)
+df_totalpoints2015_champion_first10[, c(10,33,35)]
+
+#Total points for the champion driver after 10 rounds
+totalpoints2015_champion_after10 <- df_totalpoints2015_champion |> filter(Round>10)
+df_totalpoints2015_champion_after10 <- data.frame(totalpoints2015_champion_after10)
+tibble::tibble(totalpoints2015_champion_after10)
+totalpoints2015_champion_after10[, c(10,33,35)]
+
+#Accumulation of points over the rounds
+accum_of_points2015_champion <- df_race_byrace2015 |> 
+    filter(surname == "Hamilton")
+accum_of_points2015_champion$cumulative_points = cumsum(accum_of_points2015_champion$points)
+
+#Accumulation of points for the first 10 rounds
+accum_of_points2015_champion_first10 <- df_race_byrace2015 |> 
+    filter(surname == "Hamilton") |> 
+    filter(round<=10)
+accum_of_points2015_champion_first10$cumulative_points = cumsum(accum_of_points2015_champion_first10$points)
+
+#Accumulation of points after round 10
+accum_of_points2015_champion_after10 <- df_race_byrace2015 |> 
+    filter(surname == "Hamilton") |> 
+    filter(round>10)
+accum_of_points2015_champion_after10$cumulative_points = cumsum(accum_of_points2015_champion_after10$points)
+
+#Plot of total points acquired
+plot_2015_points <- df_totalpoints2015_champion[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Total points for the 2015 champion") 
+print(plot_2015_points)
+#Plot of point scoring
+plot_2015_scoring <- df_scorer_2015_points_per_race[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Scoring rounds for the 2015 champion") 
+print(plot_2015_scoring)
+#Plot of winning
+plot_2015_winning <- df_winner_2015_points_per_race[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Wins for the 2015 champion") 
+print(plot_2015_winning)
+#Plot of accumulation of points
+plot_2015_accumulation <- accum_of_points2015_champion |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points for the 2015 champion")
+print(plot_2015_accumulation)
+#Plot of points of first 10 races
+plot_2015_first10 <- df_totalpoints2015_champion_first10[, c(10,33,35)] |> 
+    ggplot() +
+    geom_line(aes(x = Round, y = Points), alpha = 0.8, size = 1) +
+    labs(title = "Points for the first 10 races for the 2015 champion")
+print(plot_2015_first10)
+#Accumulation of points for the first 10 races
+plot_2015_accumulation_first10 <- accum_of_points2015_champion_first10 |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points for the first 10 races by the 2015 champion")
+print(plot_2015_accumulation_first10)
+#Plot of points after race 10 for the 2015 champion
+plot_2015_after10 <- df_totalpoints2015_champion_after10[, c(10,33,35)] |> 
+    ggplot() +
+    geom_line(aes(x = Round, y = Points), alpha = 0.8, size = 1) +
+    labs(title = "Points after race 10 by the 2015 champion")
+print(plot_2015_after10)
+#Accumulation of points after race 10 for the 2015 champion
+plot_2015_accumulation_after10 <- accum_of_points2015_champion_after10 |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points after race 10 by the 2015 champion")
+print(plot_2015_accumulation_after10)
+```
+
+```{r}
+# FOR 2016:
+#Create functions for the winner of each season. 
+
+tibble::tibble(races)
+raceorder_2016 <- races[1:5] |> filter(year == 2016)
+race_winner_2016 <- left_join(
+    raceorder_2016,
+    race_winners_by_track,
+    by = "round"
+) |> filter(year.x == 2016, year.y == 2016)
+
+#The champion of 2016 (ROSBERG) earned the max sum of points compared to other drivers.
+points_2016 <- race_byrace |> filter(year == 2016)
+
+#Total points for the driver that won the season.
+library(dplyr)
+points_per_driver_2016 <- aggregate(points_2016$points, 
+          by = list(points_2016$surname),
+          FUN = sum)
+df_points_per_driver_2016 <- data.frame(points_per_driver_2016)
+names(df_points_per_driver_2016)[1] <- "Driver"
+names(df_points_per_driver_2016)[2] <- "Points"
+df_points_per_driver_2016 |> slice(which.max(df_points_per_driver_2016$Points))
+driverpoints2016 <- max(df_points_per_driver_2016$Points)
+
+#Which races did the championship driver score points in
+scorer_2016_points_per_race <- df_race_byrace2016 |> filter(points > 0) |> 
+    filter(surname == "Rosberg")|> filter(points < 25)
+df_scorer_2016_points_per_race <- data.frame(scorer_2016_points_per_race)
+names(df_scorer_2016_points_per_race)[10] <- "Points"
+names(df_scorer_2016_points_per_race)[33] <- "Round"
+names(df_scorer_2016_points_per_race)[35] <- "Circuit"
+tibble::tibble(df_scorer_2016_points_per_race)
+df_scorer_2016_points_per_race[, c(10,33,35)]
+#After 5 rounds, how many races has the championship driver scored points on
+tibble::tibble(df_scorer_2016_points_per_race)
+point_rounds_2016_for_5 <- df_scorer_2016_points_per_race[, c(10,33,35)] |> filter(Round<=5)
+#How many points have been scored by the 5th round
+pointsscored2016for5 <- sum(point_rounds_2016_for_5$Points)
+#How many points were scored after round 5
+tibble::tibble(df_scorer_2016_points_per_race)
+point_rounds_2016_after_5 <- df_scorer_2016_points_per_race[, c(10,33,35)] |> filter(Round>5)
+pointsscored2016after5 <- sum(point_rounds_2016_after_5$Points)
+#After 10 rounds, how many races has the championship driver scored points on
+tibble::tibble(df_scorer_2016_points_per_race)
+point_rounds_2016_for_10 <- df_scorer_2016_points_per_race[, c(10,33,35)] |> filter(Round<=10)
+#How many points have been scored by the 10th round
+pointsscored2016for10 <- sum(point_rounds_2016_for_10$Points)
+#How many points were scored after round 10
+tibble::tibble(df_scorer_2016_points_per_race)
+point_rounds_2016_after_10 <- df_scorer_2016_points_per_race[, c(10,33,35)] |> filter(Round>10)
+pointsscored2016after10 <- sum(point_rounds_2016_after_10$Points)
+
+#Which races did the championship driver win
+winner_2016_points_per_race <- df_race_byrace2016 |> filter(position == 1) |> 
+    filter(surname == "Rosberg")
+df_winner_2016_points_per_race <- data.frame(winner_2016_points_per_race)
+names(df_winner_2016_points_per_race)[10] <- "Points"
+names(df_winner_2016_points_per_race)[33] <- "Round"
+names(df_winner_2016_points_per_race)[35] <- "Circuit"
+tibble::tibble(df_winner_2016_points_per_race)
+df_winner_2016_points_per_race[, c(10,33,35)]
+#After 5 rounds, how many races has the championship driver won
+tibble::tibble(df_winner_2016_points_per_race)
+win_rounds_2016_for_5 <- df_winner_2016_points_per_race[, c(10,33,35)] |> filter(Round<=5)
+#How many points from winning have been scored by the 5th round
+pointswin2016for5 <- sum(win_rounds_2016_for_5$Points)
+#How many points were scored after round 5
+tibble::tibble(df_winner_2016_points_per_race)
+point_win_2016_after_5 <- df_winner_2016_points_per_race[, c(10,33,35)] |> filter(Round>5)
+pointswin2016after5 <- sum(point_win_2016_after_5$Points)
+#After 10 rounds, how many races has the championship driver won
+tibble::tibble(df_winner_2016_points_per_race)
+win_rounds_2016_for_10 <- df_winner_2016_points_per_race[, c(10,33,35)] |> filter(Round<=10)
+#How many points from winning have been scored by the 10th round
+pointswin2016for10 <- sum(win_rounds_2016_for_10$Points)
+#How many points were scored after round 10
+tibble::tibble(df_winner_2016_points_per_race)
+point_win_2016_after_10 <- df_winner_2016_points_per_race[, c(10,33,35)] |> filter(Round>10)
+pointswin2016after10 <- sum(point_win_2016_after_10$Points)
+
+#Total points achieved for 5
+totalpoints2016for5 <- pointsscored2016for5 + pointswin2016for5
+totalpoints2016after5 <- pointsscored2016after5 + pointswin2016after5
+#Total points achieved for 10
+totalpoints2016for10 <- pointsscored2016for10 + pointswin2016for10
+totalpoints2016after10 <- pointsscored2016after10 + pointswin2016after10
+
+#Total points for the champion driver
+totalpoints2016_champion <- df_race_byrace2016 |> filter(points > 0) |> 
+    filter(surname == "Rosberg")
+df_totalpoints2016_champion <- data.frame(totalpoints2016_champion)
+names(df_totalpoints2016_champion)[10] <- "Points"
+names(df_totalpoints2016_champion)[33] <- "Round"
+names(df_totalpoints2016_champion)[35] <- "Circuit"
+tibble::tibble(df_totalpoints2016_champion)
+df_totalpoints2016_champion[, c(10,33,35)]
+
+#Total points for the champion driver for first 10 rounds
+totalpoints2016_champion_first10 <- df_totalpoints2016_champion |> filter(Round<=10)
+df_totalpoints2016_champion_first10 <- data.frame(totalpoints2016_champion_first10)
+tibble::tibble(df_totalpoints2016_champion_first10)
+df_totalpoints2016_champion_first10[, c(10,33,35)]
+
+#Total points for the champion driver after 10 rounds
+totalpoints2016_champion_after10 <- df_totalpoints2016_champion |> filter(Round>10)
+df_totalpoints2016_champion_after10 <- data.frame(totalpoints2016_champion_after10)
+tibble::tibble(totalpoints2016_champion_after10)
+totalpoints2016_champion_after10[, c(10,33,35)]
+
+#Accumulation of points over the rounds
+accum_of_points2016_champion <- df_race_byrace2016 |> 
+    filter(surname == "Rosberg")
+accum_of_points2016_champion$cumulative_points = cumsum(accum_of_points2016_champion$points)
+
+#Accumulation of points for the first 10 rounds
+accum_of_points2016_champion_first10 <- df_race_byrace2016 |> 
+    filter(surname == "Rosberg") |> 
+    filter(round<=10)
+accum_of_points2016_champion_first10$cumulative_points = cumsum(accum_of_points2016_champion_first10$points)
+
+#Accumulation of points after round 10
+accum_of_points2016_champion_after10 <- df_race_byrace2016 |> 
+    filter(surname == "Rosberg") |> 
+    filter(round>10)
+accum_of_points2016_champion_after10$cumulative_points = cumsum(accum_of_points2016_champion_after10$points)
+
+#Plot of total points acquired
+plot_2016_points <- df_totalpoints2016_champion[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Total points for the 2016 champion") 
+print(plot_2016_points)
+#Plot of point scoring
+plot_2016_scoring <- df_scorer_2016_points_per_race[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Scoring rounds for the 2016 champion") 
+print(plot_2016_scoring)
+#Plot of winning
+plot_2016_winning <- df_winner_2016_points_per_race[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Wins for the 2016 champion") 
+print(plot_2016_winning)
+#Plot of accumulation of points
+plot_2016_accumulation <- accum_of_points2016_champion |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points for the 2016 champion")
+print(plot_2016_accumulation)
+#Plot of points of first 10 races
+plot_2014_first10 <- df_totalpoints2014_champion_first10[, c(10,33,35)] |> 
+    ggplot() +
+    geom_line(aes(x = Round, y = Points), alpha = 0.8, size = 1) +
+    labs(title = "Points for the first 10 races for the 2014 champion")
+print(plot_2014_first10)
+#Accumulation of points for the first 10 races
+plot_2016_accumulation_first10 <- accum_of_points2016_champion_first10 |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points for the first 10 races by the 2016 champion")
+print(plot_2016_accumulation_first10)
+#Plot of points after race 10 for the 2016 champion
+plot_2016_after10 <- df_totalpoints2016_champion_after10[, c(10,33,35)] |> 
+    ggplot() +
+    geom_line(aes(x = Round, y = Points), alpha = 0.8, size = 1) +
+    labs(title = "Points after race 10 by the 2016 champion")
+print(plot_2016_after10)
+#Accumulation of points after race 10 for the 2016 champion
+plot_2016_accumulation_after10 <- accum_of_points2016_champion_after10 |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points after race 10 by the 2016 champion")
+print(plot_2016_accumulation_after10)
+```
+
+```{r}
+# FOR 2017:
+#Create functions for the winner of each season. 
+
+tibble::tibble(races)
+raceorder_2017 <- races[1:5] |> filter(year == 2017)
+race_winner_2017 <- left_join(
+    raceorder_2017,
+    race_winners_by_track,
+    by = "round"
+) |> filter(year.x == 2017, year.y == 2017)
+
+#The champion of 2017 (HAMILTON) earned the max sum of points compared to other drivers.
+points_2017 <- race_byrace |> filter(year == 2017)
+
+#Total points for the driver that won the season.
+library(dplyr)
+points_per_driver_2017 <- aggregate(points_2017$points, 
+          by = list(points_2017$surname),
+          FUN = sum)
+df_points_per_driver_2017 <- data.frame(points_per_driver_2017)
+names(df_points_per_driver_2017)[1] <- "Driver"
+names(df_points_per_driver_2017)[2] <- "Points"
+df_points_per_driver_2017 |> slice(which.max(df_points_per_driver_2017$Points))
+driverpoints2017 <- max(df_points_per_driver_2017$Points)
+
+#Which races did the championship driver score points in
+scorer_2017_points_per_race <- df_race_byrace2017 |> filter(points > 0) |> 
+    filter(surname == "Hamilton")|> filter(points < 25)
+df_scorer_2017_points_per_race <- data.frame(scorer_2017_points_per_race)
+names(df_scorer_2017_points_per_race)[10] <- "Points"
+names(df_scorer_2017_points_per_race)[33] <- "Round"
+names(df_scorer_2017_points_per_race)[35] <- "Circuit"
+tibble::tibble(df_scorer_2017_points_per_race)
+df_scorer_2017_points_per_race[, c(10,33,35)]
+#After 5 rounds, how many races has the championship driver scored points on
+tibble::tibble(df_scorer_2017_points_per_race)
+point_rounds_2017_for_5 <- df_scorer_2017_points_per_race[, c(10,33,35)] |> filter(Round<=5)
+#How many points have been scored by the 5th round
+pointsscored2017for5 <- sum(point_rounds_2017_for_5$Points)
+#How many points were scored after round 5
+tibble::tibble(df_scorer_2017_points_per_race)
+point_rounds_2017_after_5 <- df_scorer_2017_points_per_race[, c(10,33,35)] |> filter(Round>5)
+pointsscored2017after5 <- sum(point_rounds_2017_after_5$Points)
+#After 10 rounds, how many races has the championship driver scored points on
+tibble::tibble(df_scorer_2017_points_per_race)
+point_rounds_2017_for_10 <- df_scorer_2017_points_per_race[, c(10,33,35)] |> filter(Round<=10)
+#How many points have been scored by the 10th round
+pointsscored2017for10 <- sum(point_rounds_2017_for_10$Points)
+#How many points were scored after round 10
+tibble::tibble(df_scorer_2017_points_per_race)
+point_rounds_2017_after_10 <- df_scorer_2017_points_per_race[, c(10,33,35)] |> filter(Round>10)
+pointsscored2017after10 <- sum(point_rounds_2017_after_10$Points)
+
+#Which races did the championship driver win
+winner_2017_points_per_race <- df_race_byrace2017 |> filter(position == 1) |> 
+    filter(surname == "Hamilton")
+df_winner_2017_points_per_race <- data.frame(winner_2017_points_per_race)
+names(df_winner_2017_points_per_race)[10] <- "Points"
+names(df_winner_2017_points_per_race)[33] <- "Round"
+names(df_winner_2017_points_per_race)[35] <- "Circuit"
+tibble::tibble(df_winner_2017_points_per_race)
+df_winner_2017_points_per_race[, c(10,33,35)]
+#After 5 rounds, how many races has the championship driver won
+tibble::tibble(df_winner_2017_points_per_race)
+win_rounds_2017_for_5 <- df_winner_2017_points_per_race[, c(10,33,35)] |> filter(Round<=5)
+#How many points from winning have been scored by the 5th round
+pointswin2017for5 <- sum(win_rounds_2017_for_5$Points)
+#How many points were scored after round 5
+tibble::tibble(df_winner_2017_points_per_race)
+point_win_2017_after_5 <- df_winner_2017_points_per_race[, c(10,33,35)] |> filter(Round>5)
+pointswin2017after5 <- sum(point_win_2017_after_5$Points)
+#After 10 rounds, how many races has the championship driver won
+tibble::tibble(df_winner_2017_points_per_race)
+win_rounds_2017_for_10 <- df_winner_2017_points_per_race[, c(10,33,35)] |> filter(Round<=10)
+#How many points from winning have been scored by the 10th round
+pointswin2017for10 <- sum(win_rounds_2017_for_10$Points)
+#How many points were scored after round 10
+tibble::tibble(df_winner_2017_points_per_race)
+point_win_2017_after_10 <- df_winner_2017_points_per_race[, c(10,33,35)] |> filter(Round>10)
+pointswin2017after10 <- sum(point_win_2017_after_10$Points)
+
+#Total points achieved for 5
+totalpoints2017for5 <- pointsscored2017for5 + pointswin2017for5
+totalpoints2017after5 <- pointsscored2017after5 + pointswin2017after5
+#Total points achieved for 10
+totalpoints2017for10 <- pointsscored2017for10 + pointswin2017for10
+totalpoints2017after10 <- pointsscored2017after10 + pointswin2017after10
+
+#Total points for the champion driver
+totalpoints2017_champion <- df_race_byrace2017 |> filter(points > 0) |> 
+    filter(surname == "Hamilton")
+df_totalpoints2017_champion <- data.frame(totalpoints2017_champion)
+names(df_totalpoints2017_champion)[10] <- "Points"
+names(df_totalpoints2017_champion)[33] <- "Round"
+names(df_totalpoints2017_champion)[35] <- "Circuit"
+tibble::tibble(df_totalpoints2017_champion)
+df_totalpoints2017_champion[, c(10,33,35)]
+
+#Total points for the champion driver for first 10 rounds
+totalpoints2017_champion_first10 <- df_totalpoints2017_champion |> filter(Round<=10)
+df_totalpoints2017_champion_first10 <- data.frame(totalpoints2017_champion_first10)
+tibble::tibble(df_totalpoints2017_champion_first10)
+df_totalpoints2017_champion_first10[, c(10,33,35)]
+
+#Total points for the champion driver after 10 rounds
+totalpoints2017_champion_after10 <- df_totalpoints2017_champion |> filter(Round>10)
+df_totalpoints2017_champion_after10 <- data.frame(totalpoints2017_champion_after10)
+tibble::tibble(totalpoints2017_champion_after10)
+totalpoints2017_champion_after10[, c(10,33,35)]
+
+#Accumulation of points over the rounds
+accum_of_points2017_champion <- df_race_byrace2017 |> 
+    filter(surname == "Hamilton")
+accum_of_points2017_champion$cumulative_points = cumsum(accum_of_points2017_champion$points)
+
+#Accumulation of points for the first 10 rounds
+accum_of_points2017_champion_first10 <- df_race_byrace2017 |> 
+    filter(surname == "Hamilton") |> 
+    filter(round<=10)
+accum_of_points2017_champion_first10$cumulative_points = cumsum(accum_of_points2017_champion_first10$points)
+
+#Accumulation of points after round 10
+accum_of_points2017_champion_after10 <- df_race_byrace2017 |> 
+    filter(surname == "Hamilton") |> 
+    filter(round>10)
+accum_of_points2017_champion_after10$cumulative_points = cumsum(accum_of_points2017_champion_after10$points)
+
+#Plot of total points acquired
+plot_2017_points <- df_totalpoints2017_champion[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Total points for the 2017 champion") 
+print(plot_2017_points)
+#Plot of point scoring
+plot_2017_scoring <- df_scorer_2017_points_per_race[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Scoring rounds for the 2017 champion") 
+print(plot_2017_scoring)
+#Plot of winning
+plot_2017_winning <- df_winner_2017_points_per_race[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Wins for the 2017 champion") 
+print(plot_2017_winning)
+#Plot of accumulation of points
+plot_2017_accumulation <- accum_of_points2017_champion |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points for the 2017 champion")
+print(plot_2017_accumulation)
+#Plot of points of first 10 races
+plot_2017_first10 <- df_totalpoints2017_champion_first10[, c(10,33,35)] |> 
+    ggplot() +
+    geom_line(aes(x = Round, y = Points), alpha = 0.8, size = 1) +
+    labs(title = "Points for the first 10 races for the 2017 champion")
+print(plot_2017_first10)
+#Accumulation of points for the first 10 races
+plot_2017_accumulation_first10 <- accum_of_points2017_champion_first10 |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points for the first 10 races by the 2017 champion")
+print(plot_2017_accumulation_first10)
+#Plot of points after race 10 for the 2014 champion
+plot_2017_after10 <- df_totalpoints2017_champion_after10[, c(10,33,35)] |> 
+    ggplot() +
+    geom_line(aes(x = Round, y = Points), alpha = 0.8, size = 1) +
+    labs(title = "Points after race 10 by the 2017 champion")
+print(plot_2017_after10)
+#Accumulation of points after race 10 for the 2017 champion
+plot_2017_accumulation_after10 <- accum_of_points2017_champion_after10 |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points after race 10 by the 2017 champion")
+print(plot_2017_accumulation_after10)
+```
+
+```{r}
+# FOR 2018:
+#Create functions for the winner of each season. 
+
+tibble::tibble(races)
+raceorder_2018 <- races[1:5] |> filter(year == 2018)
+race_winner_2018 <- left_join(
+    raceorder_2018,
+    race_winners_by_track,
+    by = "round"
+) |> filter(year.x == 2018, year.y == 2018)
+
+#The champion of 2018 (HAMILTON) earned the max sum of points compared to other drivers.
+points_2018 <- race_byrace |> filter(year == 2018)
+
+#Total points for the driver that won the season.
+library(dplyr)
+points_per_driver_2018 <- aggregate(points_2018$points, 
+          by = list(points_2018$surname),
+          FUN = sum)
+df_points_per_driver_2018 <- data.frame(points_per_driver_2018)
+names(df_points_per_driver_2018)[1] <- "Driver"
+names(df_points_per_driver_2018)[2] <- "Points"
+df_points_per_driver_2018 |> slice(which.max(df_points_per_driver_2018$Points))
+driverpoints2018 <- max(df_points_per_driver_2018$Points)
+
+#Which races did the championship driver score points in
+scorer_2018_points_per_race <- df_race_byrace2018 |> filter(points > 0) |> 
+    filter(surname == "Hamilton")|> filter(points < 25)
+df_scorer_2018_points_per_race <- data.frame(scorer_2018_points_per_race)
+names(df_scorer_2018_points_per_race)[10] <- "Points"
+names(df_scorer_2018_points_per_race)[33] <- "Round"
+names(df_scorer_2018_points_per_race)[35] <- "Circuit"
+tibble::tibble(df_scorer_2018_points_per_race)
+df_scorer_2018_points_per_race[, c(10,33,35)]
+#After 5 rounds, how many races has the championship driver scored points on
+tibble::tibble(df_scorer_2018_points_per_race)
+point_rounds_2018_for_5 <- df_scorer_2018_points_per_race[, c(10,33,35)] |> filter(Round<=5)
+#How many points have been scored by the 5th round
+pointsscored2018for5 <- sum(point_rounds_2018_for_5$Points)
+#How many points were scored after round 5
+tibble::tibble(df_scorer_2018_points_per_race)
+point_rounds_2018_after_5 <- df_scorer_2018_points_per_race[, c(10,33,35)] |> filter(Round>5)
+pointsscored2018after5 <- sum(point_rounds_2018_after_5$Points)
+#After 10 rounds, how many races has the championship driver scored points on
+tibble::tibble(df_scorer_2018_points_per_race)
+point_rounds_2018_for_10 <- df_scorer_2018_points_per_race[, c(10,33,35)] |> filter(Round<=10)
+#How many points have been scored by the 10th round
+pointsscored2018for10 <- sum(point_rounds_2018_for_10$Points)
+#How many points were scored after round 10
+tibble::tibble(df_scorer_2018_points_per_race)
+point_rounds_2018_after_10 <- df_scorer_2018_points_per_race[, c(10,33,35)] |> filter(Round>10)
+pointsscored2018after10 <- sum(point_rounds_2018_after_10$Points)
+
+#Which races did the championship driver win
+winner_2018_points_per_race <- df_race_byrace2018 |> filter(position == 1) |> 
+    filter(surname == "Hamilton")
+df_winner_2018_points_per_race <- data.frame(winner_2018_points_per_race)
+names(df_winner_2018_points_per_race)[10] <- "Points"
+names(df_winner_2018_points_per_race)[33] <- "Round"
+names(df_winner_2018_points_per_race)[35] <- "Circuit"
+tibble::tibble(df_winner_2018_points_per_race)
+df_winner_2018_points_per_race[, c(10,33,35)]
+#After 5 rounds, how many races has the championship driver won
+tibble::tibble(df_winner_2018_points_per_race)
+win_rounds_2018_for_5 <- df_winner_2018_points_per_race[, c(10,33,35)] |> filter(Round<=5)
+#How many points from winning have been scored by the 5th round
+pointswin2018for5 <- sum(win_rounds_2018_for_5$Points)
+#How many points were scored after round 5
+tibble::tibble(df_winner_2018_points_per_race)
+point_win_2018_after_5 <- df_winner_2018_points_per_race[, c(10,33,35)] |> filter(Round>5)
+pointswin2018after5 <- sum(point_win_2018_after_5$Points)
+#After 10 rounds, how many races has the championship driver won
+tibble::tibble(df_winner_2018_points_per_race)
+win_rounds_2018_for_10 <- df_winner_2018_points_per_race[, c(10,33,35)] |> filter(Round<=10)
+#How many points from winning have been scored by the 10th round
+pointswin2018for10 <- sum(win_rounds_2018_for_10$Points)
+#How many points were scored after round 10
+tibble::tibble(df_winner_2018_points_per_race)
+point_win_2018_after_10 <- df_winner_2018_points_per_race[, c(10,33,35)] |> filter(Round>10)
+pointswin2018after10 <- sum(point_win_2018_after_10$Points)
+
+#Total points achieved for 5
+totalpoints2018for5 <- pointsscored2018for5 + pointswin2018for5
+totalpoints2018after5 <- pointsscored2018after5 + pointswin2018after5
+#Total points achieved for 10
+totalpoints2018for10 <- pointsscored2018for10 + pointswin2018for10
+totalpoints2018after10 <- pointsscored2018after10 + pointswin2018after10
+
+#Total points for the champion driver
+totalpoints2018_champion <- df_race_byrace2018 |> filter(points > 0) |> 
+    filter(surname == "Hamilton")
+df_totalpoints2018_champion <- data.frame(totalpoints2018_champion)
+names(df_totalpoints2018_champion)[10] <- "Points"
+names(df_totalpoints2018_champion)[33] <- "Round"
+names(df_totalpoints2018_champion)[35] <- "Circuit"
+tibble::tibble(df_totalpoints2018_champion)
+df_totalpoints2018_champion[, c(10,33,35)]
+
+#Total points for the champion driver for first 10 rounds
+totalpoints2018_champion_first10 <- df_totalpoints2018_champion |> filter(Round<=10)
+df_totalpoints2018_champion_first10 <- data.frame(totalpoints2018_champion_first10)
+tibble::tibble(df_totalpoints2018_champion_first10)
+df_totalpoints2018_champion_first10[, c(10,33,35)]
+
+#Total points for the champion driver after 10 rounds
+totalpoints2018_champion_after10 <- df_totalpoints2018_champion |> filter(Round>10)
+df_totalpoints2018_champion_after10 <- data.frame(totalpoints2018_champion_after10)
+tibble::tibble(totalpoints2018_champion_after10)
+totalpoints2018_champion_after10[, c(10,33,35)]
+
+#Accumulation of points over the rounds
+accum_of_points2018_champion <- df_race_byrace2018 |> 
+    filter(surname == "Hamilton")
+accum_of_points2018_champion$cumulative_points = cumsum(accum_of_points2018_champion$points)
+
+#Accumulation of points for the first 10 rounds
+accum_of_points2018_champion_first10 <- df_race_byrace2018 |> 
+    filter(surname == "Hamilton") |> 
+    filter(round<=10)
+accum_of_points2018_champion_first10$cumulative_points = cumsum(accum_of_points2018_champion_first10$points)
+
+#Accumulation of points after round 10
+accum_of_points2018_champion_after10 <- df_race_byrace2018 |> 
+    filter(surname == "Hamilton") |> 
+    filter(round>10)
+accum_of_points2018_champion_after10$cumulative_points = cumsum(accum_of_points2018_champion_after10$points)
+
+#Plot of total points acquired
+plot_2018_points <- df_totalpoints2018_champion[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Total points for the 2018 champion") 
+print(plot_2018_points)
+#Plot of point scoring
+plot_2018_scoring <- df_scorer_2018_points_per_race[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Scoring rounds for the 2018 champion") 
+print(plot_2018_scoring)
+#Plot of winning
+plot_2018_winning <- df_winner_2018_points_per_race[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Wins for the 2018 champion") 
+print(plot_2018_winning)
+#Plot of accumulation of points
+plot_2018_accumulation <- accum_of_points2018_champion |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points for the 2018 champion")
+print(plot_2018_accumulation)
+#Plot of points of first 10 races
+plot_2018_first10 <- df_totalpoints2018_champion_first10[, c(10,33,35)] |> 
+    ggplot() +
+    geom_line(aes(x = Round, y = Points), alpha = 0.8, size = 1) +
+    labs(title = "Points for the first 10 races for the 2018 champion")
+print(plot_2018_first10)
+#Accumulation of points for the first 10 races
+plot_2018_accumulation_first10 <- accum_of_points2018_champion_first10 |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points for the first 10 races by the 2018 champion")
+print(plot_2018_accumulation_first10)
+#Plot of points after race 10 for the 2018 champion
+plot_2018_after10 <- df_totalpoints2018_champion_after10[, c(10,33,35)] |> 
+    ggplot() +
+    geom_line(aes(x = Round, y = Points), alpha = 0.8, size = 1) +
+    labs(title = "Points after race 10 by the 2018 champion")
+print(plot_2018_after10)
+#Accumulation of points after race 10 for the 2018 champion
+plot_2018_accumulation_after10 <- accum_of_points2018_champion_after10 |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points after race 10 by the 2018 champion")
+print(plot_2018_accumulation_after10)
+```
+
+```{r}
+# FOR 2019:
+#Create functions for the winner of each season. 
+
+tibble::tibble(races)
+raceorder_2019 <- races[1:5] |> filter(year == 2019)
+race_winner_2019 <- left_join(
+    raceorder_2019,
+    race_winners_by_track,
+    by = "round"
+) |> filter(year.x == 2019, year.y == 2019)
+
+#The champion of 2019 (HAMILTON) earned the max sum of points compared to other drivers.
+points_2019 <- race_byrace |> filter(year == 2019)
+
+#Total points for the driver that won the season.
+library(dplyr)
+points_per_driver_2019 <- aggregate(points_2019$points, 
+          by = list(points_2019$surname),
+          FUN = sum)
+df_points_per_driver_2019 <- data.frame(points_per_driver_2019)
+names(df_points_per_driver_2019)[1] <- "Driver"
+names(df_points_per_driver_2019)[2] <- "Points"
+df_points_per_driver_2019 |> slice(which.max(df_points_per_driver_2019$Points))
+driverpoints2019 <- max(df_points_per_driver_2019$Points)
+
+#Which races did the championship driver score points in
+scorer_2019_points_per_race <- df_race_byrace2019 |> filter(points > 0) |> 
+    filter(surname == "Hamilton")|> filter(points < 25)
+df_scorer_2019_points_per_race <- data.frame(scorer_2019_points_per_race)
+names(df_scorer_2019_points_per_race)[10] <- "Points"
+names(df_scorer_2019_points_per_race)[33] <- "Round"
+names(df_scorer_2019_points_per_race)[35] <- "Circuit"
+tibble::tibble(df_scorer_2019_points_per_race)
+df_scorer_2019_points_per_race[, c(10,33,35)]
+#After 5 rounds, how many races has the championship driver scored points on
+tibble::tibble(df_scorer_2019_points_per_race)
+point_rounds_2019_for_5 <- df_scorer_2019_points_per_race[, c(10,33,35)] |> filter(Round<=5)
+#How many points have been scored by the 5th round
+pointsscored2019for5 <- sum(point_rounds_2019_for_5$Points)
+#How many points were scored after round 5
+tibble::tibble(df_scorer_2019_points_per_race)
+point_rounds_2019_after_5 <- df_scorer_2019_points_per_race[, c(10,33,35)] |> filter(Round>5)
+pointsscored2019after5 <- sum(point_rounds_2019_after_5$Points)
+#After 10 rounds, how many races has the championship driver scored points on
+tibble::tibble(df_scorer_2019_points_per_race)
+point_rounds_2019_for_10 <- df_scorer_2019_points_per_race[, c(10,33,35)] |> filter(Round<=10)
+#How many points have been scored by the 10th round
+pointsscored2019for10 <- sum(point_rounds_2019_for_10$Points)
+#How many points were scored after round 10
+tibble::tibble(df_scorer_2019_points_per_race)
+point_rounds_2019_after_10 <- df_scorer_2019_points_per_race[, c(10,33,35)] |> filter(Round>10)
+pointsscored2019after10 <- sum(point_rounds_2019_after_10$Points)
+
+#Which races did the championship driver win
+winner_2019_points_per_race <- df_race_byrace2019 |> filter(position == 1) |> 
+    filter(surname == "Hamilton")
+df_winner_2019_points_per_race <- data.frame(winner_2019_points_per_race)
+names(df_winner_2019_points_per_race)[10] <- "Points"
+names(df_winner_2019_points_per_race)[33] <- "Round"
+names(df_winner_2019_points_per_race)[35] <- "Circuit"
+tibble::tibble(df_winner_2019_points_per_race)
+df_winner_2019_points_per_race[, c(10,33,35)]
+#After 5 rounds, how many races has the championship driver won
+tibble::tibble(df_winner_2019_points_per_race)
+win_rounds_2019_for_5 <- df_winner_2019_points_per_race[, c(10,33,35)] |> filter(Round<=5)
+#How many points from winning have been scored by the 5th round
+pointswin2019for5 <- sum(win_rounds_2019_for_5$Points)
+#How many points were scored after round 5
+tibble::tibble(df_winner_2019_points_per_race)
+point_win_2019_after_5 <- df_winner_2019_points_per_race[, c(10,33,35)] |> filter(Round>5)
+pointswin2019after5 <- sum(point_win_2019_after_5$Points)
+#After 10 rounds, how many races has the championship driver won
+tibble::tibble(df_winner_2019_points_per_race)
+win_rounds_2019_for_10 <- df_winner_2019_points_per_race[, c(10,33,35)] |> filter(Round<=10)
+#How many points from winning have been scored by the 10th round
+pointswin2019for10 <- sum(win_rounds_2019_for_10$Points)
+#How many points were scored after round 10
+tibble::tibble(df_winner_2019_points_per_race)
+point_win_2019_after_10 <- df_winner_2019_points_per_race[, c(10,33,35)] |> filter(Round>10)
+pointswin2019after10 <- sum(point_win_2019_after_10$Points)
+
+#Total points achieved for 5
+totalpoints2019for5 <- pointsscored2019for5 + pointswin2019for5
+totalpoints2019after5 <- pointsscored2019after5 + pointswin2019after5
+#Total points achieved for 10
+totalpoints2019for10 <- pointsscored2019for10 + pointswin2019for10
+totalpoints2019after10 <- pointsscored2019after10 + pointswin2019after10
+
+#Total points for the champion driver
+totalpoints2019_champion <- df_race_byrace2019 |> filter(points > 0) |> 
+    filter(surname == "Hamilton")
+df_totalpoints2019_champion <- data.frame(totalpoints2019_champion)
+names(df_totalpoints2019_champion)[10] <- "Points"
+names(df_totalpoints2019_champion)[33] <- "Round"
+names(df_totalpoints2019_champion)[35] <- "Circuit"
+tibble::tibble(df_totalpoints2019_champion)
+df_totalpoints2019_champion[, c(10,33,35)]
+
+#Total points for the champion driver for first 10 rounds
+totalpoints2019_champion_first10 <- df_totalpoints2019_champion |> filter(Round<=10)
+df_totalpoints2019_champion_first10 <- data.frame(totalpoints2019_champion_first10)
+tibble::tibble(df_totalpoints2019_champion_first10)
+df_totalpoints2019_champion_first10[, c(10,33,35)]
+
+#Total points for the champion driver after 10 rounds
+totalpoints2019_champion_after10 <- df_totalpoints2019_champion |> filter(Round>10)
+df_totalpoints2019_champion_after10 <- data.frame(totalpoints2019_champion_after10)
+tibble::tibble(totalpoints2019_champion_after10)
+totalpoints2019_champion_after10[, c(10,33,35)]
+
+#Accumulation of points over the rounds
+accum_of_points2019_champion <- df_race_byrace2019 |> 
+    filter(surname == "Hamilton")
+accum_of_points2019_champion$cumulative_points = cumsum(accum_of_points2019_champion$points)
+
+#Accumulation of points for the first 10 rounds
+accum_of_points2019_champion_first10 <- df_race_byrace2019 |> 
+    filter(surname == "Hamilton") |> 
+    filter(round<=10)
+accum_of_points2019_champion_first10$cumulative_points = cumsum(accum_of_points2019_champion_first10$points)
+
+#Accumulation of points after round 10
+accum_of_points2019_champion_after10 <- df_race_byrace2019 |> 
+    filter(surname == "Hamilton") |> 
+    filter(round>10)
+accum_of_points2019_champion_after10$cumulative_points = cumsum(accum_of_points2019_champion_after10$points)
+
+#Plot of total points acquired
+plot_2019_points <- df_totalpoints2019_champion[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Total points for the 2019 champion") 
+print(plot_2019_points)
+#Plot of point scoring
+plot_2019_scoring <- df_scorer_2019_points_per_race[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Scoring rounds for the 2019 champion") 
+print(plot_2019_scoring)
+#Plot of winning
+plot_2019_winning <- df_winner_2019_points_per_race[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Wins for the 2019 champion") 
+print(plot_2019_winning)
+#Plot of accumulation of points
+plot_2019_accumulation <- accum_of_points2019_champion |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points for the 2019 champion")
+print(plot_2019_accumulation)
+#Plot of points of first 10 races
+plot_2019_first10 <- df_totalpoints2019_champion_first10[, c(10,33,35)] |> 
+    ggplot() +
+    geom_line(aes(x = Round, y = Points), alpha = 0.8, size = 1) +
+    labs(title = "Points for the first 10 races for the 2019 champion")
+print(plot_2019_first10)
+#Accumulation of points for the first 10 races
+plot_2019_accumulation_first10 <- accum_of_points2019_champion_first10 |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points for the first 10 races by the 2019 champion")
+print(plot_2019_accumulation_first10)
+#Plot of points after race 10 for the 2019 champion
+plot_2019_after10 <- df_totalpoints2019_champion_after10[, c(10,33,35)] |> 
+    ggplot() +
+    geom_line(aes(x = Round, y = Points), alpha = 0.8, size = 1) +
+    labs(title = "Points after race 10 by the 2019 champion")
+print(plot_2019_after10)
+#Accumulation of points after race 10 for the 2019 champion
+plot_2019_accumulation_after10 <- accum_of_points2019_champion_after10 |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points after race 10 by the 2019 champion")
+print(plot_2019_accumulation_after10)
+```
+
+```{r}
+# FOR 2020:
+#Create functions for the winner of each season. 
+
+tibble::tibble(races)
+raceorder_2020 <- races[1:5] |> filter(year == 2020)
+race_winner_2020 <- left_join(
+    raceorder_2020,
+    race_winners_by_track,
+    by = "round"
+) |> filter(year.x == 2020, year.y == 2020)
+
+#The champion of 2020 (HAMILTON) earned the max sum of points compared to other drivers.
+points_2020 <- race_byrace |> filter(year == 2020)
+
+#Total points for the driver that won the season.
+library(dplyr)
+points_per_driver_2020 <- aggregate(points_2020$points, 
+          by = list(points_2020$surname),
+          FUN = sum)
+df_points_per_driver_2020 <- data.frame(points_per_driver_2020)
+names(df_points_per_driver_2020)[1] <- "Driver"
+names(df_points_per_driver_2020)[2] <- "Points"
+df_points_per_driver_2020 |> slice(which.max(df_points_per_driver_2020$Points))
+driverpoints2020 <- max(df_points_per_driver_2020$Points)
+
+#Which races did the championship driver score points in
+scorer_2020_points_per_race <- df_race_byrace2020 |> filter(points > 0) |> 
+    filter(surname == "Hamilton")|> filter(points < 25)
+df_scorer_2020_points_per_race <- data.frame(scorer_2020_points_per_race)
+names(df_scorer_2020_points_per_race)[10] <- "Points"
+names(df_scorer_2020_points_per_race)[33] <- "Round"
+names(df_scorer_2020_points_per_race)[35] <- "Circuit"
+tibble::tibble(df_scorer_2020_points_per_race)
+df_scorer_2020_points_per_race[, c(10,33,35)]
+#After 5 rounds, how many races has the championship driver scored points on
+tibble::tibble(df_scorer_2020_points_per_race)
+point_rounds_2020_for_5 <- df_scorer_2020_points_per_race[, c(10,33,35)] |> filter(Round<=5)
+#How many points have been scored by the 5th round
+pointsscored2020for5 <- sum(point_rounds_2020_for_5$Points)
+#How many points were scored after round 5
+tibble::tibble(df_scorer_2020_points_per_race)
+point_rounds_2020_after_5 <- df_scorer_2020_points_per_race[, c(10,33,35)] |> filter(Round>5)
+pointsscored2020after5 <- sum(point_rounds_2020_after_5$Points)
+#After 10 rounds, how many races has the championship driver scored points on
+tibble::tibble(df_scorer_2020_points_per_race)
+point_rounds_2020_for_10 <- df_scorer_2020_points_per_race[, c(10,33,35)] |> filter(Round<=10)
+#How many points have been scored by the 10th round
+pointsscored2020for10 <- sum(point_rounds_2020_for_10$Points)
+#How many points were scored after round 10
+tibble::tibble(df_scorer_2020_points_per_race)
+point_rounds_2020_after_10 <- df_scorer_2020_points_per_race[, c(10,33,35)] |> filter(Round>10)
+pointsscored2020after10 <- sum(point_rounds_2020_after_10$Points)
+
+#Which races did the championship driver win
+winner_2020_points_per_race <- df_race_byrace2020 |> filter(position == 1) |> 
+    filter(surname == "Hamilton")
+df_winner_2020_points_per_race <- data.frame(winner_2020_points_per_race)
+names(df_winner_2020_points_per_race)[10] <- "Points" 
+names(df_winner_2020_points_per_race)[33] <- "Round" 
+names(df_winner_2020_points_per_race)[35] <- "Circuit" 
+tibble::tibble(df_winner_2020_points_per_race)
+df_winner_2020_points_per_race[, c(10,33,35)]
+#After 5 rounds, how many races has the championship driver won
+tibble::tibble(df_winner_2020_points_per_race)
+win_rounds_2020_for_5 <- df_winner_2020_points_per_race[, c(10,33,35)] |> filter(Round<=5)
+#How many points from winning have been scored by the 5th round
+pointswin2020for5 <- sum(win_rounds_2020_for_5$Points)
+#How many points were scored after round 5
+tibble::tibble(df_winner_2020_points_per_race)
+point_win_2020_after_5 <- df_winner_2020_points_per_race[, c(10,33,35)] |> filter(Round>5)
+pointswin2020after5 <- sum(point_win_2020_after_5$Points)
+#After 10 rounds, how many races has the championship driver won
+tibble::tibble(df_winner_2020_points_per_race)
+win_rounds_2020_for_10 <- df_winner_2020_points_per_race[, c(10,33,35)] |> filter(Round<=10)
+#How many points from winning have been scored by the 10th round
+pointswin2020for10 <- sum(win_rounds_2020_for_10$Points)
+#How many points were scored after round 10
+tibble::tibble(df_winner_2020_points_per_race)
+point_win_2020_after_10 <- df_winner_2020_points_per_race[, c(10,33,35)] |> filter(Round>10)
+pointswin2020after10 <- sum(point_win_2020_after_10$Points)
+
+#Total points achieved for 5
+totalpoints2020for5 <- pointsscored2020for5 + pointswin2020for5
+totalpoints2020after5 <- pointsscored2020after5 + pointswin2020after5
+#Total points achieved for 10
+totalpoints2020for10 <- pointsscored2020for10 + pointswin2020for10
+totalpoints2020after10 <- pointsscored2020after10 + pointswin2020after10
+
+#Total points for the champion driver
+totalpoints2020_champion <- df_race_byrace2020 |> filter(points > 0) |> 
+    filter(surname == "Hamilton")
+df_totalpoints2020_champion <- data.frame(totalpoints2020_champion)
+names(df_totalpoints2020_champion)[10] <- "Points"
+names(df_totalpoints2020_champion)[33] <- "Round"
+names(df_totalpoints2020_champion)[35] <- "Circuit"
+tibble::tibble(df_totalpoints2020_champion)
+df_totalpoints2020_champion[, c(10,33,35)]
+
+#Total points for the champion driver for first 10 rounds
+totalpoints2020_champion_first10 <- df_totalpoints2020_champion |> filter(Round<=10)
+df_totalpoints2020_champion_first10 <- data.frame(totalpoints2020_champion_first10)
+tibble::tibble(df_totalpoints2020_champion_first10)
+df_totalpoints2020_champion_first10[, c(10,33,35)]
+
+#Total points for the champion driver after 10 rounds
+totalpoints2020_champion_after10 <- df_totalpoints2020_champion |> filter(Round>10)
+df_totalpoints2020_champion_after10 <- data.frame(totalpoints2020_champion_after10)
+tibble::tibble(totalpoints2020_champion_after10)
+totalpoints2020_champion_after10[, c(10,33,35)]
+
+#Accumulation of points over the rounds
+accum_of_points2020_champion <- df_race_byrace2020 |> 
+    filter(surname == "Hamilton")
+accum_of_points2020_champion$cumulative_points = cumsum(accum_of_points2020_champion$points)
+
+#Accumulation of points for the first 10 rounds
+accum_of_points2020_champion_first10 <- df_race_byrace2020 |> 
+    filter(surname == "Hamilton") |> 
+    filter(round<=10)
+accum_of_points2020_champion_first10$cumulative_points = cumsum(accum_of_points2020_champion_first10$points)
+
+#Accumulation of points after round 10
+accum_of_points2020_champion_after10 <- df_race_byrace2020 |> 
+    filter(surname == "Hamilton") |> 
+    filter(round>10)
+accum_of_points2020_champion_after10$cumulative_points = cumsum(accum_of_points2020_champion_after10$points)
+
+#Plot of total points acquired
+plot_2020_points <- df_totalpoints2020_champion[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Total points for the 2020 champion") 
+print(plot_2020_points)
+#Plot of point scoring
+plot_2020_scoring <- df_scorer_2020_points_per_race[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Scoring rounds for the 2020 champion") 
+print(plot_2020_scoring)
+#Plot of winning
+plot_2020_winning <- df_winner_2020_points_per_race[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Wins for the 2020 champion") 
+print(plot_2020_winning)
+#Plot of accumulation of points
+plot_2020_accumulation <- accum_of_points2020_champion |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points for the 2020 champion")
+print(plot_2020_accumulation)
+#Plot of points of first 10 races
+plot_2020_first10 <- df_totalpoints2020_champion_first10[, c(10,33,35)] |> 
+    ggplot() +
+    geom_line(aes(x = Round, y = Points), alpha = 0.8, size = 1) +
+    labs(title = "Points for the first 10 races for the 2020 champion")
+print(plot_2020_first10)
+#Accumulation of points for the first 10 races
+plot_2020_accumulation_first10 <- accum_of_points2020_champion_first10 |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points for the first 10 races by the 2020 champion")
+print(plot_2020_accumulation_first10)
+#Plot of points after race 10 for the 2020 champion
+plot_2020_after10 <- df_totalpoints2020_champion_after10[, c(10,33,35)] |> 
+    ggplot() +
+    geom_line(aes(x = Round, y = Points), alpha = 0.8, size = 1) +
+    labs(title = "Points after race 10 by the 2020 champion")
+print(plot_2020_after10)
+#Accumulation of points after race 10 for the 2020 champion
+plot_2020_accumulation_after10 <- accum_of_points2020_champion_after10 |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points after race 10 by the 2020 champion")
+print(plot_2020_accumulation_after10)
+```
+
+```{r}
+# FOR 2021:
+#Create functions for the winner of each season. 
+
+tibble::tibble(races)
+raceorder_2021 <- races[1:5] |> filter(year == 2021)
+race_winner_2021 <- left_join(
+    raceorder_2021,
+    race_winners_by_track,
+    by = "round"
+) |> filter(year.x == 2021, year.y == 2021)
+
+#The champion of 2021 (VERSTAPPEN) earned the max sum of points compared to other drivers.
+points_2021 <- race_byrace |> filter(year == 2021)
+
+#Total points for the driver that won the season.
+library(dplyr)
+points_per_driver_2021 <- aggregate(points_2021$points, 
+          by = list(points_2021$surname),
+          FUN = sum)
+df_points_per_driver_2021 <- data.frame(points_per_driver_2021)
+names(df_points_per_driver_2021)[1] <- "Driver"
+names(df_points_per_driver_2021)[2] <- "Points"
+df_points_per_driver_2021 |> slice(which.max(df_points_per_driver_2021$Points))
+driverpoints2021 <- max(df_points_per_driver_2021$Points)
+
+#Which races did the championship driver score points in
+scorer_2021_points_per_race <- df_race_byrace2021 |> filter(points > 0) |> 
+    filter(surname == "Verstappen")|> filter(points < 25) |> filter(position > 1)
+df_scorer_2021_points_per_race <- data.frame(scorer_2021_points_per_race)
+names(df_scorer_2021_points_per_race)[10] <- "Points"
+names(df_scorer_2021_points_per_race)[33] <- "Round"
+names(df_scorer_2021_points_per_race)[35] <- "Circuit"
+tibble::tibble(df_scorer_2021_points_per_race)
+df_scorer_2021_points_per_race[, c(10,33,35)]
+#After 5 rounds, how many races has the championship driver scored points on
+tibble::tibble(df_scorer_2021_points_per_race)
+point_rounds_2021_for_5 <- df_scorer_2021_points_per_race[, c(10,33,35)] |> filter(Round<=5)
+#How many points have been scored by the 5th round
+pointsscored2021for5 <- sum(point_rounds_2021_for_5$Points)
+#How many points were scored after round 5
+tibble::tibble(df_scorer_2021_points_per_race)
+point_rounds_2021_after_5 <- df_scorer_2021_points_per_race[, c(10,33,35)] |> filter(Round>5)
+pointsscored2021after5 <- sum(point_rounds_2021_after_5$Points)
+#After 10 rounds, how many races has the championship driver scored points on
+tibble::tibble(df_scorer_2021_points_per_race)
+point_rounds_2021_for_10 <- df_scorer_2021_points_per_race[, c(10,33,35)] |> filter(Round<=10)
+#How many points have been scored by the 10th round
+pointsscored2021for10 <- sum(point_rounds_2021_for_10$Points)
+#How many points were scored after round 10
+tibble::tibble(df_scorer_2021_points_per_race)
+point_rounds_2021_after_10 <- df_scorer_2021_points_per_race[, c(10,33,35)] |> filter(Round>10)
+pointsscored2021after10 <- sum(point_rounds_2021_after_10$Points)
+
+#Which races did the championship driver win
+winner_2021_points_per_race <- df_race_byrace2021 |> filter(position == 1) |> 
+    filter(surname == "Verstappen")
+df_winner_2021_points_per_race <- data.frame(winner_2021_points_per_race)
+names(df_winner_2021_points_per_race)[10] <- "Points"
+names(df_winner_2021_points_per_race)[33] <- "Round"
+names(df_winner_2021_points_per_race)[35] <- "Circuit"
+tibble::tibble(df_winner_2021_points_per_race)
+df_winner_2021_points_per_race[, c(10,33,35)]
+#After 5 rounds, how many races has the championship driver won
+tibble::tibble(df_winner_2021_points_per_race)
+win_rounds_2021_for_5 <- df_winner_2021_points_per_race[, c(10,33,35)] |> filter(Round<=5)
+#How many points from winning have been scored by the 5th round
+pointswin2021for5 <- sum(win_rounds_2021_for_5$Points)
+#How many points were scored after round 5
+tibble::tibble(df_winner_2021_points_per_race)
+point_win_2021_after_5 <- df_winner_2021_points_per_race[, c(10,33,35)] |> filter(Round>5)
+pointswin2021after5 <- sum(point_win_2021_after_5$Points)
+#After 10 rounds, how many races has the championship driver won
+tibble::tibble(df_winner_2021_points_per_race)
+win_rounds_2021_for_10 <- df_winner_2021_points_per_race[, c(10,33,35)] |> filter(Round<=10)
+#How many points from winning have been scored by the 10th round
+pointswin2021for10 <- sum(win_rounds_2021_for_10$Points)
+#How many points were scored after round 10
+tibble::tibble(df_winner_2021_points_per_race)
+point_win_2021_after_10 <- df_winner_2021_points_per_race[, c(10,33,35)] |> filter(Round>10)
+pointswin2021after10 <- sum(point_win_2021_after_10$Points)
+
+#Total points achieved for 5
+totalpoints2021for5 <- pointsscored2021for5 + pointswin2021for5
+totalpoints2021after5 <- pointsscored2021after5 + pointswin2021after5
+#Total points achieved for 10
+totalpoints2021for10 <- pointsscored2021for10 + pointswin2021for10
+totalpoints2021after10 <- pointsscored2021after10 + pointswin2021after10
+
+#Total points for the champion driver
+totalpoints2021_champion <- df_race_byrace2020 |> filter(points > 0) |> 
+    filter(surname == "Verstappen")
+df_totalpoints2021_champion <- data.frame(totalpoints2021_champion)
+names(df_totalpoints2021_champion)[10] <- "Points"
+names(df_totalpoints2021_champion)[33] <- "Round"
+names(df_totalpoints2021_champion)[35] <- "Circuit"
+tibble::tibble(df_totalpoints2021_champion)
+df_totalpoints2021_champion[, c(10,33,35)]
+
+#Total points for the champion driver for first 10 rounds
+totalpoints2021_champion_first10 <- df_totalpoints2021_champion |> filter(Round<=10)
+df_totalpoints2021_champion_first10 <- data.frame(totalpoints2021_champion_first10)
+tibble::tibble(df_totalpoints2021_champion_first10)
+df_totalpoints2021_champion_first10[, c(10,33,35)]
+
+#Total points for the champion driver after 10 rounds
+totalpoints2021_champion_after10 <- df_totalpoints2021_champion |> filter(Round>10)
+df_totalpoints2021_champion_after10 <- data.frame(totalpoints2021_champion_after10)
+tibble::tibble(totalpoints2021_champion_after10)
+totalpoints2021_champion_after10[, c(10,33,35)]
+
+#Accumulation of points over the rounds
+accum_of_points2021_champion <- df_race_byrace2021 |> 
+    filter(surname == "Verstappen")
+accum_of_points2021_champion$cumulative_points = cumsum(accum_of_points2021_champion$points)
+
+#Accumulation of points for the first 10 rounds
+accum_of_points2021_champion_first10 <- df_race_byrace2021 |> 
+    filter(surname == "Verstappen") |> 
+    filter(round<=10)
+accum_of_points2021_champion_first10$cumulative_points = cumsum(accum_of_points2021_champion_first10$points)
+
+#Accumulation of points after round 10
+accum_of_points2021_champion_after10 <- df_race_byrace2021 |> 
+    filter(surname == "Verstappen") |> 
+    filter(round>10)
+accum_of_points2021_champion_after10$cumulative_points = cumsum(accum_of_points2021_champion_after10$points)
+
+#Plot of total points acquired
+plot_2021_points <- df_totalpoints2021_champion[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Total points for the 2021 champion") 
+print(plot_2021_points)
+#Plot of point scoring
+plot_2021_scoring <- df_scorer_2021_points_per_race[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Scoring rounds for the 2021 champion") 
+print(plot_2021_scoring)
+#Plot of winning
+plot_2021_winning <- df_winner_2021_points_per_race[, c(10,33,35)] |> 
+    ggplot() +
+    geom_point(aes(x = Round, y = Points, color = Circuit), alpha = 0.8, size = 3) +
+    labs(title = "Wins for the 2021 champion") 
+print(plot_2021_winning)
+#Plot of accumulation of points
+plot_2021_accumulation <- accum_of_points2021_champion |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points for the 2021 champion")
+print(plot_2021_accumulation)
+#Plot of points of first 10 races
+plot_2021_first10 <- df_totalpoints2021_champion_first10[, c(10,33,35)] |> 
+    ggplot() +
+    geom_line(aes(x = Round, y = Points), alpha = 0.8, size = 1) +
+    labs(title = "Points for the first 10 races for the 2021 champion")
+print(plot_2021_first10)
+#Accumulation of points for the first 10 races
+plot_2021_accumulation_first10 <- accum_of_points2021_champion_first10 |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points for the first 10 races by the 2021 champion")
+print(plot_2021_accumulation_first10)
+#Plot of points after race 10 for the 2021 champion
+plot_2021_after10 <- df_totalpoints2021_champion_after10[, c(10,33,35)] |> 
+    ggplot() +
+    geom_line(aes(x = Round, y = Points), alpha = 0.8, size = 1) +
+    labs(title = "Points after race 10 by the 2021 champion")
+print(plot_2021_after10)
+#Accumulation of points after race 10 for the 2021 champion
+plot_2021_accumulation_after10 <- accum_of_points2021_champion_after10 |> 
+    ggplot() +
+    geom_line(aes(x = round, y = cumulative_points), alpha = 0.8, size = 1) +
+    labs(title = "Accumulation of points after race 10 by the 2021 champion")
+print(plot_2021_accumulation_after10)
+```
+
+```{r}
+#Find tracks that constructors scored on and the corresponding points
+
+constructor_points = left_join(
+    constructor_results,
+    constructors,
+    by = "constructorId"
+)
+constructor_points = left_join(
+    constructor_points,
+    races,
+    by = "raceId"
+) |> filter(year >= 2012)
+df_constructor_points = data.frame(constructor_points)
+names(df_constructor_points)[2] <- "RaceId"
+names(df_constructor_points)[4] <- "Points"
+names(df_constructor_points)[7] <- "Constructor"
+names(df_constructor_points)[10] <- "Year"
+names(df_constructor_points)[11] <- "Round"
+names(df_constructor_points)[13] <- "Track"
+
+tibble::tibble(df_constructor_points)
+df_constructor_points[, c(2,4,7,10,11,13)]
+```
+
+```{r}
+champions <- list(df_winner_2012_points_per_race, df_winner_2013_points_per_race, df_winner_2014_points_per_race, df_winner_2015_points_per_race, df_winner_2016_points_per_race, df_winner_2017_points_per_race, df_winner_2018_points_per_race, df_winner_2019_points_per_race, df_winner_2020_points_per_race, df_winner_2021_points_per_race)
+df_champions <- data.frame(champions)
+df_champions
+```
+
+```{r}
+#Bind all tibbles for which tracks champions won at. Find the tracks that drivers won most at. 
+library(dplyr)
+library(purrr)
+purrr::reduce(list(df_winner_2012_points_per_race[, c(10,33,35)], df_winner_2013_points_per_race[, c(10,33,35)], df_winner_2014_points_per_race[, c(10,33,35)], df_winner_2015_points_per_race[, c(10,33,35)], df_winner_2016_points_per_race[, c(10,33,35)], df_winner_2017_points_per_race[, c(10,33,35)], df_winner_2018_points_per_race[, c(10,33,35)], df_winner_2019_points_per_race[, c(10,33,35)], df_winner_2020_points_per_race[, c(10,33,35)], df_winner_2021_points_per_race[, c(10,33,35)]), dplyr::left_join, by = "Circuit") 
+```
+
+```{r}
+#Average points scored by each driver for the first 5 races of the season
+averagescoredpointsfor5 <- c(pointsscored2012for5, pointsscored2013for5, pointsscored2014for5, pointsscored2015for5, pointsscored2016for5, pointsscored2017for5, pointsscored2018for5, pointsscored2019for5, pointsscored2020for5, pointsscored2021for5)
+meanscoredpointsfor5 <- mean(averagescoredpointsfor5)
+print(meanscoredpointsfor5)
+
+#Average points from winning by each driver for the first 5 races of the season
+averagewinpointsfor5 <- c(pointswin2012for5, pointswin2013for5, pointswin2014for5, pointswin2015for5, pointswin2016for5, pointswin2017for5, pointswin2018for5, pointswin2019for5, pointswin2020for5, pointswin2021for5)
+meanwinpointsfor5 <- mean(averagewinpointsfor5)
+print(meanwinpointsfor5)
+
+#Average total points acquired for 5 races for the winning driver
+averagetotalpointsfor5 <- c(totalpoints2012for5, totalpoints2013for5, totalpoints2014for5, totalpoints2015for5, totalpoints2016for5, totalpoints2017for5, totalpoints2018for5, totalpoints2019for5, totalpoints2020for5, totalpoints2021for5)
+meantotalpointsfor5 <- mean(averagetotalpointsfor5)
+print(meantotalpointsfor5)
+
+glue::glue("
+           Champion drivers averaged {meantotalpointsfor5} for the first 5 races, of which {meanscoredpointsfor5} were points acquired from scoring points but not winning and {meanwinpointsfor5} were points from winning races. Achieving this amount of points makes a driver likely to win the championship.
+           ")
+
+#Average points scored by each driver after 5 races of the season
+averagepointsscoredafter5 <- c(pointsscored2012after5, pointsscored2013after5, pointsscored2014after5, pointsscored2015after5, pointsscored2016after5, pointsscored2017after5, pointsscored2018after5, pointsscored2019after5, pointsscored2020after5, pointsscored2021after5)
+meanscoredpointsafter5 <- mean(averagepointsscoredafter5)
+print(meanscoredpointsafter5)
+
+#Average points from winning by each driver after 5 races of the season
+averagewinpointsafter5 <- c(pointswin2012after5, pointswin2013after5, pointswin2014after5, pointswin2015after5, pointswin2016after5, pointswin2017after5, pointswin2018after5, pointswin2019after5, pointswin2020after5, pointswin2021after5)
+meanwinpointsafter5 <- mean(averagewinpointsafter5)
+print(meanwinpointsafter5)
+
+#Average total points acquired for 5 races for the winning driver
+averagetotalpointsafter5 <- c(totalpoints2012after5, totalpoints2013after5, totalpoints2014after5, totalpoints2015after5, totalpoints2016after5, totalpoints2017after5, totalpoints2018after5, totalpoints2019after5, totalpoints2020after5, totalpoints2021after5)
+meantotalpointsafter5 <- mean(averagetotalpointsafter5)
+print(meantotalpointsafter5)
+
+glue::glue("
+           Champion drivers averaged {meantotalpointsafter5} after 5 races until the end of the season, of which {meanscoredpointsafter5} were points acquired from scoring points but not winning and {meanwinpointsafter5} were points from winning races. Achieving this amount of points makes a driver likely to win the championship.
+           ")
+
+#Average points scored by the champion each season
+averagepointsperdriver <- c(driverpoints2012, driverpoints2013, driverpoints2014, driverpoints2015, driverpoints2016, driverpoints2017, driverpoints2018, driverpoints2019, driverpoints2020, driverpoints2021)
+meandriverpoints <- mean(averagepointsperdriver)
+print(meandriverpoints)
+
+glue::glue("
+           Champion drivers averaged {meandriverpoints} points for the seasons between 2012 and 2021 
+           ")
+```
+
+```{r}
+#Average points scored by each driver for the first 10 races of the season
+averagescoredpointsfor10 <- c(pointsscored2012for10, pointsscored2013for10, pointsscored2014for10, pointsscored2015for10, pointsscored2016for10, pointsscored2017for10, pointsscored2018for10, pointsscored2019for10, pointsscored2020for10, pointsscored2021for10)
+meanscoredpointsfor10 <- mean(averagescoredpointsfor10)
+print(meanscoredpointsfor10)
+
+#Average points from winning by each driver for the first 10 races of the season
+averagewinpointsfor10 <- c(pointswin2012for10, pointswin2013for10, pointswin2014for10, pointswin2015for10, pointswin2016for10, pointswin2017for10, pointswin2018for10, pointswin2019for10, pointswin2020for10, pointswin2021for10)
+meanwinpointsfor10 <- mean(averagewinpointsfor10)
+print(meanwinpointsfor10)
+
+#Average total points acquired for 10 races for the winning driver
+averagetotalpointsfor10 <- c(totalpoints2012for10, totalpoints2013for10, totalpoints2014for10, totalpoints2015for10, totalpoints2016for10, totalpoints2017for10, totalpoints2018for10, totalpoints2019for10, totalpoints2020for10, totalpoints2021for10)
+meantotalpointsfor10 <- mean(averagetotalpointsfor10)
+print(meantotalpointsfor10)
+
+glue::glue("
+           Champion drivers averaged {meantotalpointsfor10} for the first 10 races, of which {meanscoredpointsfor10} were points acquired from scoring points but not winning and {meanwinpointsfor10} were points from winning races. Achieving this amount of points makes a driver likely to win the championship.
+           ")
+
+#Average points scored by each driver after 10 races of the season
+averagepointsscoredafter10 <- c(pointsscored2012after10, pointsscored2013after10, pointsscored2014after10, pointsscored2015after10, pointsscored2016after10, pointsscored2017after10, pointsscored2018after10, pointsscored2019after10, pointsscored2020after10, pointsscored2021after10)
+meanscoredpointsafter10 <- mean(averagepointsscoredafter10)
+print(meanscoredpointsafter10)
+
+#Average points from winning by each driver after 10 races of the season
+averagewinpointsafter10 <- c(pointswin2012after10, pointswin2013after10, pointswin2014after10, pointswin2015after10, pointswin2016after10, pointswin2017after10, pointswin2018after10, pointswin2019after10, pointswin2020after10, pointswin2021after10)
+meanwinpointsafter10 <- mean(averagewinpointsafter10)
+print(meanwinpointsafter10)
+
+#Average total points acquired for 10 races for the winning driver
+averagetotalpointsafter10 <- c(totalpoints2012after10, totalpoints2013after10, totalpoints2014after10, totalpoints2015after10, totalpoints2016after10, totalpoints2017after10, totalpoints2018after10, totalpoints2019after10, totalpoints2020after10, totalpoints2021after10)
+meantotalpointsafter10 <- mean(averagetotalpointsafter10)
+print(meantotalpointsafter10)
+
+glue::glue("
+           Champion drivers averaged {meantotalpointsafter10} after 10 races until the end of the season, of which {meanscoredpointsafter10} were points acquired from scoring points but not winning and {meanwinpointsafter10} were points from winning races. Achieving this amount of points makes a driver likely to win the championship.
+           ")
+
+#Average points scored by the champion each season
+averagepointsperdriver <- c(driverpoints2012, driverpoints2013, driverpoints2014, driverpoints2015, driverpoints2016, driverpoints2017, driverpoints2018, driverpoints2019, driverpoints2020, driverpoints2021)
+meandriverpoints <- mean(averagepointsperdriver)
+print(meandriverpoints)
+
+glue::glue("
+           Champion drivers averaged {meandriverpoints} points for the seasons between 2012 and 2021 
+           ")
+```
+```{r}
+percent_scoring_for5 <- (meanscoredpointsfor5/meantotalpointsfor5)*100
+percent_win_for5 <- (meanwinpointsfor5/meantotalpointsfor5)*100
+
+percent_scoring_after5 <- (meanscoredpointsafter5/meantotalpointsafter5)*100
+percent_win_after5 <- (meanwinpointsafter5/meantotalpointsafter5)*100
+
+glue::glue("
+           Champion drivers acquired {percent_scoring_for5} percent of points from scoring points in the first 5 races and {percent_win_for5} percent of points from winning in the first 5 races. Champion drivers acquired {percent_scoring_after5} percent from scoring points in races after the first 5 races until the end of season and {percent_win_after5} percent from winning races after the first 5 races until the end of season.
+           ")
+
+percent_for5 <- (meantotalpointsfor5/(meantotalpointsfor5 + meantotalpointsafter5))*100
+percent_after5 <- (meantotalpointsafter5/(meantotalpointsfor10 + meantotalpointsafter5))*100
+
+glue::glue("
+           Although not fully correct (due to averages being used), {percent_for5} percent of points are scored during the first 5 races of the season and {percent_after5} percent of points are scored after 5 races until the end of the season.
+           ")
+```
+
+```{r}
+percent_scoring_for10 <- (meanscoredpointsfor10/meantotalpointsfor10)*100
+percent_win_for10 <- (meanwinpointsfor10/meantotalpointsfor10)*100
+
+percent_scoring_after10 <- (meanscoredpointsafter10/meantotalpointsafter10)*100
+percent_win_after10 <- (meanwinpointsafter10/meantotalpointsafter10)*100
+
+glue::glue("
+           Champion drivers acquired {percent_scoring_for10} percent of points from scoring points in the first 10 races and {percent_win_for10} percent of points from winning in the first 10 races. Champion drivers acquired {percent_scoring_after10} percent from scoring points in races after the first 10 races until the end of season and {percent_win_after10} percent from winning races after the first 10 races until the end of season.
+           ")
+
+percent_for10 <- (meantotalpointsfor10/(meantotalpointsfor10 + meantotalpointsafter10))*100
+percent_after10 <- (meantotalpointsafter10/(meantotalpointsfor10 + meantotalpointsafter10))*100
+
+glue::glue("
+           Although not fully correct (due to averages being used), {percent_for10} percent of points are scored during the first 10 races of the season and {percent_after10} percent of points are scored after 10 races until the end of the season.
+           ")
+```
+

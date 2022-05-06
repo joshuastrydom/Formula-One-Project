@@ -1,0 +1,1103 @@
+---
+title: "First 10 races Constructors"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#Want to map the top 10 finishing positions of the first 10 races for each year to the output (championship standings at the end of the year)
+#Data needed: raceorder_20..; constructor_points
+```
+
+```{r}
+##2012 year
+
+#Race 1: Australia (860)
+C1_2012_R1 <- data.frame(Points = c(40, 30, 12, 10, 6, 2, 1, 0, 0, 0, 0, 0), Constructor = c("Mclaren", "Red Bull", "Sauber", "Ferrari", "Lotus F1", "Toro Rosso", "Force India", "Mercedes", "Williams", "Marussia", "Caterham", "HRT"), Race.Track = c("Australian Grand Prix", "Australian Grand Prix", "Australian Grand Prix","Australian Grand Prix","Australian Grand Prix","Australian Grand Prix","Australian Grand Prix","Australian Grand Prix","Australian Grand Prix","Australian Grand Prix","Australian Grand Prix","Australian Grand Prix"), Position = c(1,2,3,4,5,6,7,8,9,10,11,12))
+#Race 2: Malaysia (861)
+top_constructors_2012_R2 <- data.frame(constructor_points) |> filter(year==2012) |> filter(raceId==861) |> arrange(desc(points)) |> mutate(Position = rep(1:12))
+names(top_constructors_2012_R2)[4] <- "Points"
+names(top_constructors_2012_R2)[7] <- "Constructor"
+names(top_constructors_2012_R2)[13] <- "Race Track"
+C2_2012_R2 <- data.frame(top_constructors_2012_R2)
+C2_2012_R2 <- C2_2012_R2[1:12, c(4, 7, 13, 17)]
+#Race 3: China (862)
+top_constructors_2012_R3 <- data.frame(constructor_points) |> filter(year==2012) |> filter(raceId==862) |> arrange(desc(points)) |> mutate(Position = rep(1:12))
+names(top_constructors_2012_R3)[4] <- "Points"
+names(top_constructors_2012_R3)[7] <- "Constructor"
+names(top_constructors_2012_R3)[13] <- "Race Track"
+C3_2012_R3 <- data.frame(top_constructors_2012_R3)
+C3_2012_R3 <- C3_2012_R3[1:12, c(4, 7, 13, 17)]
+#Race 4: Bahrain (863)
+top_constructors_2012_R4 <- data.frame(constructor_points) |> filter(year==2012) |> filter(raceId==863) |> arrange(desc(points)) |> mutate(Position = rep(1:12))
+names(top_constructors_2012_R4)[4] <- "Points"
+names(top_constructors_2012_R4)[7] <- "Constructor"
+names(top_constructors_2012_R4)[13] <- "Race Track"
+C4_2012_R4 <- data.frame(top_constructors_2012_R4)
+C4_2012_R4 <- C4_2012_R4[1:12, c(4, 7, 13, 17)]
+#Race 5: Spain (864)
+top_constructors_2012_R5 <- data.frame(constructor_points) |> filter(year==2012) |> filter(raceId==864) |> arrange(desc(points)) |> mutate(Position = rep(1:12))
+names(top_constructors_2012_R5)[4] <- "Points"
+names(top_constructors_2012_R5)[7] <- "Constructor"
+names(top_constructors_2012_R5)[13] <- "Race Track"
+C5_2012_R5 <- data.frame(top_constructors_2012_R5)
+C5_2012_R5 <- C5_2012_R5[1:12, c(4, 7, 13, 17)]
+#Race 6: Monaco (865)
+top_constructors_2012_R6 <- data.frame(constructor_points) |> filter(year==2012) |> filter(raceId==865) |> arrange(desc(points)) |> mutate(Position = rep(1:12))
+names(top_constructors_2012_R6)[4] <- "Points"
+names(top_constructors_2012_R6)[7] <- "Constructor"
+names(top_constructors_2012_R6)[13] <- "Race Track"
+C6_2012_R6 <- data.frame(top_constructors_2012_R6) 
+C6_2012_R6 <- C6_2012_R6[1:12, c(4, 7, 13, 17)]
+#Race 7: Canada (866)
+top_constructors_2012_R7 <- data.frame(constructor_points) |> filter(year==2012) |> filter(raceId==866) |> arrange(desc(points)) |> mutate(Position = rep(1:12))
+names(top_constructors_2012_R7)[4] <- "Points"
+names(top_constructors_2012_R7)[7] <- "Constructor"
+names(top_constructors_2012_R7)[13] <- "Race Track"
+C7_2012_R7 <- data.frame(top_constructors_2012_R7)
+C7_2012_R7 <- C7_2012_R7[1:12, c(4, 7, 13, 17)]
+#Race 8: European (867)
+top_constructors_2012_R8 <- data.frame(constructor_points) |> filter(year==2012) |> filter(raceId==867) |> arrange(desc(points)) |> mutate(Position = rep(1:12))
+names(top_constructors_2012_R8)[4] <- "Points"
+names(top_constructors_2012_R8)[7] <- "Constructor"
+names(top_constructors_2012_R8)[13] <- "Race Track"
+C8_2012_R8 <- data.frame(top_constructors_2012_R8)
+C8_2012_R8 <- C8_2012_R8[1:12, c(4, 7, 13, 17)]
+#Race 9: British (868)
+top_constructors_2012_R9 <- data.frame(constructor_points) |> filter(year==2012) |> filter(raceId==868) |> arrange(desc(points)) |> mutate(Position = rep(1:12))
+names(top_constructors_2012_R9)[4] <- "Points"
+names(top_constructors_2012_R9)[7] <- "Constructor"
+names(top_constructors_2012_R9)[13] <- "Race Track"
+C9_2012_R9 <- data.frame(top_constructors_2012_R9)
+C9_2012_R9 <- C9_2012_R9[1:12, c(4, 7, 13, 17)]
+#Race 10: German (869)
+top_constructors_2012_R10 <- data.frame(constructor_points) |> filter(year==2012) |> filter(raceId==869) |> arrange(desc(points)) |> mutate(Position = rep(1:12))
+names(top_constructors_2012_R10)[4] <- "Points"
+names(top_constructors_2012_R10)[7] <- "Constructor"
+names(top_constructors_2012_R10)[13] <- "Race Track"
+C10_2012_R10 <- data.frame(top_constructors_2012_R10)
+C10_2012_R10 <- C10_2012_R10[1:12, c(4, 7, 13, 17)]
+
+#Championship standings
+championship_standings_constructors_2012 <- data.frame(F1_Constructor_Standings11) |> filter(Year==2012)
+names(championship_standings_constructors_2012)[1] <- "Position"
+names(championship_standings_constructors_2012)[2] <- "Constructor"
+names(championship_standings_constructors_2012)[3] <- "Points"
+championship_standings_constructor_2012 <- championship_standings_constructors_2012[, c(-4)]
+datatable(championship_standings_constructor_2012)
+
+#Full data table of the 2012 season
+df_2012_constructors <- data.frame(C1_2012_R1[,c(1,2)], C2_2012_R2[,c(1,2)], C3_2012_R3[,c(1,2)], C4_2012_R4[,c(1,2)], C5_2012_R5[,c(1,2)], C6_2012_R6[,c(1,2)], C7_2012_R7[,c(1,2)], C8_2012_R8[,c(1,2)], C9_2012_R9[,c(1,2)], C10_2012_R10[,c(1,2)])
+if (!require("DT")) install.packages('DT')
+library(DT)
+sketch2012_constructors = htmltools::withTags(table(
+    class = 'display',
+    thead(
+        tr(
+            th(rowspan = 2, 'Position'),
+            th(colspan = 2, 'Australian Grand Prix'),
+            th(colspan = 2, 'Malaysian Grand Prix'),
+            th(colspan = 2, 'Chinese Grand Prix'), 
+            th(colspan = 2, 'Bahrain Grand Prix'),
+            th(colspan = 2, 'Spanish Grand Prix'),
+            th(colspan = 2, 'Monaco Grand Prix'),
+            th(colspan = 2, 'Canadian Grand Prix'),
+            th(colspan = 2, 'European Grand Prix'),
+            th(colspan = 2, 'British Grand Prix'),
+            th(colspan = 2, 'German Grand Prix')
+        ),
+        tr(
+            lapply(rep(c("Points", "Constructor"), 10), th)
+        )
+        )
+        ))
+datatable(df_2012_constructors[1:20], container = sketch2012_constructors, rownames = TRUE) |> print()
+```
+
+```{r}
+##2013 year
+
+#Race 1: Australia (880)
+top_constructors_2013_R1 <- data.frame(constructor_points) |> filter(year==2013) |> filter(raceId==880) |> arrange(desc(points)) |> mutate(Position = rep(1:11))
+names(top_constructors_2013_R1)[4] <- "Points"
+names(top_constructors_2013_R1)[7] <- "Constructor"
+names(top_constructors_2013_R1)[13] <- "Race Track"
+C1_2013_R1 <- data.frame(top_constructors_2013_R1)
+C1_2013_R1 <- C1_2013_R1[1:11, c(4, 7, 13, 17)]
+#Race 2: Malaysia (881)
+top_constructors_2013_R2 <- data.frame(constructor_points) |> filter(year==2013) |> filter(raceId==881) |> arrange(desc(points)) |> mutate(Position = rep(1:11))
+names(top_constructors_2013_R2)[4] <- "Points"
+names(top_constructors_2013_R2)[7] <- "Constructor"
+names(top_constructors_2013_R2)[13] <- "Race Track"
+C2_2013_R2 <- data.frame(top_constructors_2013_R2)
+C2_2013_R2 <- C2_2013_R2[1:11, c(4, 7, 13, 17)]
+#Race 3: China (882)
+top_constructors_2013_R3 <- data.frame(constructor_points) |> filter(year==2013) |> filter(raceId==882) |> arrange(desc(points)) |> mutate(Position = rep(1:11))
+names(top_constructors_2013_R3)[4] <- "Points"
+names(top_constructors_2013_R3)[7] <- "Constructor"
+names(top_constructors_2013_R3)[13] <- "Race Track"
+C3_2013_R3 <- data.frame(top_constructors_2013_R3)
+C3_2013_R3 <- C3_2013_R3[1:11, c(4, 7, 13, 17)]
+#Race 4: Bahrain (883)
+top_constructors_2013_R4 <- data.frame(constructor_points) |> filter(year==2013) |> filter(raceId==883) |> arrange(desc(points)) |> mutate(Position = rep(1:11))
+names(top_constructors_2013_R4)[4] <- "Points"
+names(top_constructors_2013_R4)[7] <- "Constructor"
+names(top_constructors_2013_R4)[13] <- "Race Track"
+C4_2013_R4 <- data.frame(top_constructors_2013_R4)
+C4_2013_R4 <- C4_2013_R4[1:11, c(4, 7, 13, 17)]
+#Race 5: Spain (884)
+top_constructors_2013_R5 <- data.frame(constructor_points) |> filter(year==2013) |> filter(raceId==884) |> arrange(desc(points)) |> mutate(Position = rep(1:11))
+names(top_constructors_2013_R5)[4] <- "Points"
+names(top_constructors_2013_R5)[7] <- "Constructor"
+names(top_constructors_2013_R5)[13] <- "Race Track"
+C5_2013_R5 <- data.frame(top_constructors_2013_R5)
+C5_2013_R5 <- C5_2013_R5[1:11, c(4, 7, 13, 17)]
+#Race 6: Monaco (885)
+top_constructors_2013_R6 <- data.frame(constructor_points) |> filter(year==2013) |> filter(raceId==885) |> arrange(desc(points)) |> mutate(Position = rep(1:11))
+names(top_constructors_2013_R6)[4] <- "Points"
+names(top_constructors_2013_R6)[7] <- "Constructor"
+names(top_constructors_2013_R6)[13] <- "Race Track"
+C6_2013_R6 <- data.frame(top_constructors_2013_R6)
+C6_2013_R6 <- C6_2013_R6[1:11, c(4, 7, 13, 17)]
+#Race 7: Canada (886)
+top_constructors_2013_R7 <- data.frame(constructor_points) |> filter(year==2013) |> filter(raceId==886) |> arrange(desc(points)) |> mutate(Position = rep(1:11))
+names(top_constructors_2013_R7)[4] <- "Points"
+names(top_constructors_2013_R7)[7] <- "Constructor"
+names(top_constructors_2013_R7)[13] <- "Race Track"
+C7_2013_R7 <- data.frame(top_constructors_2013_R7)
+C7_2013_R7 <- C7_2013_R7[1:11, c(4, 7, 13, 17)]
+#Race 8: British (887)
+top_constructors_2013_R8 <- data.frame(constructor_points) |> filter(year==2013) |> filter(raceId==887) |> arrange(desc(points)) |> mutate(Position = rep(1:11))
+names(top_constructors_2013_R8)[4] <- "Points"
+names(top_constructors_2013_R8)[7] <- "Constructor"
+names(top_constructors_2013_R8)[13] <- "Race Track"
+C8_2013_R8 <- data.frame(top_constructors_2013_R8)
+C8_2013_R8 <- C8_2013_R8[1:11, c(4, 7, 13, 17)]
+#Race 9: German (888)
+top_constructors_2013_R9 <- data.frame(constructor_points) |> filter(year==2013) |> filter(raceId==888) |> arrange(desc(points)) |> mutate(Position = rep(1:11))
+names(top_constructors_2013_R9)[4] <- "Points"
+names(top_constructors_2013_R9)[7] <- "Constructor"
+names(top_constructors_2013_R9)[13] <- "Race Track"
+C9_2013_R9 <- data.frame(top_constructors_2013_R9)
+C9_2013_R9 <- C9_2013_R9[1:11, c(4, 7, 13, 17)]
+#Race 10: Hungary (890)
+top_constructors_2013_R10 <- data.frame(constructor_points) |> filter(year==2013) |> filter(raceId==890) |> arrange(desc(points)) |> mutate(Position = rep(1:11))
+names(top_constructors_2013_R10)[4] <- "Points"
+names(top_constructors_2013_R10)[7] <- "Constructor"
+names(top_constructors_2013_R10)[13] <- "Race Track"
+C10_2013_R10 <- data.frame(top_constructors_2013_R10)
+C10_2013_R10 <- C10_2013_R10[1:11, c(4, 7, 13, 17)]
+
+#Championship standings
+championship_standings_constructors_2013 <- data.frame(F1_Constructor_Standings11) |> filter(Year==2013)
+names(championship_standings_constructors_2013)[1] <- "Position"
+names(championship_standings_constructors_2013)[2] <- "Constructor"
+names(championship_standings_constructors_2013)[3] <- "Points"
+championship_standings_constructor_2013 <- championship_standings_constructors_2013[, c(-4)]
+datatable(championship_standings_constructor_2013)
+
+#Full data table of the 2013 season
+df_2013_constructors <- data.frame(C1_2013_R1[,c(1,2)], C2_2013_R2[,c(1,2)], C3_2013_R3[,c(1,2)], C4_2013_R4[,c(1,2)], C5_2013_R5[,c(1,2)], C6_2013_R6[,c(1,2)], C7_2013_R7[,c(1,2)], C8_2013_R8[,c(1,2)], C9_2013_R9[,c(1,2)], C10_2013_R10[,c(1,2)])
+if (!require("DT")) install.packages('DT')
+library(DT)
+sketch2013_constructors = htmltools::withTags(table(
+    class = 'display',
+    thead(
+        tr(
+            th(rowspan = 2, 'Position'),
+            th(colspan = 2, 'Australian Grand Prix'),
+            th(colspan = 2, 'Malaysian Grand Prix'),
+            th(colspan = 2, 'Chinese Grand Prix'), 
+            th(colspan = 2, 'Bahrain Grand Prix'),
+            th(colspan = 2, 'Spanish Grand Prix'),
+            th(colspan = 2, 'Monaco Grand Prix'),
+            th(colspan = 2, 'Canadian Grand Prix'),
+            th(colspan = 2, 'British Grand Prix'),
+            th(colspan = 2, 'German Grand Prix'),
+            th(colspan = 2, 'Hungary Grand Prix')
+        ),
+        tr(
+            lapply(rep(c("Points", "Constructor"), 10), th)
+        )
+        )
+        ))
+datatable(df_2013_constructors[1:20], container = sketch2013_constructors, rownames = TRUE) |> print()
+```
+
+```{r}
+##2014 year
+
+#Race 1: Australia (900)
+top_constructors_2014_R1 <- data.frame(constructor_points) |> filter(year==2014) |> filter(raceId==900) |> arrange(desc(points)) |> mutate(Position = rep(1:11))
+names(top_constructors_2014_R1)[4] <- "Points"
+names(top_constructors_2014_R1)[7] <- "Constructor"
+names(top_constructors_2014_R1)[13] <- "Race Track"
+C1_2014_R1 <- data.frame(top_constructors_2014_R1)
+C1_2014_R1 <- C1_2014_R1[1:11, c(4, 7, 13, 17)]
+#Race 2: Malaysia (901)
+top_constructors_2014_R2 <- data.frame(constructor_points) |> filter(year==2014) |> filter(raceId==901) |> arrange(desc(points)) |> mutate(Position = rep(1:11))
+names(top_constructors_2014_R2)[4] <- "Points"
+names(top_constructors_2014_R2)[7] <- "Constructor"
+names(top_constructors_2014_R2)[13] <- "Race Track"
+C2_2014_R2 <- data.frame(top_constructors_2014_R2)
+C2_2014_R2 <- C2_2014_R2[1:11, c(4, 7, 13, 17)]
+#Race 3: Bahrain (902)
+top_constructors_2014_R3 <- data.frame(constructor_points) |> filter(year==2014) |> filter(raceId==902) |> arrange(desc(points)) |> mutate(Position = rep(1:11))
+names(top_constructors_2014_R3)[4] <- "Points"
+names(top_constructors_2014_R3)[7] <- "Constructor"
+names(top_constructors_2014_R3)[13] <- "Race Track"
+C3_2014_R3 <- data.frame(top_constructors_2014_R3)
+C3_2014_R3 <- C3_2014_R3[1:11, c(4, 7, 13, 17)]
+#Race 4: China (903)
+top_constructors_2014_R4 <- data.frame(constructor_points) |> filter(year==2014) |> filter(raceId==903) |> arrange(desc(points)) |> mutate(Position = rep(1:11))
+names(top_constructors_2014_R4)[4] <- "Points"
+names(top_constructors_2014_R4)[7] <- "Constructor"
+names(top_constructors_2014_R4)[13] <- "Race Track"
+C4_2014_R4 <- data.frame(top_constructors_2014_R4)
+C4_2014_R4 <- C4_2014_R4[1:11, c(4, 7, 13, 17)]
+#Race 5: Spain (904)
+top_constructors_2014_R5 <- data.frame(constructor_points) |> filter(year==2014) |> filter(raceId==904) |> arrange(desc(points)) |> mutate(Position = rep(1:11))
+names(top_constructors_2014_R5)[4] <- "Points"
+names(top_constructors_2014_R5)[7] <- "Constructor"
+names(top_constructors_2014_R5)[13] <- "Race Track"
+C5_2014_R5 <- data.frame(top_constructors_2014_R5)
+C5_2014_R5 <- C5_2014_R5[1:11, c(4, 7, 13, 17)]
+#Race 6: Monaco (905)
+top_constructors_2014_R6 <- data.frame(constructor_points) |> filter(year==2014) |> filter(raceId==905) |> arrange(desc(points)) |> mutate(Position = rep(1:11))
+names(top_constructors_2014_R6)[4] <- "Points"
+names(top_constructors_2014_R6)[7] <- "Constructor"
+names(top_constructors_2014_R6)[13] <- "Race Track"
+C6_2014_R6 <- data.frame(top_constructors_2014_R6)
+C6_2014_R6 <- C6_2014_R6[1:11, c(4, 7, 13, 17)]
+#Race 7: Canada (906)
+top_constructors_2014_R7 <- data.frame(constructor_points) |> filter(year==2014) |> filter(raceId==906) |> arrange(desc(points)) |> mutate(Position = rep(1:11))
+names(top_constructors_2014_R7)[4] <- "Points"
+names(top_constructors_2014_R7)[7] <- "Constructor"
+names(top_constructors_2014_R7)[13] <- "Race Track"
+C7_2014_R7 <- data.frame(top_constructors_2014_R7)
+C7_2014_R7 <- C7_2014_R7[1:11, c(4, 7, 13, 17)]
+#Race 8: Austrian (907)
+top_constructors_2014_R8 <- data.frame(constructor_points) |> filter(year==2014) |> filter(raceId==907) |> arrange(desc(points)) |> mutate(Position = rep(1:11))
+names(top_constructors_2014_R8)[4] <- "Points"
+names(top_constructors_2014_R8)[7] <- "Constructor"
+names(top_constructors_2014_R8)[13] <- "Race Track"
+C8_2014_R8 <- data.frame(top_constructors_2014_R8)
+C8_2014_R8 <- C8_2014_R8[1:11, c(4, 7, 13, 17)]
+#Race 9: Britain (908)
+top_constructors_2014_R9 <- data.frame(constructor_points) |> filter(year==2014) |> filter(raceId==908) |> arrange(desc(points)) |> mutate(Position = rep(1:11))
+names(top_constructors_2014_R9)[4] <- "Points"
+names(top_constructors_2014_R9)[7] <- "Constructor"
+names(top_constructors_2014_R9)[13] <- "Race Track"
+C9_2014_R9 <- data.frame(top_constructors_2014_R9)
+C9_2014_R9 <- C9_2014_R9[1:11, c(4, 7, 13, 17)]
+#Race 10: German(909)
+top_constructors_2014_R10 <- data.frame(constructor_points) |> filter(year==2014) |> filter(raceId==909) |> arrange(desc(points)) |> mutate(Position = rep(1:11))
+names(top_constructors_2014_R10)[4] <- "Points"
+names(top_constructors_2014_R10)[7] <- "Constructor"
+names(top_constructors_2014_R10)[13] <- "Race Track"
+C10_2014_R10 <- data.frame(top_constructors_2014_R10)
+C10_2014_R10 <- C10_2014_R10[1:11, c(4, 7, 13, 17)]
+
+#Championship standings
+championship_standings_constructors_2014 <- data.frame(F1_Constructor_Standings11) |> filter(Year==2014)
+names(championship_standings_constructors_2014)[1] <- "Position"
+names(championship_standings_constructors_2014)[2] <- "Constructor"
+names(championship_standings_constructors_2014)[3] <- "Points"
+championship_standings_constructor_2014 <- championship_standings_constructors_2014[, c(-4)]
+datatable(championship_standings_constructor_2014)
+
+#Full data table of the 2014 season
+df_2014_constructors <- data.frame(C1_2014_R1[,c(1,2)], C2_2014_R2[,c(1,2)], C3_2014_R3[,c(1,2)], C4_2014_R4[,c(1,2)], C5_2014_R5[,c(1,2)], C6_2014_R6[,c(1,2)], C7_2014_R7[,c(1,2)], C8_2014_R8[,c(1,2)], C9_2014_R9[,c(1,2)], C10_2014_R10[,c(1,2)])
+if (!require("DT")) install.packages('DT')
+library(DT)
+sketch2014_constructors = htmltools::withTags(table(
+    class = 'display',
+    thead(
+        tr(
+            th(rowspan = 2, 'Position'),
+            th(colspan = 2, 'Australian Grand Prix'),
+            th(colspan = 2, 'Malaysian Grand Prix'),
+            th(colspan = 2, 'Bahrain Grand Prix'), 
+            th(colspan = 2, 'Chinese Grand Prix'),
+            th(colspan = 2, 'Spanish Grand Prix'),
+            th(colspan = 2, 'Monaco Grand Prix'),
+            th(colspan = 2, 'Canadian Grand Prix'),
+            th(colspan = 2, 'Austrian Grand Prix'),
+            th(colspan = 2, 'British Grand Prix'),
+            th(colspan = 2, 'German Grand Prix')
+        ),
+        tr(
+            lapply(rep(c("Points", "Constructor"), 10), th)
+        )
+        )
+        ))
+datatable(df_2014_constructors[1:20], container = sketch2014_constructors, rownames = TRUE) |> print()
+```
+
+```{r}
+##2015 year
+
+#Race 1: Australia (926)
+C1_2015_R1 <- data.frame(Points = c(43, 15, 14, 12, 8, 7, 2, 0, 0, 0), Constructor = c("Mercedes","Ferrari","Sauber", "Williams","Red Bull","Force India","Toro Rosso","Mclaren","Lotus F1","Manor Marussia"), Race.Track = c("Australian Grand Prix", "Australian Grand Prix", "Australian Grand Prix","Australian Grand Prix","Australian Grand Prix","Australian Grand Prix","Australian Grand Prix","Australian Grand Prix","Australian Grand Prix","Australian Grand Prix"), Position = c(1,2,3,4,5,6,7,8,9,10))
+#Race 2: Malaysia (927)
+top_constructors_2015_R2 <- data.frame(constructor_points) |> filter(year==2015) |> filter(raceId==927) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2015_R2)[4] <- "Points"
+names(top_constructors_2015_R2)[7] <- "Constructor"
+names(top_constructors_2015_R2)[13] <- "Race Track"
+C2_2015_R2 <- data.frame(top_constructors_2015_R2)
+C2_2015_R2 <- C2_2015_R2[1:10, c(4, 7, 13, 17)]
+#Race 3: China (928)
+top_constructors_2015_R3 <- data.frame(constructor_points) |> filter(year==2015) |> filter(raceId==928) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2015_R3)[4] <- "Points"
+names(top_constructors_2015_R3)[7] <- "Constructor"
+names(top_constructors_2015_R3)[13] <- "Race Track"
+C3_2015_R3 <- data.frame(top_constructors_2015_R3)
+C3_2015_R3 <- C3_2015_R3[1:10, c(4, 7, 13, 17)]
+#Race 4: Bahrain (929)
+top_constructors_2015_R4 <- data.frame(constructor_points) |> filter(year==2015) |> filter(raceId==929) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2015_R4)[4] <- "Points"
+names(top_constructors_2015_R4)[7] <- "Constructor"
+names(top_constructors_2015_R4)[13] <- "Race Track"
+C4_2015_R4 <- data.frame(top_constructors_2015_R4)
+C4_2015_R4 <- C4_2015_R4[1:10, c(4, 7, 13, 17)]
+#Race 5: Spain (930)
+top_constructors_2015_R5 <- data.frame(constructor_points) |> filter(year==2015) |> filter(raceId==930) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2015_R5)[4] <- "Points"
+names(top_constructors_2015_R5)[7] <- "Constructor"
+names(top_constructors_2015_R5)[13] <- "Race Track"
+C5_2015_R5 <- data.frame(top_constructors_2015_R5)
+C5_2015_R5 <- C5_2015_R5[1:10, c(4, 7, 13, 17)]
+#Race 6: Monaco (931)
+top_constructors_2015_R6 <- data.frame(constructor_points) |> filter(year==2015) |> filter(raceId==931) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2015_R6)[4] <- "Points"
+names(top_constructors_2015_R6)[7] <- "Constructor"
+names(top_constructors_2015_R6)[13] <- "Race Track"
+C6_2015_R6 <- data.frame(top_constructors_2015_R6)
+C6_2015_R6 <- C6_2015_R6[1:10, c(4, 7, 13, 17)]
+#Race 7: Canada (932)
+top_constructors_2015_R7 <- data.frame(constructor_points) |> filter(year==2015) |> filter(raceId==932) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2015_R7)[4] <- "Points"
+names(top_constructors_2015_R7)[7] <- "Constructor"
+names(top_constructors_2015_R7)[13] <- "Race Track"
+C7_2015_R7 <- data.frame(top_constructors_2015_R7)
+C7_2015_R7 <- C7_2015_R7[1:10, c(4, 7, 13, 17)]
+#Race 8: Austrian (933)
+top_constructors_2015_R8 <- data.frame(constructor_points) |> filter(year==2015) |> filter(raceId==933) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2015_R8)[4] <- "Points"
+names(top_constructors_2015_R8)[7] <- "Constructor"
+names(top_constructors_2015_R8)[13] <- "Race Track"
+C8_2015_R8 <- data.frame(top_constructors_2015_R8)
+C8_2015_R8 <- C8_2015_R8[1:10, c(4, 7, 13, 17)]
+#Race 9: British (934)
+top_constructors_2015_R9 <- data.frame(constructor_points) |> filter(year==2015) |> filter(raceId==934) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2015_R9)[4] <- "Points"
+names(top_constructors_2015_R9)[7] <- "Constructor"
+names(top_constructors_2015_R9)[13] <- "Race Track"
+C9_2015_R9 <- data.frame(top_constructors_2015_R9)
+C9_2015_R9 <- C9_2015_R9[1:10, c(4, 7, 13, 17)]
+#Race 10: Hungary (936)
+top_constructors_2015_R10 <- data.frame(constructor_points) |> filter(year==2015) |> filter(raceId==936) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2015_R10)[4] <- "Points"
+names(top_constructors_2015_R10)[7] <- "Constructor"
+names(top_constructors_2015_R10)[13] <- "Race Track"
+C10_2015_R10 <- data.frame(top_constructors_2015_R10)
+C10_2015_R10 <- C10_2015_R10[1:10, c(4, 7, 13, 17)]
+
+#Championship standings
+championship_standings_constructors_2015 <- data.frame(F1_Constructor_Standings11) |> filter(Year==2015)
+names(championship_standings_constructors_2015)[1] <- "Position"
+names(championship_standings_constructors_2015)[2] <- "Constructor"
+names(championship_standings_constructors_2015)[3] <- "Points"
+championship_standings_constructor_2015 <- championship_standings_constructors_2015[, c(-4)]
+datatable(championship_standings_constructor_2015)
+
+#Full data table of the 2015 season
+df_2015_constructors <- data.frame(C1_2015_R1[,c(1,2)], C2_2015_R2[,c(1,2)], C3_2015_R3[,c(1,2)], C4_2015_R4[,c(1,2)], C5_2015_R5[,c(1,2)], C6_2015_R6[,c(1,2)], C7_2015_R7[,c(1,2)], C8_2015_R8[,c(1,2)], C9_2015_R9[,c(1,2)], C10_2015_R10[,c(1,2)])
+if (!require("DT")) install.packages('DT')
+library(DT)
+sketch2015_constructors = htmltools::withTags(table(
+    class = 'display',
+    thead(
+        tr(
+            th(rowspan = 2, 'Position'),
+            th(colspan = 2, 'Australian Grand Prix'),
+            th(colspan = 2, 'Malaysian Grand Prix'),
+            th(colspan = 2, 'Chinese Grand Prix'), 
+            th(colspan = 2, 'Bahrain Grand Prix'),
+            th(colspan = 2, 'Spanish Grand Prix'),
+            th(colspan = 2, 'Monaco Grand Prix'),
+            th(colspan = 2, 'Canadian Grand Prix'),
+            th(colspan = 2, 'Austrian Grand Prix'),
+            th(colspan = 2, 'British Grand Prix'),
+            th(colspan = 2, 'Hungary Grand Prix')
+        ),
+        tr(
+            lapply(rep(c("Points","Constructor"), 10), th)
+        )
+        )
+        ))
+datatable(df_2015_constructors[1:20], container = sketch2015_constructors, rownames = TRUE) |> print()
+```
+
+```{r}
+##2016 year
+
+#Race 1: Australia (948)
+top_constructors_2016_R1 <- data.frame(constructor_points) |> filter(year==2016) |> filter(raceId==948) |> arrange(desc(points))|> mutate(Position = rep(1:11))
+names(top_constructors_2016_R1)[4] <- "Points"
+names(top_constructors_2016_R1)[7] <- "Constructor"
+names(top_constructors_2016_R1)[13] <- "Race Track"
+C1_2016_R1 <- data.frame(top_constructors_2016_R1)
+C1_2016_R1 <- C1_2016_R1[1:11, c(4, 7, 13, 17)]
+#Race 2: Bahrain (949)
+top_constructors_2016_R2 <- data.frame(constructor_points) |> filter(year==2016) |> filter(raceId==949) |> arrange(desc(points))|> mutate(Position = rep(1:11))
+names(top_constructors_2016_R2)[4] <- "Points"
+names(top_constructors_2016_R2)[7] <- "Constructor"
+names(top_constructors_2016_R2)[13] <- "Race Track"
+C2_2016_R2 <- data.frame(top_constructors_2016_R2)
+C2_2016_R2 <- C2_2016_R2[1:11, c(4, 7, 13, 17)]
+#Race 3: China (950)
+top_constructors_2016_R3 <- data.frame(constructor_points) |> filter(year==2016) |> filter(raceId==950) |> arrange(desc(points))|> mutate(Position = rep(1:11))
+names(top_constructors_2016_R3)[4] <- "Points"
+names(top_constructors_2016_R3)[7] <- "Constructor"
+names(top_constructors_2016_R3)[13] <- "Race Track"
+C3_2016_R3 <- data.frame(top_constructors_2016_R3)
+C3_2016_R3 <- C3_2016_R3[1:11, c(4, 7, 13, 17)]
+#Race 4: Russia (951)
+top_constructors_2016_R4 <- data.frame(constructor_points) |> filter(year==2016) |> filter(raceId==951) |> arrange(desc(points))|> mutate(Position = rep(1:11))
+names(top_constructors_2016_R4)[4] <- "Points"
+names(top_constructors_2016_R4)[7] <- "Constructor"
+names(top_constructors_2016_R4)[13] <- "Race Track"
+C4_2016_R4 <- data.frame(top_constructors_2016_R4)
+C4_2016_R4 <- C4_2016_R4[1:11, c(4, 7, 13, 17)]
+#Race 5: Spain (952)
+top_constructors_2016_R5 <- data.frame(constructor_points) |> filter(year==2016) |> filter(raceId==952) |> arrange(desc(points))|> mutate(Position = rep(1:11))
+names(top_constructors_2016_R5)[4] <- "Points"
+names(top_constructors_2016_R5)[7] <- "Constructor"
+names(top_constructors_2016_R5)[13] <- "Race Track"
+C5_2016_R5 <- data.frame(top_constructors_2016_R5)
+C5_2016_R5 <- C5_2016_R5[1:11, c(4, 7, 13, 17)]
+#Race 6: Monaco (953)
+top_constructors_2016_R6 <- data.frame(constructor_points) |> filter(year==2016) |> filter(raceId==953) |> arrange(desc(points))|> mutate(Position = rep(1:11))
+names(top_constructors_2016_R6)[4] <- "Points"
+names(top_constructors_2016_R6)[7] <- "Constructor"
+names(top_constructors_2016_R6)[13] <- "Race Track"
+C6_2016_R6 <- data.frame(top_constructors_2016_R6)
+C6_2016_R6 <- C6_2016_R6[1:11, c(4, 7, 13, 17)]
+#Race 7: Canada (954)
+top_constructors_2016_R7 <- data.frame(constructor_points) |> filter(year==2016) |> filter(raceId==954) |> arrange(desc(points))|> mutate(Position = rep(1:11))
+names(top_constructors_2016_R7)[4] <- "Points"
+names(top_constructors_2016_R7)[7] <- "Constructor"
+names(top_constructors_2016_R7)[13] <- "Race Track"
+C7_2016_R7 <- data.frame(top_constructors_2016_R7)
+C7_2016_R7 <- C7_2016_R7[1:11, c(4, 7, 13, 17)]
+#Race 8: European (955)
+top_constructors_2016_R8 <- data.frame(constructor_points) |> filter(year==2016) |> filter(raceId==955) |> arrange(desc(points))|> mutate(Position = rep(1:11))
+names(top_constructors_2016_R8)[4] <- "Points"
+names(top_constructors_2016_R8)[7] <- "Constructor"
+names(top_constructors_2016_R8)[13] <- "Race Track"
+C8_2016_R8 <- data.frame(top_constructors_2016_R8)
+C8_2016_R8 <- C8_2016_R8[1:11, c(4, 7, 13, 17)]
+#Race 9: Austrian (956)
+top_constructors_2016_R9 <- data.frame(constructor_points) |> filter(year==2016) |> filter(raceId==956) |> arrange(desc(points))|> mutate(Position = rep(1:11))
+names(top_constructors_2016_R9)[4] <- "Points"
+names(top_constructors_2016_R9)[7] <- "Constructor"
+names(top_constructors_2016_R9)[13] <- "Race Track"
+C9_2016_R9 <- data.frame(top_constructors_2016_R9)
+C9_2016_R9 <- C9_2016_R9[1:11, c(4, 7, 13, 17)]
+#Race 10: British (957)
+top_constructors_2016_R10 <- data.frame(constructor_points) |> filter(year==2016) |> filter(raceId==957) |> arrange(desc(points))|> mutate(Position = rep(1:11))
+names(top_constructors_2016_R10)[4] <- "Points"
+names(top_constructors_2016_R10)[7] <- "Constructor"
+names(top_constructors_2016_R10)[13] <- "Race Track"
+C10_2016_R10 <- data.frame(top_constructors_2016_R10)
+C10_2016_R10 <- C10_2016_R10[1:11, c(4, 7, 13, 17)]
+
+#Championship standings
+championship_standings_constructors_2016 <- data.frame(F1_Constructor_Standings11) |> filter(Year==2016)
+names(championship_standings_constructors_2016)[1] <- "Position"
+names(championship_standings_constructors_2016)[2] <- "Constructor"
+names(championship_standings_constructors_2016)[3] <- "Points"
+championship_standings_constructor_2016 <- championship_standings_constructors_2016[, c(-4)]
+datatable(championship_standings_constructor_2016)
+
+#Full data table of the 2016 season
+df_2016_constructors <- data.frame(C1_2016_R1[,c(1,2)], C2_2016_R2[,c(1,2)], C3_2016_R3[,c(1,2)], C4_2016_R4[,c(1,2)], C5_2016_R5[,c(1,2)], C6_2016_R6[,c(1,2)], C7_2016_R7[,c(1,2)], C8_2016_R8[,c(1,2)], C9_2016_R9[,c(1,2)], C10_2016_R10[,c(1,2)])
+if (!require("DT")) install.packages('DT')
+library(DT)
+sketch2016_constructors = htmltools::withTags(table(
+    class = 'display',
+    thead(
+        tr(
+            th(rowspan = 2, 'Position'),
+            th(colspan = 2, 'Australian Grand Prix'),
+            th(colspan = 2, 'Bahrain Grand Prix'),
+            th(colspan = 2, 'Chinese Grand Prix'), 
+            th(colspan = 2, 'Russia Grand Prix'),
+            th(colspan = 2, 'Spanish Grand Prix'),
+            th(colspan = 2, 'Monaco Grand Prix'),
+            th(colspan = 2, 'Canadian Grand Prix'),
+            th(colspan = 2, 'European Grand Prix'),
+            th(colspan = 2, 'Austrian Grand Prix'),
+            th(colspan = 2, 'British Grand Prix')
+        ),
+        tr(
+            lapply(rep(c("Points","Constructor"), 10), th)
+        )
+        )
+        ))
+datatable(df_2016_constructors[1:20], container = sketch2016_constructors, rownames = TRUE) |> print()
+```
+```{r}
+##2017 year
+
+#Race 1: Australia (969)
+top_constructors_2017_R1 <- data.frame(constructor_points) |> filter(year==2017) |> filter(raceId==969) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2017_R1)[4] <- "Points"
+names(top_constructors_2017_R1)[7] <- "Constructor"
+names(top_constructors_2017_R1)[13] <- "Race Track"
+C1_2017_R1 <- data.frame(top_constructors_2017_R1)
+C1_2017_R1 <- C1_2017_R1[1:11, c(4, 7, 13, 17)]
+#Race 2: China (970)
+top_constructors_2017_R2 <- data.frame(constructor_points) |> filter(year==2017) |> filter(raceId==970) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2017_R2)[4] <- "Points"
+names(top_constructors_2017_R2)[7] <- "Constructor"
+names(top_constructors_2017_R2)[13] <- "Race Track"
+C2_2017_R2 <- data.frame(top_constructors_2017_R2)
+C2_2017_R2 <- C2_2017_R2[1:11, c(4, 7, 13, 17)]
+#Race 3: Bahrain (971)
+top_constructors_2017_R3 <- data.frame(constructor_points) |> filter(year==2017) |> filter(raceId==971) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2017_R3)[4] <- "Points"
+names(top_constructors_2017_R3)[7] <- "Constructor"
+names(top_constructors_2017_R3)[13] <- "Race Track"
+C3_2017_R3 <- data.frame(top_constructors_2017_R3)
+C3_2017_R3 <- C3_2017_R3[1:11, c(4, 7, 13, 17)]
+#Race 4: Russia (972)
+top_constructors_2017_R4 <- data.frame(constructor_points) |> filter(year==2017) |> filter(raceId==972) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2017_R4)[4] <- "Points"
+names(top_constructors_2017_R4)[7] <- "Constructor"
+names(top_constructors_2017_R4)[13] <- "Race Track"
+C4_2017_R4 <- data.frame(top_constructors_2017_R4)
+C4_2017_R4 <- C4_2017_R4[1:11, c(4, 7, 13, 17)]
+#Race 5: Spain (973)
+top_constructors_2017_R5 <- data.frame(constructor_points) |> filter(year==2017) |> filter(raceId==973) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2017_R5)[4] <- "Points"
+names(top_constructors_2017_R5)[7] <- "Constructor"
+names(top_constructors_2017_R5)[13] <- "Race Track"
+C5_2017_R5 <- data.frame(top_constructors_2017_R5)
+C5_2017_R5 <- C5_2017_R5[1:11, c(4, 7, 13, 17)]
+#Race 6: Monaco (974)
+top_constructors_2017_R6 <- data.frame(constructor_points) |> filter(year==2017) |> filter(raceId==974) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2017_R6)[4] <- "Points"
+names(top_constructors_2017_R6)[7] <- "Constructor"
+names(top_constructors_2017_R6)[13] <- "Race Track"
+C6_2017_R6 <- data.frame(top_constructors_2017_R6)
+C6_2017_R6 <- C6_2017_R6[1:11, c(4, 7, 13, 17)]
+#Race 7: Canada (975)
+top_constructors_2017_R7 <- data.frame(constructor_points) |> filter(year==2017) |> filter(raceId==975) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2017_R7)[4] <- "Points"
+names(top_constructors_2017_R7)[7] <- "Constructor"
+names(top_constructors_2017_R7)[13] <- "Race Track"
+C7_2017_R7 <- data.frame(top_constructors_2017_R7)
+C7_2017_R7 <- C7_2017_R7[1:11, c(4, 7, 13, 17)]
+#Race 8: Azerbaijan (976)
+top_constructors_2017_R8 <- data.frame(constructor_points) |> filter(year==2017) |> filter(raceId==976) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2017_R8)[4] <- "Points"
+names(top_constructors_2017_R8)[7] <- "Constructor"
+names(top_constructors_2017_R8)[13] <- "Race Track"
+C8_2017_R8 <- data.frame(top_constructors_2017_R8)
+C8_2017_R8 <- C8_2017_R8[1:11, c(4, 7, 13, 17)]
+#Race 9: Austrian (977)
+top_constructors_2017_R9 <- data.frame(constructor_points) |> filter(year==2017) |> filter(raceId==977) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2017_R9)[4] <- "Points"
+names(top_constructors_2017_R9)[7] <- "Constructor"
+names(top_constructors_2017_R9)[13] <- "Race Track"
+C9_2017_R9 <- data.frame(top_constructors_2017_R9)
+C9_2017_R9 <- C9_2017_R9[1:11, c(4, 7, 13, 17)]
+#Race 10: British (978)
+top_constructors_2017_R10 <- data.frame(constructor_points) |> filter(year==2017) |> filter(raceId==978) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2017_R10)[4] <- "Points"
+names(top_constructors_2017_R10)[7] <- "Constructor"
+names(top_constructors_2017_R10)[13] <- "Race Track"
+C10_2017_R10 <- data.frame(top_constructors_2017_R10)
+C10_2017_R10 <- C10_2017_R10[1:11, c(4, 7, 13, 17)]
+
+#Championship standings
+championship_standings_constructors_2017 <- data.frame(F1_Constructor_Standings11) |> filter(Year==2017)
+names(championship_standings_constructors_2017)[1] <- "Position"
+names(championship_standings_constructors_2017)[2] <- "Constructor"
+names(championship_standings_constructors_2017)[3] <- "Points"
+championship_standings_constructor_2017 <- championship_standings_constructors_2017[, c(-4)]
+datatable(championship_standings_constructor_2017)
+
+#Full data table of the 2017 season
+df_2017_constructors <- data.frame(C1_2017_R1[,c(1,2)], C2_2017_R2[,c(1,2)], C3_2017_R3[,c(1,2)], C4_2017_R4[,c(1,2)], C5_2017_R5[,c(1,2)], C6_2017_R6[,c(1,2)], C7_2017_R7[,c(1,2)], C8_2017_R8[,c(1,2)], C9_2017_R9[,c(1,2)], C10_2017_R10[,c(1,2)])
+if (!require("DT")) install.packages('DT')
+library(DT)
+sketch2017_constructors = htmltools::withTags(table(
+    class = 'display',
+    thead(
+        tr(
+            th(rowspan = 2, 'Position'),
+            th(colspan = 2, 'Australian Grand Prix'),
+            th(colspan = 2, 'Chinese Grand Prix'),
+            th(colspan = 2, 'Bahrain Grand Prix'), 
+            th(colspan = 2, 'Russia Grand Prix'),
+            th(colspan = 2, 'Spanish Grand Prix'),
+            th(colspan = 2, 'Monaco Grand Prix'),
+            th(colspan = 2, 'Canadian Grand Prix'),
+            th(colspan = 2, 'Azerbaijan Grand Prix'),
+            th(colspan = 2, 'Austrian Grand Prix'),
+            th(colspan = 2, 'British Grand Prix')
+        ),
+        tr(
+            lapply(rep(c("Points", "Constructor"), 10), th)
+        )
+        )
+        ))
+datatable(df_2017_constructors[1:20], container = sketch2017_constructors, rownames = TRUE) |> print()
+```
+
+```{r}
+##2018 year
+
+#Race 1: Australia (989)
+top_constructors_2018_R1 <- data.frame(constructor_points) |> filter(year==2018) |> filter(raceId==989) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2018_R1)[4] <- "Points"
+names(top_constructors_2018_R1)[7] <- "Constructor"
+names(top_constructors_2018_R1)[13] <- "Race Track"
+C1_2018_R1 <- data.frame(top_constructors_2018_R1)
+C1_2018_R1 <- C1_2018_R1[1:10, c(4, 7, 13, 17)]
+#Race 2: Bahrain (990)
+top_constructors_2018_R2 <- data.frame(constructor_points) |> filter(year==2018) |> filter(raceId==990) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2018_R2)[4] <- "Points"
+names(top_constructors_2018_R2)[7] <- "Constructor"
+names(top_constructors_2018_R2)[13] <- "Race Track"
+C2_2018_R2 <- data.frame(top_constructors_2018_R2)
+C2_2018_R2 <- C2_2018_R2[1:10, c(4, 7, 13, 17)]
+#Race 3: China (991)
+top_constructors_2018_R3 <- data.frame(constructor_points) |> filter(year==2018) |> filter(raceId==991) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2018_R3)[4] <- "Points"
+names(top_constructors_2018_R3)[7] <- "Constructor"
+names(top_constructors_2018_R3)[13] <- "Race Track"
+C3_2018_R3 <- data.frame(top_constructors_2018_R3)
+C3_2018_R3 <- C3_2018_R3[1:10, c(4, 7, 13, 17)]
+#Race 4: Azerbaijan (992)
+top_constructors_2018_R4 <- data.frame(constructor_points) |> filter(year==2018) |> filter(raceId==992) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2018_R4)[4] <- "Points"
+names(top_constructors_2018_R4)[7] <- "Constructor"
+names(top_constructors_2018_R4)[13] <- "Race Track"
+C4_2018_R4 <- data.frame(top_constructors_2018_R4)
+C4_2018_R4 <- C4_2018_R4[1:10, c(4, 7, 13, 17)]
+#Race 5: Spain (993)
+top_constructors_2018_R5 <- data.frame(constructor_points) |> filter(year==2018) |> filter(raceId==993) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2018_R5)[4] <- "Points"
+names(top_constructors_2018_R5)[7] <- "Constructor"
+names(top_constructors_2018_R5)[13] <- "Race Track"
+C5_2018_R5 <- data.frame(top_constructors_2018_R5)
+C5_2018_R5 <- C5_2018_R5[1:10, c(4, 7, 13, 17)]
+#Race 6: Monaco (994)
+top_constructors_2018_R6 <- data.frame(constructor_points) |> filter(year==2018) |> filter(raceId==994) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2018_R6)[4] <- "Points"
+names(top_constructors_2018_R6)[7] <- "Constructor"
+names(top_constructors_2018_R6)[13] <- "Race Track"
+C6_2018_R6 <- data.frame(top_constructors_2018_R6)
+C6_2018_R6 <- C6_2018_R6[1:10, c(4, 7, 13, 17)]
+#Race 7: Canada (995)
+top_constructors_2018_R7 <- data.frame(constructor_points) |> filter(year==2018) |> filter(raceId==995) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2018_R7)[4] <- "Points"
+names(top_constructors_2018_R7)[7] <- "Constructor"
+names(top_constructors_2018_R7)[13] <- "Race Track"
+C7_2018_R7 <- data.frame(top_constructors_2018_R7)
+C7_2018_R7 <- C7_2018_R7[1:10, c(4, 7, 13, 17)]
+#Race 8: French (996)
+top_constructors_2018_R8 <- data.frame(constructor_points) |> filter(year==2018) |> filter(raceId==996) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2018_R8)[4] <- "Points"
+names(top_constructors_2018_R8)[7] <- "Constructor"
+names(top_constructors_2018_R8)[13] <- "Race Track"
+C8_2018_R8 <- data.frame(top_constructors_2018_R8)
+C8_2018_R8 <- C8_2018_R8[1:10, c(4, 7, 13, 17)]
+#Race 9: Austrian (997)
+top_constructors_2018_R9 <- data.frame(constructor_points) |> filter(year==2018) |> filter(raceId==997) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2018_R9)[4] <- "Points"
+names(top_constructors_2018_R9)[7] <- "Constructor"
+names(top_constructors_2018_R9)[13] <- "Race Track"
+C9_2018_R9 <- data.frame(top_constructors_2018_R9)
+C9_2018_R9 <- C9_2018_R9[1:10, c(4, 7, 13, 17)]
+#Race 10: British (998)
+top_constructors_2018_R10 <- data.frame(constructor_points) |> filter(year==2018) |> filter(raceId==998) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2018_R10)[4] <- "Points"
+names(top_constructors_2018_R10)[7] <- "Constructor"
+names(top_constructors_2018_R10)[13] <- "Race Track"
+C10_2018_R10 <- data.frame(top_constructors_2018_R10)
+C10_2018_R10 <- C10_2018_R10[1:10, c(4, 7, 13, 17)]
+
+#Championship standings
+championship_standings_constructors_2018 <- data.frame(F1_Constructor_Standings11) |> filter(Year==2018)
+names(championship_standings_constructors_2018)[1] <- "Position"
+names(championship_standings_constructors_2018)[2] <- "Constructor"
+names(championship_standings_constructors_2018)[3] <- "Points"
+championship_standings_constructor_2018 <- championship_standings_constructors_2018[, c(-4)]
+datatable(championship_standings_constructor_2018)
+
+#Full data table of the 2018 season
+df_2018_constructors <- data.frame(C1_2018_R1[,c(1,2)], C2_2018_R2[,c(1,2)], C3_2018_R3[,c(1,2)], C4_2018_R4[,c(1,2)], C5_2018_R5[,c(1,2)], C6_2018_R6[,c(1,2)], C7_2018_R7[,c(1,2)], C8_2018_R8[,c(1,2)], C9_2018_R9[,c(1,2)], C10_2018_R10[,c(1,2)])
+if (!require("DT")) install.packages('DT')
+library(DT)
+sketch2018_constructors = htmltools::withTags(table(
+    class = 'display',
+    thead(
+        tr(
+            th(rowspan = 2, 'Position'),
+            th(colspan = 2, 'Australian Grand Prix'),
+            th(colspan = 2, 'Bahrain Grand Prix'),
+            th(colspan = 2, 'Chinese Grand Prix'), 
+            th(colspan = 2, 'Azerbaijan Grand Prix'),
+            th(colspan = 2, 'Spanish Grand Prix'),
+            th(colspan = 2, 'Monaco Grand Prix'),
+            th(colspan = 2, 'Canadian Grand Prix'),
+            th(colspan = 2, 'French Grand Prix'),
+            th(colspan = 2, 'Austrian Grand Prix'),
+            th(colspan = 2, 'British Grand Prix')
+        ),
+        tr(
+            lapply(rep(c("Points","Constructor"), 10), th)
+        )
+        )
+        ))
+datatable(df_2018_constructors[1:20], container = sketch2018_constructors, rownames = TRUE) |> print()
+```
+
+```{r}
+##2019 year
+
+#Race 1: Australia (1010)
+top_constructors_2019_R1 <- data.frame(constructor_points) |> filter(year==2019) |> filter(raceId==1010) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2019_R1)[4] <- "Points"
+names(top_constructors_2019_R1)[7] <- "Constructor"
+names(top_constructors_2019_R1)[13] <- "Race Track"
+C1_2019_R1 <- data.frame(top_constructors_2019_R1)
+C1_2019_R1 <- C1_2019_R1[1:10, c(4, 7, 13, 17)]
+#Race 2: Bahrain (1011)
+top_constructors_2019_R2 <- data.frame(constructor_points) |> filter(year==2019) |> filter(raceId==1011) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2019_R2)[4] <- "Points"
+names(top_constructors_2019_R2)[7] <- "Constructor"
+names(top_constructors_2019_R2)[13] <- "Race Track"
+C2_2019_R2 <- data.frame(top_constructors_2019_R2)
+C2_2019_R2 <- C2_2019_R2[1:10, c(4, 7, 13, 17)]
+#Race 3: China (1012)
+top_constructors_2019_R3 <- data.frame(constructor_points) |> filter(year==2019) |> filter(raceId==1012) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2019_R3)[4] <- "Points"
+names(top_constructors_2019_R3)[7] <- "Constructor"
+names(top_constructors_2019_R3)[13] <- "Race Track"
+C3_2019_R3 <- data.frame(top_constructors_2019_R3)
+C3_2019_R3 <- C3_2019_R3[1:10, c(4, 7, 13, 17)]
+#Race 4: Azerbaijan (1013)
+top_constructors_2019_R4 <- data.frame(constructor_points) |> filter(year==2019) |> filter(raceId==1013) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2019_R4)[4] <- "Points"
+names(top_constructors_2019_R4)[7] <- "Constructor"
+names(top_constructors_2019_R4)[13] <- "Race Track"
+C4_2019_R4 <- data.frame(top_constructors_2019_R4)
+C4_2019_R4 <- C4_2019_R4[1:10, c(4, 7, 13, 17)]
+#Race 5: Spain (1014)
+top_constructors_2019_R5 <- data.frame(constructor_points) |> filter(year==2019) |> filter(raceId==1014) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2019_R5)[4] <- "Points"
+names(top_constructors_2019_R5)[7] <- "Constructor"
+names(top_constructors_2019_R5)[13] <- "Race Track"
+C5_2019_R5 <- data.frame(top_constructors_2019_R1)
+C5_2019_R5 <- C5_2019_R5[1:10, c(4, 7, 13, 17)]
+#Race 6: Monaco (1015)
+top_constructors_2019_R6 <- data.frame(constructor_points) |> filter(year==2019) |> filter(raceId==1015) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2019_R6)[4] <- "Points"
+names(top_constructors_2019_R6)[7] <- "Constructor"
+names(top_constructors_2019_R6)[13] <- "Race Track"
+C6_2019_R6 <- data.frame(top_constructors_2019_R6)
+C6_2019_R6 <- C6_2019_R6[1:10, c(4, 7, 13, 17)]
+#Race 7: Canada (1016)
+top_constructors_2019_R7 <- data.frame(constructor_points) |> filter(year==2019) |> filter(raceId==1016) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2019_R7)[4] <- "Points"
+names(top_constructors_2019_R7)[7] <- "Constructor"
+names(top_constructors_2019_R7)[13] <- "Race Track"
+C7_2019_R7 <- data.frame(top_constructors_2019_R7)
+C7_2019_R7 <- C7_2019_R7[1:10, c(4, 7, 13, 17)]
+#Race 8: French (1017)
+top_constructors_2019_R8 <- data.frame(constructor_points) |> filter(year==2019) |> filter(raceId==1017) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2019_R8)[4] <- "Points"
+names(top_constructors_2019_R8)[7] <- "Constructor"
+names(top_constructors_2019_R8)[13] <- "Race Track"
+C8_2019_R8 <- data.frame(top_constructors_2019_R1)
+C8_2019_R8 <- C8_2019_R8[1:10, c(4, 7, 13, 17)]
+#Race 9: Austrian (1018)
+top_constructors_2019_R9 <- data.frame(constructor_points) |> filter(year==2019) |> filter(raceId==1018) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2019_R9)[4] <- "Points"
+names(top_constructors_2019_R9)[7] <- "Constructor"
+names(top_constructors_2019_R9)[13] <- "Race Track"
+C9_2019_R9 <- data.frame(top_constructors_2019_R9)
+C9_2019_R9 <- C9_2019_R9[1:10, c(4, 7, 13, 17)]
+#Race 10: British (1019)
+top_constructors_2019_R10 <- data.frame(constructor_points) |> filter(year==2019) |> filter(raceId==1019) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2019_R10)[4] <- "Points"
+names(top_constructors_2019_R10)[7] <- "Constructor"
+names(top_constructors_2019_R10)[13] <- "Race Track"
+C10_2019_R10 <- data.frame(top_constructors_2019_R10)
+C10_2019_R10 <- C10_2019_R10[1:10, c(4, 7, 13, 17)]
+
+#Championship standings
+championship_standings_constructors_2019 <- data.frame(F1_Constructor_Standings11) |> filter(Year==2019)
+names(championship_standings_constructors_2019)[1] <- "Position"
+names(championship_standings_constructors_2019)[2] <- "Constructor"
+names(championship_standings_constructors_2019)[3] <- "Points"
+championship_standings_constructor_2019 <- championship_standings_constructors_2019[, c(-4)]
+datatable(championship_standings_constructor_2019)
+
+#Full data table of the 2019 season
+df_2019_constructors <- data.frame(C1_2019_R1[,c(1,2)], C2_2019_R2[,c(1,2)], C3_2019_R3[,c(1,2)], C4_2019_R4[,c(1,2)], C5_2019_R5[,c(1,2)], C6_2019_R6[,c(1,2)], C7_2019_R7[,c(1,2)], C8_2019_R8[,c(1,2)], C9_2019_R9[,c(1,2)], C10_2019_R10[,c(1,2)])
+if (!require("DT")) install.packages('DT')
+library(DT)
+sketch2019_constructors = htmltools::withTags(table(
+    class = 'display',
+    thead(
+        tr(
+            th(rowspan = 2, 'Position'),
+            th(colspan = 2, 'Australian Grand Prix'),
+            th(colspan = 2, 'Bahrain Grand Prix'),
+            th(colspan = 2, 'Chinese Grand Prix'), 
+            th(colspan = 2, 'Azerbaijan Grand Prix'),
+            th(colspan = 2, 'Spanish Grand Prix'),
+            th(colspan = 2, 'Monaco Grand Prix'),
+            th(colspan = 2, 'Canadian Grand Prix'),
+            th(colspan = 2, 'French Grand Prix'),
+            th(colspan = 2, 'Austrian Grand Prix'),
+            th(colspan = 2, 'British Grand Prix')
+        ),
+        tr(
+            lapply(rep(c("Points", "Constructor"), 10), th)
+        )
+        )
+        ))
+datatable(df_2019_constructors[1:20], container = sketch2019_constructors, rownames = TRUE) |> print()
+```
+
+```{r}
+##2020 year
+
+#Race 1: Austrian (1031)
+top_constructors_2020_R1 <- data.frame(constructor_points) |> filter(year==2020) |> filter(raceId==1031) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2020_R1)[4] <- "Points"
+names(top_constructors_2020_R1)[7] <- "Constructor"
+names(top_constructors_2020_R1)[13] <- "Race Track"
+C1_2020_R1 <- data.frame(top_constructors_2020_R1)
+C1_2020_R1 <- C1_2020_R1[1:10, c(4, 7, 13, 17)]
+#Race 2: Styrian (1032)
+top_constructors_2020_R2 <- data.frame(constructor_points) |> filter(year==2020) |> filter(raceId==1032) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2020_R2)[4] <- "Points"
+names(top_constructors_2020_R2)[7] <- "Constructor"
+names(top_constructors_2020_R2)[13] <- "Race Track"
+C2_2020_R2 <- data.frame(top_constructors_2020_R2)
+C2_2020_R2 <- C2_2020_R2[1:10, c(4, 7, 13, 17)]
+#Race 3: Hungary (1033)
+top_constructors_2020_R3 <- data.frame(constructor_points) |> filter(year==2020) |> filter(raceId==1033) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2020_R3)[4] <- "Points"
+names(top_constructors_2020_R3)[7] <- "Constructor"
+names(top_constructors_2020_R3)[13] <- "Race Track"
+C3_2020_R3 <- data.frame(top_constructors_2020_R3)
+C3_2020_R3 <- C3_2020_R3[1:10, c(4, 7, 13, 17)]
+#Race 4: British (1034)
+top_constructors_2020_R4 <- data.frame(constructor_points) |> filter(year==2020) |> filter(raceId==1034) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2020_R4)[4] <- "Points"
+names(top_constructors_2020_R4)[7] <- "Constructor"
+names(top_constructors_2020_R4)[13] <- "Race Track"
+C4_2020_R4 <- data.frame(top_constructors_2020_R4)
+C4_2020_R4 <- C4_2020_R4[1:10, c(4, 7, 13, 17)]
+#Race 5: British (70th anniversary) (1035)
+top_constructors_2020_R5 <- data.frame(constructor_points) |> filter(year==2020) |> filter(raceId==1035) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2020_R5)[4] <- "Points"
+names(top_constructors_2020_R5)[7] <- "Constructor"
+names(top_constructors_2020_R5)[13] <- "Race Track"
+C5_2020_R5 <- data.frame(top_constructors_2020_R1)
+C5_2020_R5 <- C5_2020_R5[1:10, c(4, 7, 13, 17)]
+#Race 6: Spain (1036)
+top_constructors_2020_R6 <- data.frame(constructor_points) |> filter(year==2020) |> filter(raceId==1036) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2020_R6)[4] <- "Points"
+names(top_constructors_2020_R6)[7] <- "Constructor"
+names(top_constructors_2020_R6)[13] <- "Race Track"
+C6_2020_R6 <- data.frame(top_constructors_2020_R6)
+C6_2020_R6 <- C6_2020_R6[1:10, c(4, 7, 13, 17)]
+#Race 7: Belgium (1037)
+top_constructors_2020_R7 <- data.frame(constructor_points) |> filter(year==2020) |> filter(raceId==1037) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2020_R7)[4] <- "Points"
+names(top_constructors_2020_R7)[7] <- "Constructor"
+names(top_constructors_2020_R7)[13] <- "Race Track"
+C7_2020_R7 <- data.frame(top_constructors_2020_R7)
+C7_2020_R7 <- C7_2020_R7[1:10, c(4, 7, 13, 17)]
+#Race 8: Italy (1038)
+top_constructors_2020_R8 <- data.frame(constructor_points) |> filter(year==2020) |> filter(raceId==1038) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2020_R8)[4] <- "Points"
+names(top_constructors_2020_R8)[7] <- "Constructor"
+names(top_constructors_2020_R8)[13] <- "Race Track"
+C8_2020_R8 <- data.frame(top_constructors_2020_R1)
+C8_2020_R8 <- C8_2020_R8[1:10, c(4, 7, 13, 17)]
+#Race 9: Tuscan (1039)
+top_constructors_2020_R9 <- data.frame(constructor_points) |> filter(year==2020) |> filter(raceId==1039) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2020_R9)[4] <- "Points"
+names(top_constructors_2020_R9)[7] <- "Constructor"
+names(top_constructors_2020_R9)[13] <- "Race Track"
+C9_2020_R9 <- data.frame(top_constructors_2020_R9)
+C9_2020_R9 <- C9_2020_R9[1:10, c(4, 7, 13, 17)]
+#Race 10: Russian (1040)
+top_constructors_2020_R10 <- data.frame(constructor_points) |> filter(year==2020) |> filter(raceId==1040) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2020_R10)[4] <- "Points"
+names(top_constructors_2020_R10)[7] <- "Constructor"
+names(top_constructors_2020_R10)[13] <- "Race Track"
+C10_2020_R10 <- data.frame(top_constructors_2020_R10)
+C10_2020_R10 <- C10_2020_R10[1:10, c(4, 7, 13, 17)]
+
+#Championship standings
+championship_standings_constructors_2020 <- data.frame(F1_Constructor_Standings11) |> filter(Year==2020)
+names(championship_standings_constructors_2020)[1] <- "Position"
+names(championship_standings_constructors_2020)[2] <- "Constructor"
+names(championship_standings_constructors_2020)[3] <- "Points"
+championship_standings_constructor_2020 <- championship_standings_constructors_2020[, c(-4)]
+datatable(championship_standings_constructor_2020)
+
+#Full data table of the 2020 season
+df_2020_constructors <- data.frame(C1_2020_R1[,c(1,2)], C2_2020_R2[,c(1,2)], C3_2020_R3[,c(1,2)], C4_2020_R4[,c(1,2)], C5_2020_R5[,c(1,2)], C6_2020_R6[,c(1,2)], C7_2020_R7[,c(1,2)], C8_2020_R8[,c(1,2)], C9_2020_R9[,c(1,2)], C10_2020_R10[,c(1,2)])
+if (!require("DT")) install.packages('DT')
+library(DT)
+sketch2020_constructors = htmltools::withTags(table(
+    class = 'display',
+    thead(
+        tr(
+            th(rowspan = 2, 'Position'),
+            th(colspan = 2, 'Austrian Grand Prix'),
+            th(colspan = 2, 'Styrian Grand Prix'),
+            th(colspan = 2, 'Hungary Grand Prix'), 
+            th(colspan = 2, 'British Grand Prix'),
+            th(colspan = 2, 'British (70th Anniversary) Grand Prix'),
+            th(colspan = 2, 'Spain Grand Prix'),
+            th(colspan = 2, 'Belgium Grand Prix'),
+            th(colspan = 2, 'Italy Grand Prix'),
+            th(colspan = 2, 'Tuscan Grand Prix'),
+            th(colspan = 2, 'Russia Grand Prix')
+        ),
+        tr(
+            lapply(rep(c("Points","Constructor"), 10), th)
+        )
+        )
+        ))
+datatable(df_2020_constructors[1:20], container = sketch2020_constructors, rownames = TRUE) |> print()
+```
+
+```{r}
+##2021 year
+
+#Race 1: Bahrain (1052)
+top_constructors_2021_R1 <- data.frame(constructor_points) |> filter(year==2021) |> filter(raceId==1052) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2021_R1)[4] <- "Points"
+names(top_constructors_2021_R1)[7] <- "Constructor"
+names(top_constructors_2021_R1)[13] <- "Race Track"
+C1_2021_R1 <- data.frame(top_constructors_2021_R1)
+C1_2021_R1 <- C1_2021_R1[1:10, c(4, 7, 13, 17)]
+#Race 2: Emilia Romagna (1053)
+top_constructors_2021_R2 <- data.frame(constructor_points) |> filter(year==2021) |> filter(raceId==1053) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2021_R2)[4] <- "Points"
+names(top_constructors_2021_R2)[7] <- "Constructor"
+names(top_constructors_2021_R2)[13] <- "Race Track"
+C2_2021_R2 <- data.frame(top_constructors_2021_R2)
+C2_2021_R2 <- C2_2021_R2[1:10, c(4, 7, 13, 17)]
+#Race 3: Portugal (1054)
+top_constructors_2021_R3 <- data.frame(constructor_points) |> filter(year==2021) |> filter(raceId==1054) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2021_R3)[4] <- "Points"
+names(top_constructors_2021_R3)[7] <- "Constructor"
+names(top_constructors_2021_R3)[13] <- "Race Track"
+C3_2021_R3 <- data.frame(top_constructors_2021_R3)
+C3_2021_R3 <- C3_2021_R3[1:10, c(4, 7, 13, 17)]
+#Race 4: Spain (1055)
+top_constructors_2021_R4 <- data.frame(constructor_points) |> filter(year==2021) |> filter(raceId==1055) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2021_R4)[4] <- "Points"
+names(top_constructors_2021_R4)[7] <- "Constructor"
+names(top_constructors_2021_R4)[13] <- "Race Track"
+C4_2021_R4 <- data.frame(top_constructors_2021_R4)
+C4_2021_R4 <- C4_2021_R4[1:10, c(4, 7, 13, 17)]
+#Race 5: Monaco (1056)
+top_constructors_2021_R5 <- data.frame(constructor_points) |> filter(year==2021) |> filter(raceId==1056) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2021_R5)[4] <- "Points"
+names(top_constructors_2021_R5)[7] <- "Constructor"
+names(top_constructors_2021_R5)[13] <- "Race Track"
+C5_2021_R5 <- data.frame(top_constructors_2021_R1)
+C5_2021_R5 <- C5_2021_R5[1:10, c(4, 7, 13, 17)]
+#Race 6: Azerbaijan (1057)
+top_constructors_2021_R6 <- data.frame(constructor_points) |> filter(year==2021) |> filter(raceId==1057) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2021_R6)[4] <- "Points"
+names(top_constructors_2021_R6)[7] <- "Constructor"
+names(top_constructors_2021_R6)[13] <- "Race Track"
+C6_2021_R6 <- data.frame(top_constructors_2021_R6)
+C6_2021_R6 <- C6_2021_R6[1:10, c(4, 7, 13, 17)]
+#Race 7: French (1059)
+top_constructors_2021_R7 <- data.frame(constructor_points) |> filter(year==2021) |> filter(raceId==1059) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2021_R7)[4] <- "Points"
+names(top_constructors_2021_R7)[7] <- "Constructor"
+names(top_constructors_2021_R7)[13] <- "Race Track"
+C7_2021_R7 <- data.frame(top_constructors_2021_R7)
+C7_2021_R7 <- C7_2021_R7[1:10, c(4, 7, 13, 17)]
+#Race 8: Styrian (1058)
+top_constructors_2021_R8 <- data.frame(constructor_points) |> filter(year==2021) |> filter(raceId==1058) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2021_R8)[4] <- "Points"
+names(top_constructors_2021_R8)[7] <- "Constructor"
+names(top_constructors_2021_R8)[13] <- "Race Track"
+C8_2021_R8 <- data.frame(top_constructors_2021_R1)
+C8_2021_R8 <- C8_2021_R8[1:10, c(4, 7, 13, 17)]
+#Race 9: Austrian (1060)
+top_constructors_2021_R9 <- data.frame(constructor_points) |> filter(year==2021) |> filter(raceId==1060) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2021_R9)[4] <- "Points"
+names(top_constructors_2021_R9)[7] <- "Constructor"
+names(top_constructors_2021_R9)[13] <- "Race Track"
+C9_2021_R9 <- data.frame(top_constructors_2021_R9)
+C9_2021_R9 <- C9_2021_R9[1:10, c(4, 7, 13, 17)]
+#Race 10: British (1061)
+top_constructors_2021_R10 <- data.frame(constructor_points) |> filter(year==2021) |> filter(raceId==1061) |> arrange(desc(points))|> mutate(Position = rep(1:10))
+names(top_constructors_2021_R10)[4] <- "Points"
+names(top_constructors_2021_R10)[7] <- "Constructor"
+names(top_constructors_2021_R10)[13] <- "Race Track"
+C10_2021_R10 <- data.frame(top_constructors_2021_R10)
+C10_2021_R10 <- C10_2021_R10[1:10, c(4, 7, 13, 17)]
+
+#Championship standings
+championship_standings_constructors_2021 <- data.frame(F1_Constructor_Standings11) |> filter(Year==2021)
+names(championship_standings_constructors_2021)[1] <- "Position"
+names(championship_standings_constructors_2021)[2] <- "Constructor"
+names(championship_standings_constructors_2021)[3] <- "Points"
+championship_standings_constructor_2021 <- championship_standings_constructors_2021[, c(-4)]
+datatable(championship_standings_constructor_2021)
+
+#Full data table of the 2019 season
+df_2021_constructors <- data.frame(C1_2021_R1[,c(1,2)], C2_2021_R2[,c(1,2)], C3_2021_R3[,c(1,2)], C4_2021_R4[,c(1,2)], C5_2021_R5[,c(1,2)], C6_2021_R6[,c(1,2)], C7_2021_R7[,c(1,2)], C8_2021_R8[,c(1,2)], C9_2021_R9[,c(1,2)], C10_2021_R10[,c(1,2)])
+if (!require("DT")) install.packages('DT')
+library(DT)
+sketch2021_constructors = htmltools::withTags(table(
+    class = 'display',
+    thead(
+        tr(
+            th(rowspan = 2, 'Position'),
+            th(colspan = 2, 'Bahrain Grand Prix'),
+            th(colspan = 2, 'Emilia Romagna Grand Prix'),
+            th(colspan = 2, 'Portugal Grand Prix'), 
+            th(colspan = 2, 'Spain Grand Prix'),
+            th(colspan = 2, 'Monaco Grand Prix'),
+            th(colspan = 2, 'Azerbaijan Grand Prix'),
+            th(colspan = 2, 'French Grand Prix'),
+            th(colspan = 2, 'Styrian Grand Prix'),
+            th(colspan = 2, 'Austrian Grand Prix'),
+            th(colspan = 2, 'British Grand Prix')
+        ),
+        tr(
+            lapply(rep(c("Points","Constructor"), 10), th)
+        )
+        )
+        ))
+datatable(df_2021_constructors[1:20], container = sketch2021_constructors, rownames = TRUE) |> print()
+```
+

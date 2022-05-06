@@ -1,0 +1,821 @@
+---
+title: "First 10 races Drivers"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#Want to map the top 10 finishing positions of the first 10 races for each year to the output (championship standings at the end of the year)
+#Data needed: raceorder_20..; df_race_byrace_20..
+```
+
+```{r}
+##2012 year
+
+#Race order:
+raceorder_2012 |> filter(round<=10)
+#Renaming columns
+top10_race_2012 <- data.frame(df_race_byrace2012)
+names(top10_race_2012)[7] <- "Position"
+names(top10_race_2012)[10] <- "Points"
+names(top10_race_2012)[21] <- "Code"
+names(top10_race_2012)[23] <- "Driver"
+names(top10_race_2012)[28] <- "Constructor"
+names(top10_race_2012)[35] <- "Race Track"
+
+#Race 1: Australia (860)
+R1_2012_F10 <- data.frame(top10_race_2012) |>  filter(raceId==860)
+R1_2012_F10 <- R1_2012_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 2: Malaysia (861)
+R2_2012_F10 <- data.frame(top10_race_2012) |>  filter(raceId==861)
+R2_2012_F10 <- R2_2012_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 3: China (862)
+R3_2012_F10 <- data.frame(top10_race_2012) |>  filter(raceId==862)
+R3_2012_F10 <- R3_2012_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 4: Bahrain (863)
+R4_2012_F10 <- data.frame(top10_race_2012) |>  filter(raceId==863)
+R4_2012_F10 <- R4_2012_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 5: Spain (864)
+R5_2012_F10 <- data.frame(top10_race_2012) |>  filter(raceId==864)
+R5_2012_F10 <- R5_2012_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 6: Monaco (865)
+R6_2012_F10 <- data.frame(top10_race_2012) |>  filter(raceId==865)
+R6_2012_F10 <- R6_2012_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 7: Canada (866)
+R7_2012_F10 <- data.frame(top10_race_2012) |>  filter(raceId==866)
+R7_2012_F10 <- R7_2012_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 8: European (867)
+R8_2012_F10 <- data.frame(top10_race_2012) |>  filter(raceId==867)
+R8_2012_F10 <- R8_2012_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 9: British (868)
+R9_2012_F10 <- data.frame(top10_race_2012) |>  filter(raceId==868)
+R9_2012_F10 <- R9_2012_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 10: German (869)
+R10_2012_F10 <- data.frame(top10_race_2012) |>  filter(raceId==869)
+R10_2012_F10 <- R10_2012_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+
+#Championship standings
+championship_standings_2012 <- data.frame(F1_Driver_Standings11) |> filter(Year==2012)
+names(championship_standings_2012)[1] <- "Position"
+names(championship_standings_2012)[4] <- "Constructor"
+names(championship_standings_2012)[5] <- "Points"
+championship_standings_2012 <- championship_standings_2012[, c(-3,-6)]
+datatable(championship_standings_2012)
+
+#Full data table of the 2012 season
+df_2012_F10 <- data.frame(R1_2012_F10[,c(2,4,5)], R2_2012_F10[,c(2,4,5)], R3_2012_F10[,c(2,4,5)], R4_2012_F10[,c(2,4,5)], R5_2012_F10[,c(2,4,5)], R6_2012_F10[,c(2,4,5)], R7_2012_F10[,c(2,4,5)], R8_2012_F10[,c(2,4,5)], R9_2012_F10[,c(2,4,5)], R10_2012_F10[,c(2,4,5)])
+if (!require("DT")) install.packages('DT')
+library(DT)
+sketch2012 = htmltools::withTags(table(
+    class = 'display',
+    thead(
+        tr(
+            th(rowspan = 2, 'Position'),
+            th(colspan = 3, 'Australian Grand Prix'),
+            th(colspan = 3, 'Malaysian Grand Prix'),
+            th(colspan = 3, 'Chinese Grand Prix'), 
+            th(colspan = 3, 'Bahrain Grand Prix'),
+            th(colspan = 3, 'Spanish Grand Prix'),
+            th(colspan = 3, 'Monaco Grand Prix'),
+            th(colspan = 3, 'Canadian Grand Prix'),
+            th(colspan = 3, 'European Grand Prix'),
+            th(colspan = 3, 'British Grand Prix'),
+            th(colspan = 3, 'German Grand Prix')
+        ),
+        tr(
+            lapply(rep(c("Points", "Driver", "Constructor"), 10), th)
+        )
+        )
+        ))
+datatable(df_2012_F10[1:30], container = sketch2012, rownames = TRUE) |> print()
+```
+
+```{r}
+##2013 year
+
+#Race order:
+raceorder_2013 |> filter(round<=10)
+#Renaming columns
+top10_race_2013 <- data.frame(df_race_byrace2013)
+names(top10_race_2013)[7] <- "Position"
+names(top10_race_2013)[10] <- "Points"
+names(top10_race_2013)[21] <- "Code"
+names(top10_race_2013)[23] <- "Driver"
+names(top10_race_2013)[28] <- "Constructor"
+names(top10_race_2013)[35] <- "Race Track"
+
+#Race 1: Australia (880)
+R1_2013_F10 <- data.frame(top10_race_2013) |>  filter(raceId==880)
+R1_2013_F10 <- R1_2013_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 2: Malaysia (881)
+R2_2013_F10 <- data.frame(top10_race_2013) |>  filter(raceId==881)
+R2_2013_F10 <- R2_2013_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 3: China (882)
+R3_2013_F10 <- data.frame(top10_race_2013) |>  filter(raceId==882)
+R3_2013_F10 <- R3_2013_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 4: Bahrain (883)
+R4_2013_F10 <- data.frame(top10_race_2013) |>  filter(raceId==883)
+R4_2013_F10 <- R4_2013_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 5: Spain (884)
+R5_2013_F10 <- data.frame(top10_race_2013) |>  filter(raceId==884)
+R5_2013_F10 <- R5_2013_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 6: Monaco (885)
+R6_2013_F10 <- data.frame(top10_race_2013) |>  filter(raceId==885)
+R6_2013_F10 <- R6_2013_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 7: Canada (886)
+R7_2013_F10 <- data.frame(top10_race_2013) |>  filter(raceId==886)
+R7_2013_F10 <- R7_2013_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 8: British (887)
+R8_2013_F10 <- data.frame(top10_race_2013) |>  filter(raceId==887)
+R8_2013_F10 <- R8_2013_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 9: German (888)
+R9_2013_F10 <- data.frame(top10_race_2013) |>  filter(raceId==888)
+R9_2013_F10 <- R9_2013_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 10: Hungary (890)
+R10_2013_F10 <- data.frame(top10_race_2013) |>  filter(raceId==890)
+R10_2013_F10 <- R10_2013_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+
+#Championship standings
+championship_standings_2013 <- data.frame(F1_Driver_Standings11) |> filter(Year==2013)
+names(championship_standings_2013)[1] <- "Position"
+names(championship_standings_2013)[4] <- "Constructor"
+names(championship_standings_2013)[5] <- "Points"
+championship_standings_2013 <- championship_standings_2013[, c(-3,-6)]
+datatable(championship_standings_2013)
+
+#Full data table of the 2013 season
+df_2013_F10 <- data.frame(R1_2013_F10[,c(2,4,5)], R2_2013_F10[,c(2,4,5)], R3_2013_F10[,c(2,4,5)], R4_2013_F10[,c(2,4,5)], R5_2013_F10[,c(2,4,5)], R6_2013_F10[,c(2,4,5)], R7_2013_F10[,c(2,4,5)], R8_2013_F10[,c(2,4,5)], R9_2013_F10[,c(2,4,5)], R10_2013_F10[,c(2,4,5)])
+if (!require("DT")) install.packages('DT')
+library(DT)
+sketch2013 = htmltools::withTags(table(
+    class = 'display',
+    thead(
+        tr(
+            th(rowspan = 2, 'Position'),
+            th(colspan = 3, 'Australian Grand Prix'),
+            th(colspan = 3, 'Malaysian Grand Prix'),
+            th(colspan = 3, 'Chinese Grand Prix'), 
+            th(colspan = 3, 'Bahrain Grand Prix'),
+            th(colspan = 3, 'Spanish Grand Prix'),
+            th(colspan = 3, 'Monaco Grand Prix'),
+            th(colspan = 3, 'Canadian Grand Prix'),
+            th(colspan = 3, 'British Grand Prix'),
+            th(colspan = 3, 'German Grand Prix'),
+            th(colspan = 3, 'Hungary Grand Prix')
+        ),
+        tr(
+            lapply(rep(c("Points", "Driver", "Constructor"), 10), th)
+        )
+        )
+        ))
+datatable(df_2013_F10[1:30], container = sketch2013, rownames = TRUE) |> print()
+```
+```{r}
+##2014 year
+
+#Race order:
+raceorder_2014 |> filter(round<=10)
+#Renaming columns
+top10_race_2014 <- data.frame(df_race_byrace2014)
+names(top10_race_2014)[7] <- "Position"
+names(top10_race_2014)[10] <- "Points"
+names(top10_race_2014)[21] <- "Code"
+names(top10_race_2014)[23] <- "Driver"
+names(top10_race_2014)[28] <- "Constructor"
+names(top10_race_2014)[35] <- "Race Track"
+
+#Race 1: Australia (900)
+R1_2014_F10 <- data.frame(top10_race_2014) |>  filter(raceId==900)
+R1_2014_F10 <- R1_2014_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 2: Malaysia (901)
+R2_2014_F10 <- data.frame(top10_race_2014) |>  filter(raceId==901)
+R2_2014_F10 <- R2_2014_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 3: Bahrain (902)
+R3_2014_F10 <- data.frame(top10_race_2014) |>  filter(raceId==902)
+R3_2014_F10 <- R3_2014_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 4: China (903)
+R4_2014_F10 <- data.frame(top10_race_2014) |>  filter(raceId==903)
+R4_2014_F10 <- R4_2014_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 5: Spain (904)
+R5_2014_F10 <- data.frame(top10_race_2014) |>  filter(raceId==904)
+R5_2014_F10 <- R5_2014_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 6: Monaco (905)
+R6_2014_F10 <- data.frame(top10_race_2014) |>  filter(raceId==905)
+R6_2014_F10 <- R6_2014_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 7: Canada (906)
+R7_2014_F10 <- data.frame(top10_race_2014) |>  filter(raceId==906)
+R7_2014_F10 <- R7_2014_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 8: Austrian (907)
+R8_2014_F10 <- data.frame(top10_race_2014) |>  filter(raceId==907)
+R8_2014_F10 <- R8_2014_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 9: Britain (908)
+R9_2014_F10 <- data.frame(top10_race_2014) |>  filter(raceId==908)
+R9_2014_F10 <- R9_2014_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 10: German(909)
+R10_2014_F10 <- data.frame(top10_race_2014) |>  filter(raceId==909)
+R10_2014_F10 <- R10_2014_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+
+#Championship standings
+championship_standings_2014 <- data.frame(F1_Driver_Standings11) |> filter(Year==2014)
+names(championship_standings_2014)[1] <- "Position"
+names(championship_standings_2014)[4] <- "Constructor"
+names(championship_standings_2014)[5] <- "Points"
+championship_standings_2014 <- championship_standings_2014[, c(-3,-6)]
+datatable(championship_standings_2014)
+
+#Full data table of the 2014 season
+df_2014_F10 <- data.frame(R1_2014_F10[,c(2,4,5)], R2_2014_F10[,c(2,4,5)], R3_2014_F10[,c(2,4,5)], R4_2014_F10[,c(2,4,5)], R5_2014_F10[,c(2,4,5)], R6_2014_F10[,c(2,4,5)], R7_2014_F10[,c(2,4,5)], R8_2014_F10[,c(2,4,5)], R9_2014_F10[,c(2,4,5)], R10_2014_F10[,c(2,4,5)])
+if (!require("DT")) install.packages('DT')
+library(DT)
+sketch2014 = htmltools::withTags(table(
+    class = 'display',
+    thead(
+        tr(
+            th(rowspan = 2, 'Position'),
+            th(colspan = 3, 'Australian Grand Prix'),
+            th(colspan = 3, 'Malaysian Grand Prix'),
+            th(colspan = 3, 'Bahrain Grand Prix'), 
+            th(colspan = 3, 'Chinese Grand Prix'),
+            th(colspan = 3, 'Spanish Grand Prix'),
+            th(colspan = 3, 'Monaco Grand Prix'),
+            th(colspan = 3, 'Canadian Grand Prix'),
+            th(colspan = 3, 'Austrian Grand Prix'),
+            th(colspan = 3, 'British Grand Prix'),
+            th(colspan = 3, 'German Grand Prix')
+        ),
+        tr(
+            lapply(rep(c("Points", "Driver", "Constructor"), 10), th)
+        )
+        )
+        ))
+datatable(df_2014_F10[1:30], container = sketch2014, rownames = TRUE) |> print()
+```
+```{r}
+##2015 year
+
+#Race order:
+raceorder_2015 |> filter(round<=10)
+#Renaming columns
+top10_race_2015 <- data.frame(df_race_byrace2015)
+names(top10_race_2015)[7] <- "Position"
+names(top10_race_2015)[10] <- "Points"
+names(top10_race_2015)[21] <- "Code"
+names(top10_race_2015)[23] <- "Driver"
+names(top10_race_2015)[28] <- "Constructor"
+names(top10_race_2015)[35] <- "Race Track"
+
+#Race 1: Australia (926)
+R1_2015_F10 <- data.frame(top10_race_2015) |>  filter(raceId==926)
+R1_2015_F10 <- R1_2015_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 2: Malaysia (927)
+R2_2015_F10 <- data.frame(top10_race_2015) |>  filter(raceId==927)
+R2_2015_F10 <- R2_2015_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 3: China (928)
+R3_2015_F10 <- data.frame(top10_race_2015) |>  filter(raceId==928)
+R3_2015_F10 <- R3_2015_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 4: Bahrain (929)
+R4_2015_F10 <- data.frame(top10_race_2015) |>  filter(raceId==929)
+R4_2015_F10 <- R4_2015_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 5: Spain (930)
+R5_2015_F10 <- data.frame(top10_race_2015) |>  filter(raceId==930)
+R5_2015_F10 <- R5_2015_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 6: Monaco (931)
+R6_2015_F10 <- data.frame(top10_race_2015) |>  filter(raceId==931)
+R6_2015_F10 <- R6_2015_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 7: Canada (932)
+R7_2015_F10 <- data.frame(top10_race_2015) |>  filter(raceId==932)
+R7_2015_F10 <- R7_2015_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 8: Austrian (933)
+R8_2015_F10 <- data.frame(top10_race_2015) |>  filter(raceId==933)
+R8_2015_F10 <- R8_2015_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 9: British (934)
+R9_2015_F10 <- data.frame(top10_race_2015) |>  filter(raceId==934)
+R9_2015_F10 <- R9_2015_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 10: Hungary (936)
+R10_2015_F10 <- data.frame(top10_race_2015) |>  filter(raceId==936)
+R10_2015_F10 <- R10_2015_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+
+#Championship standings
+championship_standings_2015 <- data.frame(F1_Driver_Standings11) |> filter(Year==2015)
+names(championship_standings_2015)[1] <- "Position"
+names(championship_standings_2015)[4] <- "Constructor"
+names(championship_standings_2015)[5] <- "Points"
+championship_standings_2015 <- championship_standings_2015[, c(-3,-6)]
+datatable(championship_standings_2015)
+
+#Full data table of the 2015 season
+df_2015_F10 <- data.frame(R1_2015_F10[,c(2,4,5)], R2_2015_F10[,c(2,4,5)], R3_2015_F10[,c(2,4,5)], R4_2015_F10[,c(2,4,5)], R5_2015_F10[,c(2,4,5)], R6_2015_F10[,c(2,4,5)], R7_2015_F10[,c(2,4,5)], R8_2015_F10[,c(2,4,5)], R9_2015_F10[,c(2,4,5)], R10_2015_F10[,c(2,4,5)])
+if (!require("DT")) install.packages('DT')
+library(DT)
+sketch2015 = htmltools::withTags(table(
+    class = 'display',
+    thead(
+        tr(
+            th(rowspan = 2, 'Position'),
+            th(colspan = 3, 'Australian Grand Prix'),
+            th(colspan = 3, 'Malaysian Grand Prix'),
+            th(colspan = 3, 'Chinese Grand Prix'), 
+            th(colspan = 3, 'Bahrain Grand Prix'),
+            th(colspan = 3, 'Spanish Grand Prix'),
+            th(colspan = 3, 'Monaco Grand Prix'),
+            th(colspan = 3, 'Canadian Grand Prix'),
+            th(colspan = 3, 'Austrian Grand Prix'),
+            th(colspan = 3, 'British Grand Prix'),
+            th(colspan = 3, 'Hungary Grand Prix')
+        ),
+        tr(
+            lapply(rep(c("Points", "Driver", "Constructor"), 10), th)
+        )
+        )
+        ))
+datatable(df_2015_F10[1:30], container = sketch2015, rownames = TRUE) |> print()
+```
+
+```{r}
+##2016 year
+
+#Race order:
+raceorder_2016 |> filter(round<=10)
+#Renaming columns
+top10_race_2016 <- data.frame(df_race_byrace2016)
+names(top10_race_2016)[7] <- "Position"
+names(top10_race_2016)[10] <- "Points"
+names(top10_race_2016)[21] <- "Code"
+names(top10_race_2016)[23] <- "Driver"
+names(top10_race_2016)[28] <- "Constructor"
+names(top10_race_2016)[35] <- "Race Track"
+
+#Race 1: Australia (948)
+R1_2016_F10 <- data.frame(top10_race_2016) |>  filter(raceId==948)
+R1_2016_F10 <- R1_2016_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 2: Bahrain (949)
+R2_2016_F10 <- data.frame(top10_race_2016) |>  filter(raceId==949)
+R2_2016_F10 <- R2_2016_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 3: China (950)
+R3_2016_F10 <- data.frame(top10_race_2016) |>  filter(raceId==950)
+R3_2016_F10 <- R3_2016_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 4: Russia (951)
+R4_2016_F10 <- data.frame(top10_race_2016) |>  filter(raceId==951)
+R4_2016_F10 <- R4_2016_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 5: Spain (952)
+R5_2016_F10 <- data.frame(top10_race_2016) |>  filter(raceId==952)
+R5_2016_F10 <- R5_2016_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 6: Monaco (953)
+R6_2016_F10 <- data.frame(top10_race_2016) |>  filter(raceId==953)
+R6_2016_F10 <- R6_2016_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 7: Canada (954)
+R7_2016_F10 <- data.frame(top10_race_2016) |>  filter(raceId==954)
+R7_2016_F10 <- R7_2016_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 8: European (955)
+R8_2016_F10 <- data.frame(top10_race_2016) |>  filter(raceId==955)
+R8_2016_F10 <- R8_2016_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 9: Austrian (956)
+R9_2016_F10 <- data.frame(top10_race_2016) |>  filter(raceId==956)
+R9_2016_F10 <- R9_2016_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 10: British (957)
+R10_2016_F10 <- data.frame(top10_race_2016) |>  filter(raceId==957)
+R10_2016_F10 <- R10_2016_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+
+#Championship standings
+championship_standings_2016 <- data.frame(F1_Driver_Standings11) |> filter(Year==2016)
+names(championship_standings_2016)[1] <- "Position"
+names(championship_standings_2016)[4] <- "Constructor"
+names(championship_standings_2016)[5] <- "Points"
+championship_standings_2016 <- championship_standings_2016[, c(-3,-6)]
+datatable(championship_standings_2016)
+
+#Full data table of the 2016 season
+df_2016_F10 <- data.frame(R1_2016_F10[,c(2,4,5)], R2_2016_F10[,c(2,4,5)], R3_2016_F10[,c(2,4,5)], R4_2016_F10[,c(2,4,5)], R5_2016_F10[,c(2,4,5)], R6_2016_F10[,c(2,4,5)], R7_2016_F10[,c(2,4,5)], R8_2016_F10[,c(2,4,5)], R9_2016_F10[,c(2,4,5)], R10_2016_F10[,c(2,4,5)])
+if (!require("DT")) install.packages('DT')
+library(DT)
+sketch2016 = htmltools::withTags(table(
+    class = 'display',
+    thead(
+        tr(
+            th(rowspan = 2, 'Position'),
+            th(colspan = 3, 'Australian Grand Prix'),
+            th(colspan = 3, 'Bahrain Grand Prix'),
+            th(colspan = 3, 'Chinese Grand Prix'), 
+            th(colspan = 3, 'Russia Grand Prix'),
+            th(colspan = 3, 'Spanish Grand Prix'),
+            th(colspan = 3, 'Monaco Grand Prix'),
+            th(colspan = 3, 'Canadian Grand Prix'),
+            th(colspan = 3, 'European Grand Prix'),
+            th(colspan = 3, 'Austrian Grand Prix'),
+            th(colspan = 3, 'British Grand Prix')
+        ),
+        tr(
+            lapply(rep(c("Points", "Driver", "Constructor"), 10), th)
+        )
+        )
+        ))
+datatable(df_2016_F10[1:30], container = sketch2016, rownames = TRUE) |> print()
+```
+
+```{r}
+##2017 year
+
+#Race order:
+raceorder_2017 |> filter(round<=10)
+#Renaming columns
+top10_race_2017 <- data.frame(df_race_byrace2017)
+names(top10_race_2017)[7] <- "Position"
+names(top10_race_2017)[10] <- "Points"
+names(top10_race_2017)[21] <- "Code"
+names(top10_race_2017)[23] <- "Driver"
+names(top10_race_2017)[28] <- "Constructor"
+names(top10_race_2017)[35] <- "Race Track"
+
+#Race 1: Australia (969)
+R1_2017_F10 <- data.frame(top10_race_2017) |>  filter(raceId==969)
+R1_2017_F10 <- R1_2017_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 2: China (970)
+R2_2017_F10 <- data.frame(top10_race_2017) |>  filter(raceId==970)
+R2_2017_F10 <- R2_2017_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 3: Bahrain (971)
+R3_2017_F10 <- data.frame(top10_race_2017) |>  filter(raceId==971)
+R3_2017_F10 <- R3_2017_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 4: Russia (972)
+R4_2017_F10 <- data.frame(top10_race_2017) |>  filter(raceId==972)
+R4_2017_F10 <- R4_2017_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 5: Spain (973)
+R5_2017_F10 <- data.frame(top10_race_2017) |>  filter(raceId==973)
+R5_2017_F10 <- R5_2017_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 6: Monaco (974)
+R6_2017_F10 <- data.frame(top10_race_2017) |>  filter(raceId==974)
+R6_2017_F10 <- R6_2017_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 7: Canada (975)
+R7_2017_F10 <- data.frame(top10_race_2017) |>  filter(raceId==975)
+R7_2017_F10 <- R7_2017_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 8: Azerbaijan (976)
+R8_2017_F10 <- data.frame(top10_race_2017) |>  filter(raceId==976)
+R8_2017_F10 <- R8_2017_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 9: Austrian (977)
+R9_2017_F10 <- data.frame(top10_race_2017) |>  filter(raceId==977)
+R9_2017_F10 <- R9_2017_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 10: British (978)
+R10_2017_F10 <- data.frame(top10_race_2017) |>  filter(raceId==978)
+R10_2017_F10 <- R10_2017_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+
+#Championship standings
+championship_standings_2017 <- data.frame(F1_Driver_Standings11) |> filter(Year==2017)
+names(championship_standings_2017)[1] <- "Position"
+names(championship_standings_2017)[4] <- "Constructor"
+names(championship_standings_2017)[5] <- "Points"
+championship_standings_2017 <- championship_standings_2017[, c(-3,-6)]
+datatable(championship_standings_2017)
+
+#Full data table of the 2017 season
+df_2017_F10 <- data.frame(R1_2017_F10[,c(2,4,5)], R2_2017_F10[,c(2,4,5)], R3_2017_F10[,c(2,4,5)], R4_2017_F10[,c(2,4,5)], R5_2017_F10[,c(2,4,5)], R6_2017_F10[,c(2,4,5)], R7_2017_F10[,c(2,4,5)], R8_2017_F10[,c(2,4,5)], R9_2017_F10[,c(2,4,5)], R10_2017_F10[,c(2,4,5)])
+if (!require("DT")) install.packages('DT')
+library(DT)
+sketch2017 = htmltools::withTags(table(
+    class = 'display',
+    thead(
+        tr(
+            th(rowspan = 2, 'Position'),
+            th(colspan = 3, 'Australian Grand Prix'),
+            th(colspan = 3, 'Chinese Grand Prix'),
+            th(colspan = 3, 'Bahrain Grand Prix'), 
+            th(colspan = 3, 'Russia Grand Prix'),
+            th(colspan = 3, 'Spanish Grand Prix'),
+            th(colspan = 3, 'Monaco Grand Prix'),
+            th(colspan = 3, 'Canadian Grand Prix'),
+            th(colspan = 3, 'Azerbaijan Grand Prix'),
+            th(colspan = 3, 'Austrian Grand Prix'),
+            th(colspan = 3, 'British Grand Prix')
+        ),
+        tr(
+            lapply(rep(c("Points", "Driver", "Constructor"), 10), th)
+        )
+        )
+        ))
+datatable(df_2017_F10[1:30], container = sketch2017, rownames = TRUE) |> print()
+```
+
+```{r}
+##2018 year
+
+#Race order:
+raceorder_2018 |> filter(round<=10)
+#Renaming columns
+top10_race_2018 <- data.frame(df_race_byrace2018)
+names(top10_race_2018)[7] <- "Position"
+names(top10_race_2018)[10] <- "Points"
+names(top10_race_2018)[21] <- "Code"
+names(top10_race_2018)[23] <- "Driver"
+names(top10_race_2018)[28] <- "Constructor"
+names(top10_race_2018)[35] <- "Race Track"
+
+#Race 1: Australia (989)
+R1_2018_F10 <- data.frame(top10_race_2018) |>  filter(raceId==989)
+R1_2018_F10 <- R1_2018_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 2: Bahrain (990)
+R2_2018_F10 <- data.frame(top10_race_2018) |>  filter(raceId==990)
+R2_2018_F10 <- R2_2018_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 3: China (991)
+R3_2018_F10 <- data.frame(top10_race_2018) |>  filter(raceId==991)
+R3_2018_F10 <- R3_2018_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 4: Azerbaijan (992)
+R4_2018_F10 <- data.frame(top10_race_2018) |>  filter(raceId==992)
+R4_2018_F10 <- R4_2018_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 5: Spain (993)
+R5_2018_F10 <- data.frame(top10_race_2018) |>  filter(raceId==993)
+R5_2018_F10 <- R5_2018_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 6: Monaco (994)
+R6_2018_F10 <- data.frame(top10_race_2018) |>  filter(raceId==994)
+R6_2018_F10 <- R6_2018_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 7: Canada (995)
+R7_2018_F10 <- data.frame(top10_race_2018) |>  filter(raceId==995)
+R7_2018_F10 <- R7_2018_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 8: French (996)
+R8_2018_F10 <- data.frame(top10_race_2018) |>  filter(raceId==996)
+R8_2018_F10 <- R8_2018_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 9: Austrian (997)
+R9_2018_F10 <- data.frame(top10_race_2018) |>  filter(raceId==997)
+R9_2018_F10 <- R9_2018_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 10: British (998)
+R10_2018_F10 <- data.frame(top10_race_2018) |>  filter(raceId==998)
+R10_2018_F10 <- R10_2018_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+
+#Championship standings
+championship_standings_2018 <- data.frame(F1_Driver_Standings11) |> filter(Year==2018)
+names(championship_standings_2018)[1] <- "Position"
+names(championship_standings_2018)[4] <- "Constructor"
+names(championship_standings_2018)[5] <- "Points"
+championship_standings_2018 <- championship_standings_2018[, c(-3,-6)]
+datatable(championship_standings_2018)
+
+#Full data table of the 2018 season
+df_2018_F10 <- data.frame(R1_2018_F10[,c(2,4,5)], R2_2018_F10[,c(2,4,5)], R3_2018_F10[,c(2,4,5)], R4_2018_F10[,c(2,4,5)], R5_2018_F10[,c(2,4,5)], R6_2018_F10[,c(2,4,5)], R7_2018_F10[,c(2,4,5)], R8_2018_F10[,c(2,4,5)], R9_2018_F10[,c(2,4,5)], R10_2018_F10[,c(2,4,5)])
+if (!require("DT")) install.packages('DT')
+library(DT)
+sketch2018 = htmltools::withTags(table(
+    class = 'display',
+    thead(
+        tr(
+            th(rowspan = 2, 'Position'),
+            th(colspan = 3, 'Australian Grand Prix'),
+            th(colspan = 3, 'Bahrain Grand Prix'),
+            th(colspan = 3, 'Chinese Grand Prix'), 
+            th(colspan = 3, 'Azerbaijan Grand Prix'),
+            th(colspan = 3, 'Spanish Grand Prix'),
+            th(colspan = 3, 'Monaco Grand Prix'),
+            th(colspan = 3, 'Canadian Grand Prix'),
+            th(colspan = 3, 'French Grand Prix'),
+            th(colspan = 3, 'Austrian Grand Prix'),
+            th(colspan = 3, 'British Grand Prix')
+        ),
+        tr(
+            lapply(rep(c("Points", "Driver", "Constructor"), 10), th)
+        )
+        )
+        ))
+datatable(df_2018_F10[1:30], container = sketch2018, rownames = TRUE) |> print()
+```
+
+```{r}
+##2019 year
+
+#Race order:
+raceorder_2019 |> filter(round<=10)
+#Renaming columns
+top10_race_2019 <- data.frame(df_race_byrace2019)
+names(top10_race_2019)[7] <- "Position"
+names(top10_race_2019)[10] <- "Points"
+names(top10_race_2019)[21] <- "Code"
+names(top10_race_2019)[23] <- "Driver"
+names(top10_race_2019)[28] <- "Constructor"
+names(top10_race_2019)[35] <- "Race Track"
+
+#Race 1: Australia (1010)
+R1_2019_F10 <- data.frame(top10_race_2019) |>  filter(raceId==1010)
+R1_2019_F10 <- R1_2019_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 2: Bahrain (1011)
+R2_2019_F10 <- data.frame(top10_race_2019) |>  filter(raceId==1011)
+R2_2019_F10 <- R2_2019_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 3: China (1012)
+R3_2019_F10 <- data.frame(top10_race_2019) |>  filter(raceId==1012)
+R3_2019_F10 <- R3_2019_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 4: Azerbaijan (1013)
+R4_2019_F10 <- data.frame(top10_race_2019) |>  filter(raceId==1013)
+R4_2019_F10 <- R4_2019_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 5: Spain (1014)
+R5_2019_F10 <- data.frame(top10_race_2019) |>  filter(raceId==1014)
+R5_2019_F10 <- R5_2019_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 6: Monaco (1015)
+R6_2019_F10 <- data.frame(top10_race_2019) |>  filter(raceId==1015)
+R6_2019_F10 <- R6_2019_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 7: Canada (1016)
+R7_2019_F10 <- data.frame(top10_race_2019) |>  filter(raceId==1016)
+R7_2019_F10 <- R7_2019_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 8: French (1017)
+R8_2019_F10 <- data.frame(top10_race_2019) |>  filter(raceId==1017)
+R8_2019_F10 <- R8_2019_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 9: Austrian (1018)
+R9_2019_F10 <- data.frame(top10_race_2019) |>  filter(raceId==1018)
+R9_2019_F10 <- R9_2019_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 10: British (1019)
+R10_2019_F10 <- data.frame(top10_race_2019) |>  filter(raceId==1019)
+R10_2019_F10 <- R10_2019_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+
+#Championship standings
+championship_standings_2019 <- data.frame(F1_Driver_Standings11) |> filter(Year==2019)
+names(championship_standings_2019)[1] <- "Position"
+names(championship_standings_2019)[4] <- "Constructor"
+names(championship_standings_2019)[5] <- "Points"
+championship_standings_2019 <- championship_standings_2019[, c(-3,-6)]
+datatable(championship_standings_2019)
+
+#Full data table of the 2019 season
+df_2019_F10 <- data.frame(R1_2019_F10[,c(2,4,5)], R2_2019_F10[,c(2,4,5)], R3_2019_F10[,c(2,4,5)], R4_2019_F10[,c(2,4,5)], R5_2019_F10[,c(2,4,5)], R6_2019_F10[,c(2,4,5)], R7_2019_F10[,c(2,4,5)], R8_2019_F10[,c(2,4,5)], R9_2019_F10[,c(2,4,5)], R10_2019_F10[,c(2,4,5)])
+if (!require("DT")) install.packages('DT')
+library(DT)
+sketch2019 = htmltools::withTags(table(
+    class = 'display',
+    thead(
+        tr(
+            th(rowspan = 2, 'Position'),
+            th(colspan = 3, 'Australian Grand Prix'),
+            th(colspan = 3, 'Bahrain Grand Prix'),
+            th(colspan = 3, 'Chinese Grand Prix'), 
+            th(colspan = 3, 'Azerbaijan Grand Prix'),
+            th(colspan = 3, 'Spanish Grand Prix'),
+            th(colspan = 3, 'Monaco Grand Prix'),
+            th(colspan = 3, 'Canadian Grand Prix'),
+            th(colspan = 3, 'French Grand Prix'),
+            th(colspan = 3, 'Austrian Grand Prix'),
+            th(colspan = 3, 'British Grand Prix')
+        ),
+        tr(
+            lapply(rep(c("Points", "Driver", "Constructor"), 10), th)
+        )
+        )
+        ))
+datatable(df_2019_F10[1:30], container = sketch2019, rownames = TRUE) |> print()
+```
+
+```{r}
+##2020 year
+
+#Race order:
+raceorder_2020 |> filter(round<=10)
+#Renaming columns
+top10_race_2020 <- data.frame(df_race_byrace2020)
+names(top10_race_2020)[7] <- "Position"
+names(top10_race_2020)[10] <- "Points"
+names(top10_race_2020)[21] <- "Code"
+names(top10_race_2020)[23] <- "Driver"
+names(top10_race_2020)[28] <- "Constructor"
+names(top10_race_2020)[35] <- "Race Track"
+
+#Race 1: Austrian (1031)
+R1_2020_F10 <- data.frame(top10_race_2020) |>  filter(raceId==1031)
+R1_2020_F10 <- R1_2020_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 2: Styrian (1032)
+R2_2020_F10 <- data.frame(top10_race_2020) |>  filter(raceId==1032)
+R2_2020_F10 <- R2_2020_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 3: Hungary (1033)
+R3_2020_F10 <- data.frame(top10_race_2020) |>  filter(raceId==1033)
+R3_2020_F10 <- R3_2020_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 4: British (1034)
+R4_2020_F10 <- data.frame(top10_race_2020) |>  filter(raceId==1034)
+R4_2020_F10 <- R4_2020_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 5: British (70th anniversary) (1035)
+R5_2020_F10 <- data.frame(top10_race_2020) |>  filter(raceId==1035)
+R5_2020_F10 <- R5_2020_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 6: Spain (1036)
+R6_2020_F10 <- data.frame(top10_race_2020) |>  filter(raceId==1036)
+R6_2020_F10 <- R6_2020_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 7: Belgium (1037)
+R7_2020_F10 <- data.frame(top10_race_2020) |>  filter(raceId==1037)
+R7_2020_F10 <- R7_2020_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 8: Italy (1038)
+R8_2020_F10 <- data.frame(top10_race_2020) |>  filter(raceId==1038)
+R8_2020_F10 <- R8_2020_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 9: Tuscan (1039)
+R9_2020_F10 <- data.frame(top10_race_2020) |>  filter(raceId==1039)
+R9_2020_F10 <- R9_2020_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 10: Russian (1040)
+R10_2020_F10 <- data.frame(top10_race_2020) |>  filter(raceId==1040)
+R10_2020_F10 <- R10_2020_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+
+#Championship standings
+championship_standings_2020 <- data.frame(F1_Driver_Standings11) |> filter(Year==2020)
+names(championship_standings_2020)[1] <- "Position"
+names(championship_standings_2020)[4] <- "Constructor"
+names(championship_standings_2020)[5] <- "Points"
+championship_standings_2020 <- championship_standings_2020[, c(-3,-6)]
+datatable(championship_standings_2020)
+
+#Full data table of the 2020 season
+df_2020_F10 <- data.frame(R1_2020_F10[,c(2,4,5)], R2_2020_F10[,c(2,4,5)], R3_2020_F10[,c(2,4,5)], R4_2020_F10[,c(2,4,5)], R5_2020_F10[,c(2,4,5)], R6_2020_F10[,c(2,4,5)], R7_2020_F10[,c(2,4,5)], R8_2020_F10[,c(2,4,5)], R9_2020_F10[,c(2,4,5)], R10_2020_F10[,c(2,4,5)])
+if (!require("DT")) install.packages('DT')
+library(DT)
+sketch2020 = htmltools::withTags(table(
+    class = 'display',
+    thead(
+        tr(
+            th(rowspan = 2, 'Position'),
+            th(colspan = 3, 'Austrian Grand Prix'),
+            th(colspan = 3, 'Styrian Grand Prix'),
+            th(colspan = 3, 'Hungary Grand Prix'), 
+            th(colspan = 3, 'British Grand Prix'),
+            th(colspan = 3, 'British (70th Anniversary) Grand Prix'),
+            th(colspan = 3, 'Spain Grand Prix'),
+            th(colspan = 3, 'Belgium Grand Prix'),
+            th(colspan = 3, 'Italy Grand Prix'),
+            th(colspan = 3, 'Tuscan Grand Prix'),
+            th(colspan = 3, 'Russia Grand Prix')
+        ),
+        tr(
+            lapply(rep(c("Points", "Driver", "Constructor"), 10), th)
+        )
+        )
+        ))
+datatable(df_2020_F10[1:30], container = sketch2020, rownames = TRUE) |> print()
+```
+
+```{r}
+##2021 year
+
+#Race order:
+raceorder_2021 |> filter(round<=10)
+#Renaming columns
+top10_race_2021 <- data.frame(df_race_byrace2021)
+names(top10_race_2021)[7] <- "Position"
+names(top10_race_2021)[10] <- "Points"
+names(top10_race_2021)[21] <- "Code"
+names(top10_race_2021)[23] <- "Driver"
+names(top10_race_2021)[28] <- "Constructor"
+names(top10_race_2021)[35] <- "Race Track"
+
+#Race 1: Bahrain (1052)
+R1_2021_F10 <- data.frame(top10_race_2021) |>  filter(raceId==1052)
+R1_2021_F10 <- R1_2021_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 2: Emilia Romagna (1053)
+R2_2021_F10 <- data.frame(top10_race_2021) |>  filter(raceId==1053)
+R2_2021_F10 <- R2_2021_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 3: Portugal (1054)
+R3_2021_F10 <- data.frame(top10_race_2021) |>  filter(raceId==1054)
+R3_2021_F10 <- R3_2021_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 4: Spain (1055)
+R4_2021_F10 <- data.frame(top10_race_2021) |>  filter(raceId==1055)
+R4_2021_F10 <- R4_2021_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 5: Monaco (1056)
+R5_2021_F10 <- data.frame(top10_race_2021) |>  filter(raceId==1056)
+R5_2021_F10 <- R5_2021_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 6: Azerbaijan (1057)
+R6_2021_F10 <- data.frame(top10_race_2021) |>  filter(raceId==1057)
+R6_2021_F10 <- R6_2021_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 7: French (1059)
+R7_2021_F10 <- data.frame(top10_race_2021) |>  filter(raceId==1059)
+R7_2021_F10 <- R7_2021_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 8: Styrian (1058)
+R8_2021_F10 <- data.frame(top10_race_2021) |>  filter(raceId==1058)
+R8_2021_F10 <- R8_2021_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 9: Austrian (1060)
+R9_2021_F10 <- data.frame(top10_race_2021) |>  filter(raceId==1060)
+R9_2021_F10 <- R9_2021_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+#Race 10: British (1061)
+R10_2021_F10 <- data.frame(top10_race_2021) |>  filter(raceId==1061)
+R10_2021_F10 <- R10_2021_F10[1:10, c(7, 10, 21, 23, 28, 35)]
+
+#Championship standings
+championship_standings_2021 <- data.frame(F1_Driver_Standings11) |> filter(Year==2021)
+names(championship_standings_2021)[1] <- "Position"
+names(championship_standings_2021)[4] <- "Constructor"
+names(championship_standings_2021)[5] <- "Points"
+championship_standings_2021 <- championship_standings_2021[, c(-3,-6)]
+datatable(championship_standings_2021)
+
+#Full data table of the 2021 season
+df_2021_F10 <- data.frame(R1_2021_F10[,c(2,4,5)], R2_2021_F10[,c(2,4,5)], R3_2021_F10[,c(2,4,5)], R4_2021_F10[,c(2,4,5)], R5_2021_F10[,c(2,4,5)], R6_2021_F10[,c(2,4,5)], R7_2021_F10[,c(2,4,5)], R8_2021_F10[,c(2,4,5)], R9_2021_F10[,c(2,4,5)], R10_2021_F10[,c(2,4,5)])
+if (!require("DT")) install.packages('DT')
+library(DT)
+sketch2021 = htmltools::withTags(table(
+    class = 'display',
+    thead(
+        tr(
+            th(rowspan = 2, 'Position'),
+            th(colspan = 3, 'Bahrain Grand Prix'),
+            th(colspan = 3, 'Emilia Romagna Grand Prix'),
+            th(colspan = 3, 'Portugal Grand Prix'), 
+            th(colspan = 3, 'Spain Grand Prix'),
+            th(colspan = 3, 'Monaco Grand Prix'),
+            th(colspan = 3, 'Azerbaijan Grand Prix'),
+            th(colspan = 3, 'French Grand Prix'),
+            th(colspan = 3, 'Styrian Grand Prix'),
+            th(colspan = 3, 'Austrian Grand Prix'),
+            th(colspan = 3, 'British Grand Prix')
+        ),
+        tr(
+            lapply(rep(c("Points", "Driver", "Constructor"), 10), th)
+        )
+        )
+        ))
+datatable(df_2021_F10[1:30], container = sketch2021, rownames = TRUE) |> print()
+```
