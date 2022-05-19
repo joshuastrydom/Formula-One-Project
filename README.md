@@ -5,6 +5,7 @@
 library(tidyverse)
 library(dplyr)
 library(lubridate)
+library(glue)
 
 ## Data collection
 library(readr)
