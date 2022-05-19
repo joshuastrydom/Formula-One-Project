@@ -88,3 +88,9 @@ raceorder <- function(data1=data1, data2=data2, year=year){
     ) |> filter(year.x==year, year.y==year)
     won
 }
+### Function for determining how many points the Champion driver achieved
+winners_points <- function(data=data, year=year){
+    W <- data |> filter(Year==year)
+    WP <- W |> filter(Points == max(Points))
+    WP
+}
