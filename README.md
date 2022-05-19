@@ -46,3 +46,14 @@ race_byname <- function(data1=data1, data2=data2, data3=data3, data4=data4){
     Rs[, c(1,2,3,7,10,18,21,23,28,31)] |> filter(raceId > 859)
 }
 race_byname <- race_byname(data1=results, data2=drivers, data3=constructors, data4=status)
+### Function for filtering of races by year
+race_byrace <- left_join(
+    race_byname,
+    races,
+    by = "raceId") |> arrange(resultId)
+df_race_byrace <- data.frame(race_byrace)
+
+df_race_byrace_x <- function(data = data, year = year){
+    X <- data |> filter(year == year)
+    X[,c(1:5, 7:10, 14)]
+}
