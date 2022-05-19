@@ -105,3 +105,20 @@ scored_points <- function(data1=data1, data2=data2, year=year){
     names(C)[4] <- "Year"
     C[ , c(1,2,4,5,6)]
 }
+### Functions for points scored at certain stages
+#### Function for points scored for 5 races
+scored_points_F5 <- function(data=data, year=year){
+    data |> filter(Round <= 5)
+}
+#### Function for points scored for 10 races
+scored_points_F10 <- function(data=data, year=year){
+    data |> filter(Round <= 10)
+}
+#### Function for points scored after 5 races
+scored_points_A5 <- function(data=data, year=year){
+    data |> filter(Round > 5)
+}
+#### Function for points scored after 10 races 
+scored_points_A10 <- function(data=data, year=year){
+    data |> filter(Round > 10)
+}
