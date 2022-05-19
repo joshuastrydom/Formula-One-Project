@@ -1,6 +1,11 @@
 # Formula-One-Project
 ## Predictive model for the Formula One champion driver
 
+## Packages
+library(tidyverse)
+library(dplyr)
+library(lubridate)
+
 ## Data collection
 library(readr)
 circuits <- read_csv("F1 data/circuits.csv")
