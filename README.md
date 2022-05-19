@@ -77,3 +77,14 @@ F1_Standings <- function(data1=data1, data2=data2, Year=Year, Pos=Pos){
     names(DC)[9] <- "Constructor Points"
     DC[, c(1,2,5,6,8,9)]
 }
+### Function for determining the race order each year
+raceorder <- function(data1=data1, data2=data2, year=year){
+    order <- data1[1:5] |> filter(year==year)
+    order
+    won <- left_join(
+        order,
+        data2,
+        by = "round"
+    ) |> filter(year.x==year, year.y==year)
+    won
+}
