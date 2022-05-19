@@ -154,3 +154,20 @@ won_races <- function(data1=data1, data2=data2, year=year){
     names(C)[4] <- "Year"
     C[ , c(1,2,4,5,6)]
 }
+### Function for points scored by winning
+#### Function for points scored by winning for 5 races
+won_races_F5 <- function(data=data, year=year){
+    data |> filter(Round <= 5)
+}
+#### Function for points scored by winning for 10 races
+won_races_F10 <- function(data=data, year=year){
+    data |> filter(Round <= 10)
+}
+#### Function for points scored by winning after 5 races
+won_races_A5 <- function(data=data, year=year){
+    data |> filter(Round > 5)
+}
+#### Function for points scored by winning after 10 races
+won_races_A10 <- function(data=data, year=year){
+    data |> filter(Round > 10)
+}
