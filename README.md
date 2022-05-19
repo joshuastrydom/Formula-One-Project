@@ -122,3 +122,24 @@ scored_points_A5 <- function(data=data, year=year){
 scored_points_A10 <- function(data=data, year=year){
     data |> filter(Round > 10)
 }
+### Function for number of points attained at certain stages
+#### Function for points attained for 5 races
+points_scored_F5 <- function(data1=data1){
+    PS_F5 <- sum(data1$Points)
+    PS_F5
+}
+#### Function for points attained for 10 races
+points_scored_F10 <- function(data1=data1){
+    PS_F10 <- sum(data1$Points)
+    PS_F10
+}
+#### Function for points attained after 5 races
+points_scored_A5 <- function(data1=data1){
+    PS_A5 <- sum(data1$Points)
+    PS_A5
+}
+#### Function for points attained after 10 races
+points_scored_A10 <- function(data1=data1){
+    PS_A10 <- sum(data1$Points)
+    PS_A10
+}
