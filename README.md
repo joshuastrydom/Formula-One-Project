@@ -1,7 +1,7 @@
-## Formula-One-Project
-# Predictive model for the Formula One champion driver
+# Formula-One-Project
+## Predictive model for the Formula One champion driver
 
-# Data collection
+## Data collection
 library(readr)
 circuits <- read_csv("F1 data/circuits.csv")
 constructor_results <- read_csv("F1 data/constructor_results.csv")
