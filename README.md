@@ -164,7 +164,7 @@ won_races <- function(data1=data1, data2=data2, year=year){
         by = "Driver"
     ) |> filter(Year.x == year, Year.y == year)
     names(C)[4] <- "Year"
-    C[ , c(1,2,4,5,6)]
+    C[ , c(1,2,4,5,6,7)]
 }
 ### Function for points scored by winning
 * Function for points scored by winning for 5 races  
