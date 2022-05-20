@@ -106,39 +106,39 @@ scored_points <- function(data1=data1, data2=data2, year=year){
     C[ , c(1,2,4,5,6)]
 }
 ### Functions for points scored at certain stages
-#### Function for points scored for 5 races
+* Function for points scored for 5 races
 scored_points_F5 <- function(data=data, year=year){
     data |> filter(Round <= 5)
 }
-#### Function for points scored for 10 races
+* Function for points scored for 10 races
 scored_points_F10 <- function(data=data, year=year){
     data |> filter(Round <= 10)
 }
-#### Function for points scored after 5 races
+* Function for points scored after 5 races
 scored_points_A5 <- function(data=data, year=year){
     data |> filter(Round > 5)
 }
-#### Function for points scored after 10 races 
+* Function for points scored after 10 races 
 scored_points_A10 <- function(data=data, year=year){
     data |> filter(Round > 10)
 }
 ### Function for number of points attained at certain stages
-#### Function for points attained for 5 races
+* Function for points attained for 5 races
 points_scored_F5 <- function(data1=data1){
     PS_F5 <- sum(data1$Points)
     PS_F5
 }
-#### Function for points attained for 10 races
+* Function for points attained for 10 races
 points_scored_F10 <- function(data1=data1){
     PS_F10 <- sum(data1$Points)
     PS_F10
 }
-#### Function for points attained after 5 races
+* Function for points attained after 5 races
 points_scored_A5 <- function(data1=data1){
     PS_A5 <- sum(data1$Points)
     PS_A5
 }
-#### Function for points attained after 10 races
+* Function for points attained after 10 races
 points_scored_A10 <- function(data1=data1){
     PS_A10 <- sum(data1$Points)
     PS_A10
@@ -155,39 +155,39 @@ won_races <- function(data1=data1, data2=data2, year=year){
     C[ , c(1,2,4,5,6)]
 }
 ### Function for points scored by winning
-#### Function for points scored by winning for 5 races
+* Function for points scored by winning for 5 races
 won_races_F5 <- function(data=data, year=year){
     data |> filter(Round <= 5)
 }
-#### Function for points scored by winning for 10 races
+* Function for points scored by winning for 10 races
 won_races_F10 <- function(data=data, year=year){
     data |> filter(Round <= 10)
 }
-#### Function for points scored by winning after 5 races
+* Function for points scored by winning after 5 races
 won_races_A5 <- function(data=data, year=year){
     data |> filter(Round > 5)
 }
-#### Function for points scored by winning after 10 races
+* Function for points scored by winning after 10 races
 won_races_A10 <- function(data=data, year=year){
     data |> filter(Round > 10)
 }
 ### Function for number of points attained by winning at certain stages
-#### Function for points attained by winning for 5 races
+* Function for points attained by winning for 5 races
 points_won_F5 <- function(data1=data1){
     PW_F5 <- sum(data1$Points)
     PW_F5
 }
-#### Function for points attained by winning for 10 races
+* Function for points attained by winning for 10 races
 points_won_F10 <- function(data1=data1){
     PW_F10 <- sum(data1$Points)
     PW_F10
 }
-#### Function for points attained by winning after 5 races
+* Function for points attained by winning after 5 races
 points_won_A5 <- function(data1=data1){
     PW_A5 <- sum(data1$Points)
     PW_A5
 }
-#### Function for points attained by winning after 10 races
+* Function for points attained by winning after 10 races
 points_won_A10 <- function(data1=data1){
     PW_A10 <- sum(data1$Points)
     PW_A10
