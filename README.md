@@ -123,6 +123,18 @@ total_points <- function(data1=data1, data2=data2, year=year){
     names(TP)[4] <- "Year"
     TP[ , c(1,2,4,5,6,7)]
 }
+total_points_2012 <- total_points(data1=df_totalpoints, data2=champions, year=2012)
+total_points_2013 <- total_points(data1=df_totalpoints, data2=champions, year=2013)
+total_points_2014 <- total_points(data1=df_totalpoints, data2=champions, year=2014)
+total_points_2015 <- total_points(data1=df_totalpoints, data2=champions, year=2015)
+total_points_2016 <- total_points(data1=df_totalpoints, data2=champions, year=2016)
+total_points_2017 <- total_points(data1=df_totalpoints, data2=champions, year=2017)
+total_points_2018 <- total_points(data1=df_totalpoints, data2=champions, year=2018)
+total_points_2019 <- total_points(data1=df_totalpoints, data2=champions, year=2019)
+total_points_2020 <- total_points(data1=df_totalpoints, data2=champions, year=2020)
+total_points_2021 <- total_points(data1=df_totalpoints, data2=champions, year=2021)
+totalpoints_bound <- rbind(total_points_2012, total_points_2013, total_points_2014, total_points_2015, total_points_2016, total_points_2017, total_points_2018, total_points_2019, total_points_2020, total_points_2021) |> arrange("Year")
+totalpoints_bound$TrackId <- as.character(totalpoints_bound$TrackId)
 ### Function for tracks at which the champion driver scored points but never won on
 scorer <- df_race_byrace |> filter(points > 0) |> filter(points < 25)
 df_scorer_points <- data.frame(scorer[,c(5,8,9,11,12,13, 14)])
