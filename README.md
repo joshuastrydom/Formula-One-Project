@@ -145,7 +145,7 @@ scored_points <- function(data1=data1, data2=data2, year=year){
     names(C)[4] <- "Year"
     C[ , c(1,2,4,5,6,7)]
 }
-### Functions for points scored at certain stages
+### Functions for data frames of points scored for certain stages
 * Function for points scored for 5 races  
 scored_points_F5 <- function(data=data, year=year){
     data |> filter(Round <= 5)
@@ -162,7 +162,7 @@ scored_points_A5 <- function(data=data, year=year){
 scored_points_A10 <- function(data=data, year=year){
     data |> filter(Round > 10)
 }
-### Function for number of points attained at certain stages
+### Function for number (value) of points attained for certain stages
 * Function for points attained for 5 races  
 points_scored_F5 <- function(data1=data1){
     PS_F5 <- sum(data1$Points)
