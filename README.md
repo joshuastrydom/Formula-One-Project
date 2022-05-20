@@ -145,6 +145,18 @@ scored_points <- function(data1=data1, data2=data2, year=year){
     names(C)[4] <- "Year"
     C[ , c(1,2,4,5,6,7)]
 }
+scored_points_2012 <- scored_points(data1 = df_scorer_points, data2 = champions, year = 2012)
+scored_points_2013 <-scored_points(data1 = df_scorer_points, data2 = champions, year = 2013)
+scored_points_2014 <-scored_points(data1 = df_scorer_points, data2 = champions, year = 2014)
+scored_points_2015 <-scored_points(data1 = df_scorer_points, data2 = champions, year = 2015)
+scored_points_2016 <-scored_points(data1 = df_scorer_points, data2 = champions, year = 2016)
+scored_points_2017 <-scored_points(data1 = df_scorer_points, data2 = champions, year = 2017)
+scored_points_2018 <-scored_points(data1 = df_scorer_points, data2 = champions, year = 2018)
+scored_points_2019 <-scored_points(data1 = df_scorer_points, data2 = champions, year = 2019)
+scored_points_2020 <-scored_points(data1 = df_scorer_points, data2 = champions, year = 2020)
+scored_points_2021 <-scored_points(data1 = df_scorer_points, data2 = champions, year = 2021)
+scoredpoints_bound <- rbind(scored_points_2012, scored_points_2013, scored_points_2014, scored_points_2015, scored_points_2016, scored_points_2017, scored_points_2018, scored_points_2019, scored_points_2020, scored_points_2021) |> arrange("Year")
+scoredpoints_bound$TrackId <- as.character(scoredpoints_bound$TrackId)
 ### Functions for data frames of points scored for certain stages
 * Function for points scored for 5 races  
 scored_points_F5 <- function(data=data, year=year){
