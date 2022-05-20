@@ -95,6 +95,17 @@ winners_points <- function(data=data, year=year){
     WP <- W |> filter(Points == max(Points))
     WP
 }
+### Function for tracks at which the champion driver scored points or won on
+total_points <- function(data1=data1, data2=data2, year=year){
+    P <- data1 |> filter(year==year) |> arrange("Driver")
+    TP <- left_join(
+        P,
+        data2,
+        by = "Driver"
+    ) |> filter(Year.x == year, Year.y == year)
+    names(TP)[4] <- "Year"
+    TP[ , c(1,2,4,5,6)]
+}
 ### Function for tracks at which the champion driver scored points but never won on
 scored_points <- function(data1=data1, data2=data2, year=year){
     S <- data1 |> filter(year==year) |> arrange("Driver")
