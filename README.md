@@ -204,7 +204,7 @@ won_races <- function(data1=data1, data2=data2, year=year){
     names(C)[4] <- "Year"
     C[ , c(1,2,4,5,6,7)]
 }
-### Function for points scored by winning
+### Function for data frames of points scored by winning for certain stages
 * Function for points scored by winning for 5 races  
 won_races_F5 <- function(data=data, year=year){
     data |> filter(Round <= 5)
@@ -221,7 +221,7 @@ won_races_A5 <- function(data=data, year=year){
 won_races_A10 <- function(data=data, year=year){
     data |> filter(Round > 10)
 }
-### Function for number of points attained by winning at certain stages
+### Function for number (value) of points attained by winning for certain stages
 * Function for points attained by winning for 5 races  
 points_won_F5 <- function(data1=data1){
     PW_F5 <- sum(data1$Points)
@@ -243,6 +243,17 @@ points_won_A10 <- function(data1=data1){
     PW_A10
 }
 ### Function for total number of points attained by winning or scoring at certain stages
+* Data to be used in totalpoint functions
+winnerspoints <- rbind(winners_points_2012, winners_points_2013, winners_points_2014, winners_points_2015, winners_points_2016, winners_points_2017, winners_points_2018, winners_points_2019, winners_points_2020, winners_points_2021)
+pointvalues_F5 <- c(points_scored_F5_2012, points_scored_F5_2013, points_scored_F5_2014, points_scored_F5_2015, points_scored_F5_2016, points_scored_F5_2017, points_scored_F5_2018, points_scored_F5_2019, points_scored_F5_2020, points_scored_F5_2021)
+pointvalues_F10 <- c(points_scored_F10_2012, points_scored_F10_2013, points_scored_F10_2014, points_scored_F10_2015, points_scored_F10_2016, points_scored_F10_2017, points_scored_F10_2018, points_scored_F10_2019, points_scored_F10_2020, points_scored_F5_2021)
+pointvalues_A5 <- c(points_scored_A5_2012, points_scored_A5_2013, points_scored_A5_2014, points_scored_A5_2015, points_scored_A5_2016, points_scored_A5_2017, points_scored_A5_2018, points_scored_A5_2019, points_scored_A5_2020, points_scored_F5_2021)
+pointvalues_A10 <- c(points_scored_A10_2012, points_scored_A10_2013, points_scored_A10_2014, points_scored_A10_2015, points_scored_A10_2016, points_scored_A10_2017, points_scored_A10_2018, points_scored_A10_2019, points_scored_A10_2020, points_scored_A5_2021)
+winvalues_F5 <- c(points_won_F5_2012, points_won_F5_2013, points_won_F5_2014, points_won_F5_2015, points_won_F5_2016, points_won_F5_2017, points_won_F5_2018, points_won_F5_2019, points_won_F5_2020, points_won_F5_2021)
+winvalues_F10 <- c(points_won_F10_2012, points_won_F10_2013, points_won_F10_2014, points_won_F10_2015, points_won_F10_2016, points_won_F10_2017, points_won_F10_2018, points_won_F10_2019, points_won_F10_2020, points_won_F10_2021)
+winvalues_A5 <- c(points_won_A5_2012, points_won_A5_2013, points_won_A5_2014, points_won_A5_2015, points_won_A5_2016, points_won_A5_2017, points_won_A5_2018, points_won_A5_2019, points_won_A5_2020, points_won_A5_2021)
+winvalues_A10 <- c(points_won_A10_2012, points_won_A10_2013, points_won_A10_2014, points_won_A10_2015, points_won_A10_2016, points_won_A10_2017, points_won_A10_2018, points_won_A10_2019, points_won_A10_2020, points_won_A10_2021)
+pointvalues <- data.frame(winnerspoints, pointvalues_F5, pointvalues_F10, pointvalues_A5, pointvalues_A10, winvalues_F5, winvalues_F10, winvalues_A5, winvalues_A10)
 * Function for total points attained for 5 races  
 totalpoints_F5 <- function(data=data, year=Year){
     P_F5 <- data |> filter(year==Year)
