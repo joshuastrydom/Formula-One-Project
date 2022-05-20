@@ -266,9 +266,8 @@ accumpoints_A10 <- function(data1=data1, data2=data2, year=Year){
     P[, c(1,2,4,5,6,8)]
 }
 ### Function for plotting of total points
-plottotalpoints <- function(data1=data1, data2=data2, year=Year){
+plottotalpoints <- function(data1=data1, year=Year){
     PTP <- data1 |> arrange(Year) |> filter(year == Year) 
-    data2 <- PTP |> summarise(mean_val = mean(Points))
     plot <- PTP |> 
         ggplot() +
         geom_point(aes(x=Round, y=Points, color = TrackId), alpha = 0.8, size = 3) +
