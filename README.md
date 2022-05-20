@@ -204,6 +204,18 @@ won_races <- function(data1=data1, data2=data2, year=year){
     names(C)[4] <- "Year"
     C[ , c(1,2,4,5,6,7)]
 }
+won_races_2012 <- won_races(data1 = df_winner_points, data2 = champions, year = 2012)
+won_races_2013 <-won_races(data1 = df_winner_points, data2 = champions, year = 2013)
+won_races_2014 <-won_races(data1 = df_winner_points, data2 = champions, year = 2014)
+won_races_2015 <-won_races(data1 = df_winner_points, data2 = champions, year = 2015)
+won_races_2016 <-won_races(data1 = df_winner_points, data2 = champions, year = 2016)
+won_races_2017 <-won_races(data1 = df_winner_points, data2 = champions, year = 2017)
+won_races_2018 <-won_races(data1 = df_winner_points, data2 = champions, year = 2018)
+won_races_2019 <-won_races(data1 = df_winner_points, data2 = champions, year = 2019)
+won_races_2020 <-won_races(data1 = df_winner_points, data2 = champions, year = 2020)
+won_races_2021 <-won_races(data1 = df_winner_points, data2 = champions, year = 2021)
+wonraces_bound <- rbind(won_races_2012, won_races_2013, won_races_2014, won_races_2015, won_races_2016, won_races_2017, won_races_2018, won_races_2019, won_races_2020, won_races_2021) |> arrange("Year")
+wonraces_bound$TrackId <- as.character(wonraces_bound$TrackId)
 ### Function for data frames of points scored by winning for certain stages
 * Function for points scored by winning for 5 races  
 won_races_F5 <- function(data=data, year=year){
