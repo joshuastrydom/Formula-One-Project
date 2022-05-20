@@ -124,6 +124,17 @@ total_points <- function(data1=data1, data2=data2, year=year){
     TP[ , c(1,2,4,5,6,7)]
 }
 ### Function for tracks at which the champion driver scored points but never won on
+scorer <- df_race_byrace |> filter(points > 0) |> filter(points < 25)
+df_scorer_points <- data.frame(scorer[,c(5,8,9,11,12,13, 14)])
+names(df_scorer_points)[1] <- "Points"
+names(df_scorer_points)[2] <- "Driver"
+names(df_scorer_points)[3] <- "Constructor"
+names(df_scorer_points)[4] <- "Year"
+names(df_scorer_points)[5] <- "Round"
+names(df_scorer_points)[6] <- "TrackId"
+names(df_scorer_points)[7] <- "Track"
+champions <- F1_Standings_Final[, c(4,7)]
+
 scored_points <- function(data1=data1, data2=data2, year=year){
     S <- data1 |> filter(year==year) |> arrange("Driver")
     C <- left_join(
