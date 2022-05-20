@@ -6,9 +6,10 @@ library(tidyverse)
 library(dplyr)
 library(lubridate)
 library(glue)
+library(readr)  
+library(purrr)  
 
 ## Data collection
-library(readr)  
 circuits <- read_csv("F1 data/circuits.csv")  
 constructor_results <- read_csv("F1 data/constructor_results.csv")  
 constructor_standings <- read_csv("F1 data/constructor_standings.csv")  
