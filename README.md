@@ -184,6 +184,16 @@ points_scored_A10 <- function(data1=data1){
     PS_A10
 }
 ### Function for tracks at which the champion driver won on
+winner <- df_race_byrace |> filter(position == 1)
+df_winner_points <- data.frame(winner[,c(5,8,9,11,12,13,14)])
+names(df_winner_points)[1] <- "Points"
+names(df_winner_points)[2] <- "Driver"
+names(df_winner_points)[3] <- "Constructor"
+names(df_winner_points)[4] <- "Year"
+names(df_winner_points)[5] <- "Round"
+names(df_winner_points)[6] <- "TrackId"
+names(df_winner_points)[7] <- "Track"
+
 won_races <- function(data1=data1, data2=data2, year=year){
     S <- data1 |> filter(year==year) |> arrange("Driver")
     C <- left_join(
