@@ -104,7 +104,7 @@ total_points <- function(data1=data1, data2=data2, year=year){
         by = "Driver"
     ) |> filter(Year.x == year, Year.y == year)
     names(TP)[4] <- "Year"
-    TP[ , c(1,2,4,5,6)]
+    TP[ , c(1,2,4,5,6,7)]
 }
 ### Function for tracks at which the champion driver scored points but never won on
 scored_points <- function(data1=data1, data2=data2, year=year){
@@ -115,7 +115,7 @@ scored_points <- function(data1=data1, data2=data2, year=year){
         by = "Driver"
     ) |> filter(Year.x == year, Year.y == year)
     names(C)[4] <- "Year"
-    C[ , c(1,2,4,5,6)]
+    C[ , c(1,2,4,5,6,7)]
 }
 ### Functions for points scored at certain stages
 * Function for points scored for 5 races  
