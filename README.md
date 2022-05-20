@@ -204,3 +204,28 @@ points_won_A10 <- function(data1=data1){
     PW_A10 <- sum(data1$Points)
     PW_A10
 }
+### Function for total number of points attained by winning or scoring at certain stages
+* Function for total points attained for 5 races  
+totalpoints_F5 <- function(data=data, year=Year){
+    P_F5 <- data |> filter(year==Year)
+    TP_F5 <- P_F5[,4] + P_F5[,8]
+    TP_F5
+}
+* Function for total points attained for 10 races  
+totalpoints_F10 <- function(data=data, year=Year){
+    P_F10 <- data |> filter(year==Year)
+    TP_F10 <- P_F10[,5] + P_F10[,9]
+    TP_F10
+}
+* Function for total points attained after 5 races  
+totalpoints_A5 <- function(data=data, year=Year){
+    P_A5 <- data |> filter(year==Year)
+    TP_A5 <- P_A5[,6] + P_A5[,10]
+    TP_A5
+}
+* Function for total points attained after 10 races 
+totalpoints_A10 <- function(data=data, year=Year){
+    P_A10 <- data |> filter(year==Year)
+    TP_A10 <- P_A10[,7] + P_A10[,11]
+    TP_A10
+}
