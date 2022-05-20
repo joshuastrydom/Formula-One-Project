@@ -104,6 +104,15 @@ winners_points <- function(data=data, year=year){
     WP
 }
 ### Function for tracks at which the champion driver scored points or won on
+df_totalpoints <- data.frame(df_race_byrace[,c(5,8,9,11,12,13,14)])
+names(df_totalpoints)[1] <- "Points"
+names(df_totalpoints)[2] <- "Driver"
+names(df_totalpoints)[3] <- "Constructor"
+names(df_totalpoints)[4] <- "Year"
+names(df_totalpoints)[5] <- "Round"
+names(df_totalpoints)[6] <- "TrackId"
+names(df_totalpoints)[7] <- "Track"
+
 total_points <- function(data1=data1, data2=data2, year=year){
     P <- data1 |> filter(year==year) |> arrange("Driver")
     TP <- left_join(
