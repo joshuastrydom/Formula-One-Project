@@ -239,7 +239,7 @@ accumpoints <- function(data1=data1, data2=data2, year=Year){
     ) |> filter(Year.x == year, Year.y == year)
     names(P)[4] <- "Year"
     P$Accumulated.Points = cumsum(P$Points)
-    P[, c(1,2,4,5,6,8)]
+    P[, c(1,2,4,5,6,7,9)]
 }
 * Function for accumulation of points during the first 10 rounds  
 accumpoints_F10 <- function(data1=data1, data2=data2, year=Year){
@@ -300,7 +300,7 @@ plotscoring <- function(data1=data1, year=Year){
         labs(title = "Total 'scoring' points for the champion")
     plot
 }
-* Function for plotting of 'winning' points
+* Function for plotting of 'winning' points  
 plotwinning <- function(data1=data1, year=Year){
     PW <- data1 |> arrange(Year) |> filter(year == Year) 
     plot <- PW |> 
@@ -315,5 +315,22 @@ plotwinning <- function(data1=data1, year=Year){
               legend.position = "bottom") +
         guides(color = guide_legend(override.aes = list(size = 4))) +
         labs(title = "Total 'winning' points for the champion")
+    plot
+}
+* Function for plotting of accumulation of points  
+plotaccumpoints <- function(data1=data1, year=Year){
+    PAP <- data1 |> arrange(Year) |> filter(year == Year) 
+    plot <- PAP |> 
+        ggplot() +
+        geom_point(aes(x = Round, y = Accumulated.Points, color = TrackId), alpha = 0.8, size = 3) +
+        theme_bw() +
+        theme(legend.background = element_rect(fill = "white", size = 1, color = "white"), 
+              legend.text = element_text(size = 6), 
+              legend.title = element_text(size = 10, face = "bold"),
+              plot.title = element_text(size = 12, face = "bold"),
+              aspect.ratio = 9 / 16,
+              legend.position = "bottom") +
+        guides(color = guide_legend(override.aes = list(size = 4))) +
+        labs(title = "Total accumulated points for the champion")
     plot
 }
