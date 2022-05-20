@@ -90,6 +90,14 @@ raceorder <- function(data1=data1, data2=data2, year=year){
     won
 }
 ### Function for determining how many points the Champion driver achieved
+points_per_driver <- aggregate(race_byrace$points,
+                               by = list(race_byrace$surname, race_byrace$year),
+                               FUN = sum)
+df_points_per_driver <- data.frame(points_per_driver)
+names(df_points_per_driver)[1] <- "Driver"
+names(df_points_per_driver)[2] <- "Year"
+names(df_points_per_driver)[3] <- "Points"
+
 winners_points <- function(data=data, year=year){
     W <- data |> filter(Year==year)
     WP <- W |> filter(Points == max(Points))
