@@ -254,25 +254,25 @@ winvalues_F10 <- c(points_won_F10_2012, points_won_F10_2013, points_won_F10_2014
 winvalues_A5 <- c(points_won_A5_2012, points_won_A5_2013, points_won_A5_2014, points_won_A5_2015, points_won_A5_2016, points_won_A5_2017, points_won_A5_2018, points_won_A5_2019, points_won_A5_2020, points_won_A5_2021)
 winvalues_A10 <- c(points_won_A10_2012, points_won_A10_2013, points_won_A10_2014, points_won_A10_2015, points_won_A10_2016, points_won_A10_2017, points_won_A10_2018, points_won_A10_2019, points_won_A10_2020, points_won_A10_2021)
 pointvalues <- data.frame(winnerspoints, pointvalues_F5, pointvalues_F10, pointvalues_A5, pointvalues_A10, winvalues_F5, winvalues_F10, winvalues_A5, winvalues_A10)
-* Function for total points attained for 5 races  
+* Function for total points (value) attained for 5 races  
 totalpoints_F5 <- function(data=data, year=Year){
     P_F5 <- data |> filter(year==Year)
     TP_F5 <- P_F5[,4] + P_F5[,8]
     TP_F5
 }
-* Function for total points attained for 10 races  
+* Function for total points (value) attained for 10 races  
 totalpoints_F10 <- function(data=data, year=Year){
     P_F10 <- data |> filter(year==Year)
     TP_F10 <- P_F10[,5] + P_F10[,9]
     TP_F10
 }
-* Function for total points attained after 5 races  
+* Function for total points (value) attained after 5 races  
 totalpoints_A5 <- function(data=data, year=Year){
     P_A5 <- data |> filter(year==Year)
     TP_A5 <- P_A5[,6] + P_A5[,10]
     TP_A5
 }
-* Function for total points attained after 10 races 
+* Function for total points (value) attained after 10 races 
 totalpoints_A10 <- function(data=data, year=Year){
     P_A10 <- data |> filter(year==Year)
     TP_A10 <- P_A10[,7] + P_A10[,11]
@@ -290,6 +290,19 @@ accumpoints <- function(data1=data1, data2=data2, year=Year){
     P$Accumulated.Points = cumsum(P$Points)
     P[, c(1,2,4,5,6,7,9)]
 }
+accumpoints_2012 <- accumpoints(data1=df_totalpoints, data2=champions, year=2012)
+accumpoints_2013 <- accumpoints(data1=df_totalpoints, data2=champions, year=2013)
+accumpoints_2014 <- accumpoints(data1=df_totalpoints, data2=champions, year=2014)
+accumpoints_2015 <- accumpoints(data1=df_totalpoints, data2=champions, year=2015)
+accumpoints_2016 <- accumpoints(data1=df_totalpoints, data2=champions, year=2016)
+accumpoints_2017 <- accumpoints(data1=df_totalpoints, data2=champions, year=2017)
+accumpoints_2018 <- accumpoints(data1=df_totalpoints, data2=champions, year=2018)
+accumpoints_2019 <- accumpoints(data1=df_totalpoints, data2=champions, year=2019)
+accumpoints_2020 <- accumpoints(data1=df_totalpoints, data2=champions, year=2020)
+accumpoints_2021 <- accumpoints(data1=df_totalpoints, data2=champions, year=2021)
+
+accumpoints_bound <- rbind(accumpoints_2012, accumpoints_2013, accumpoints_2014, accumpoints_2015, accumpoints_2016, accumpoints_2017, accumpoints_2018, accumpoints_2019, accumpoints_2020, accumpoints_2021) |> arrange("Year")
+accumpoints_bound$TrackId <- as.character(accumpoints_bound$TrackId)
 * Function for accumulation of points during the first 10 rounds  
 accumpoints_F10 <- function(data1=data1, data2=data2, year=Year){
     A <- data1 |> filter(year==Year) |> filter(Round <= 10) |> arrange("Driver")
